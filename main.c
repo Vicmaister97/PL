@@ -9,7 +9,7 @@
 #include "tab.h"
 
 extern FILE *yyin ;
-int yyparse(void) ;
+int yylex();
 
 int main (int argc, char *argv[])
 {
@@ -31,6 +31,6 @@ int main (int argc, char *argv[])
 		yyin = stdin;
 	}
 
-	return yyparse();
+	return yylex();
 }
 

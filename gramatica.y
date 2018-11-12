@@ -1,9 +1,14 @@
 %{
 #include <stdlib.h>
-#include <studio.h>
+#include <stdio.h>
 #include <string.h>
 
-void yyerror(char *msg);
+/** La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
+*** fuente de lex (tokens.l)
+**/
+
+void yyerror(const char *msg);
+int yylex();
 int linea_actual = 1;
 %}
 %error-verbose
@@ -13,7 +18,7 @@ int linea_actual = 1;
 %%
 
 Programa : Cabecera_programa bloque ;
-bloque  : Inicio_de_bloque Declar_de_variables_locales Declar_subprog Sentencias Fin_de_bloque ;
+bloque  : Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque ;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma bloque ;
@@ -25,7 +30,7 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
                   | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON ;
 Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS ;
-argumentos  : argumentos COMA argumentos ;
+argumentos  : argumentos COMA argumento | argumento ;
 argumento : tipo ID ;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
@@ -107,7 +112,11 @@ list_id   : list_id COMA ID
 #include "lex.yy.c"
 #endif
 
-void yyerror (char *msg)
+/** se debe implementar la función yyerror. En este caso
+*** simplemente escribimos el mensaje de error en pantalla
+**/
+
+void yyerror (const char *msg)
 {
   fprintf(stderr,"[Linea %d]: %s/n", linea_actual, msg);
 }
