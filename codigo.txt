@@ -1,0 +1,45 @@
+int main(){
+
+  dou··ble j = +5.0;
+  double w = -3.5;
+  char letra;
+  boo··lean verdadero = true;
+  boolean indefinido;
+  int sumador = 0;
+  list_of int lista_ints = [3,4,5,7,1]
+  @
+  <<
+  >>
+  #
+  ?
+  and
+  xor
+
+  lista_ints;
+  indefinido = true;
+  while (indefinido){
+    sumador++;
+    if(sumador == 3) then{
+      indefinido = false;
+    }
+    else{
+      letra = "f";
+    }
+  }
+  ç ;
+  indefinido = !indefinido;
+  for(int i = 0 to i< sumador , i++) do{
+    out letra;
+    out "me lllamo";
+    out "ç";
+    in letra_dada;
+    letra = letra_dada;
+    j--;
+  }
+  j = j + w;
+
+  return 0;
+
+
+
+}
