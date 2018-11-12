@@ -1,0 +1,2480 @@
+State 71 conflicts: 1 shift/reduce
+State 82 conflicts: 5 shift/reduce
+State 83 conflicts: 3 shift/reduce
+State 84 conflicts: 5 shift/reduce
+State 85 conflicts: 5 shift/reduce
+State 86 conflicts: 5 shift/reduce
+State 121 conflicts: 5 shift/reduce
+State 122 conflicts: 5 shift/reduce
+State 123 conflicts: 5 shift/reduce
+State 124 conflicts: 5 shift/reduce
+State 147 conflicts: 5 shift/reduce, 5 reduce/reduce
+State 151 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: Programa $end
+
+    1 Programa: Cabecera_programa bloque
+
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
+
+    3 Declar_de_subprogs: Declar_de_subprogs Declar_subprog
+    4                   | %empty
+
+    5 Declar_subprog: Cabecera_subprograma bloque
+
+    6 Declar_de_variables_locales: INITVAR Variables_locales ENDVAR
+
+    7 Cabecera_programa: MAIN
+
+    8 Inicio_de_bloque: LEFT_KEY
+
+    9 Fin_de_bloque: RIGHT_KEY
+
+   10 Variables_locales: Variables_locales Cuerpo_declar_variables
+   11                  | Cuerpo_declar_variables
+
+   12 Cuerpo_declar_variables: tipo list_id SEMICOLON
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+   14 argumentos: argumentos COMA argumento
+   15           | argumento
+
+   16 argumento: tipo ID
+
+   17 Sentencias: Sentencias Sentencia
+   18           | Sentencia
+
+   19 Sentencia: bloque
+   20          | sentencia_asignacion
+   21          | sentencia_if
+   22          | sentencia_while
+   23          | sentencia_entrada
+   24          | sentencia_salida
+   25          | sentencia_return
+   26          | sentencia_for
+   27          | sentencia_list
+
+   28 sentencia_asignacion: ID EQUALS expresion SEMICOLON
+
+   29 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
+   30             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+   31 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
+
+   32 sentencia_entrada: IN list_id SEMICOLON
+
+   33 sentencia_salida: OUT list_expresiones_o_cadena SEMICOLON
+
+   34 sentencia_return: RETURN expresion SEMICOLON
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
+   36              | FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia
+
+   37 sentencia_list: expresion LIST_OP
+   38               | DOLLAR expresion
+
+   39 expresion: LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+   40          | NEG_COUNT_QUEST expresion
+   41          | PLUSPLUS expresion
+   42          | MINUSMINUS expresion
+   43          | SYMBOL_OP expresion
+   44          | expresion SYMBOL_OP expresion
+   45          | expresion BINARY_OP expresion
+   46          | expresion AT expresion
+   47          | expresion MINUSMINUS expresion
+   48          | ID
+   49          | constante
+   50          | funcion
+   51          | expresion PLUSPLUS expresion AT expresion
+
+   52 funcion: ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+
+   53 list_expresiones_o_cadena: list_expresiones_o_cadena COMA exp_cad
+   54                          | exp_cad
+
+   55 exp_cad: expresion
+   56        | CADENA
+
+   57 constante: CONST_INT
+   58          | CONST_DOUBLE
+   59          | CONST_CHAR
+   60          | CONST_BOOLEAN
+   61          | const_list_int
+   62          | const_list_double
+   63          | const_list_boolean
+   64          | const_list_char
+
+   65 list_expresiones: list_expresiones COMA expresion
+   66                 | expresion
+
+   67 tipo: tipo_elemental
+   68     | LIST_OF tipo_elemental
+
+   69 tipo_elemental: BASIC_TYPES
+
+   70 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
+
+   71 list_int: list_int COMA CONST_INT
+   72         | CONST_INT
+
+   73 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
+
+   74 list_double: list_double COMA CONST_DOUBLE
+   75            | CONST_DOUBLE
+
+   76 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
+
+   77 list_boolean: list_boolean COMA CONST_BOOLEAN
+   78             | CONST_BOOLEAN
+
+   79 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
+
+   80 list_char: list_char COMA CONST_CHAR
+   81          | CONST_CHAR
+
+   82 list_id: list_id COMA ID
+   83        | ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+MAIN (258) 7
+LEFT_KEY (259) 8
+RIGHT_KEY (260) 9
+LEFT_BRACKET (261) 70 73 76 79
+RIGHT_BRACKET (262) 70 73 76 79
+SEMICOLON (263) 12 28 32 33 34
+LEFT_PARENTHESIS (264) 13 29 30 31 35 36 39 52
+RIGHT_PARENTHESIS (265) 13 29 30 31 35 36 39 52
+COMA (266) 14 35 53 65 71 74 77 80 82
+EQUALS (267) 28
+IF (268) 29 30
+THEN (269) 29 30
+ELSE (270) 30
+WHILE (271) 31
+RETURN (272) 34
+FOR (273) 35 36
+TO (274) 35
+DO (275) 35 36
+OUT (276) 33
+IN (277) 32
+INITVAR (278) 6
+ENDVAR (279) 6
+PLUSPLUS (280) 41 51
+AT (281) 46 51
+DOLLAR (282) 38
+NEG_COUNT_QUEST (283) 40
+SYMBOL_OP (284) 43 44
+MINUSMINUS (285) 42 47
+BINARY_OP (286) 45
+LIST_OP (287) 37
+LIST_OF (288) 68
+BASIC_TYPES (289) 69
+CONST_INT (290) 57 71 72
+CONST_DOUBLE (291) 58 74 75
+CONST_BOOLEAN (292) 60 77 78
+CONST_CHAR (293) 59 80 81
+CADENA (294) 56
+ID (295) 13 16 28 48 52 82 83
+
+
+Nonterminals, with rules where they appear
+
+$accept (41)
+    on left: 0
+Programa (42)
+    on left: 1, on right: 0
+bloque (43)
+    on left: 2, on right: 1 5 19
+Declar_de_subprogs (44)
+    on left: 3 4, on right: 2 3
+Declar_subprog (45)
+    on left: 5, on right: 3
+Declar_de_variables_locales (46)
+    on left: 6, on right: 2
+Cabecera_programa (47)
+    on left: 7, on right: 1
+Inicio_de_bloque (48)
+    on left: 8, on right: 2
+Fin_de_bloque (49)
+    on left: 9, on right: 2
+Variables_locales (50)
+    on left: 10 11, on right: 6 10
+Cuerpo_declar_variables (51)
+    on left: 12, on right: 10 11
+Cabecera_subprograma (52)
+    on left: 13, on right: 5
+argumentos (53)
+    on left: 14 15, on right: 13 14
+argumento (54)
+    on left: 16, on right: 14 15
+Sentencias (55)
+    on left: 17 18, on right: 2 17
+Sentencia (56)
+    on left: 19 20 21 22 23 24 25 26 27, on right: 17 18 29 30 31 35
+    36
+sentencia_asignacion (57)
+    on left: 28, on right: 20
+sentencia_if (58)
+    on left: 29 30, on right: 21
+sentencia_while (59)
+    on left: 31, on right: 22
+sentencia_entrada (60)
+    on left: 32, on right: 23
+sentencia_salida (61)
+    on left: 33, on right: 24
+sentencia_return (62)
+    on left: 34, on right: 25
+sentencia_for (63)
+    on left: 35 36, on right: 26
+sentencia_list (64)
+    on left: 37 38, on right: 27
+expresion (65)
+    on left: 39 40 41 42 43 44 45 46 47 48 49 50 51, on right: 28 29
+    30 31 34 35 36 37 38 39 40 41 42 43 44 45 46 47 51 55 65 66
+funcion (66)
+    on left: 52, on right: 50
+list_expresiones_o_cadena (67)
+    on left: 53 54, on right: 33 53
+exp_cad (68)
+    on left: 55 56, on right: 53 54
+constante (69)
+    on left: 57 58 59 60 61 62 63 64, on right: 49
+list_expresiones (70)
+    on left: 65 66, on right: 52 65
+tipo (71)
+    on left: 67 68, on right: 12 13 16
+tipo_elemental (72)
+    on left: 69, on right: 67 68
+const_list_int (73)
+    on left: 70, on right: 61
+list_int (74)
+    on left: 71 72, on right: 70 71
+const_list_double (75)
+    on left: 73, on right: 62
+list_double (76)
+    on left: 74 75, on right: 73 74
+const_list_boolean (77)
+    on left: 76, on right: 63
+list_boolean (78)
+    on left: 77 78, on right: 76 77
+const_list_char (79)
+    on left: 79, on right: 64
+list_char (80)
+    on left: 80 81, on right: 79 80
+list_id (81)
+    on left: 82 83, on right: 12 32 82
+
+
+State 0
+
+    0 $accept: . Programa $end
+
+    MAIN  shift, and go to state 1
+
+    Programa           go to state 2
+    Cabecera_programa  go to state 3
+
+
+State 1
+
+    7 Cabecera_programa: MAIN .
+
+    $default  reduce using rule 7 (Cabecera_programa)
+
+
+State 2
+
+    0 $accept: Programa . $end
+
+    $end  shift, and go to state 4
+
+
+State 3
+
+    1 Programa: Cabecera_programa . bloque
+
+    LEFT_KEY  shift, and go to state 5
+
+    bloque            go to state 6
+    Inicio_de_bloque  go to state 7
+
+
+State 4
+
+    0 $accept: Programa $end .
+
+    $default  accept
+
+
+State 5
+
+    8 Inicio_de_bloque: LEFT_KEY .
+
+    $default  reduce using rule 8 (Inicio_de_bloque)
+
+
+State 6
+
+    1 Programa: Cabecera_programa bloque .
+
+    $default  reduce using rule 1 (Programa)
+
+
+State 7
+
+    2 bloque: Inicio_de_bloque . Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
+
+    INITVAR  shift, and go to state 8
+
+    Declar_de_variables_locales  go to state 9
+
+
+State 8
+
+    6 Declar_de_variables_locales: INITVAR . Variables_locales ENDVAR
+
+    LIST_OF      shift, and go to state 10
+    BASIC_TYPES  shift, and go to state 11
+
+    Variables_locales        go to state 12
+    Cuerpo_declar_variables  go to state 13
+    tipo                     go to state 14
+    tipo_elemental           go to state 15
+
+
+State 9
+
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales . Declar_de_subprogs Sentencias Fin_de_bloque
+
+    $default  reduce using rule 4 (Declar_de_subprogs)
+
+    Declar_de_subprogs  go to state 16
+
+
+State 10
+
+   68 tipo: LIST_OF . tipo_elemental
+
+    BASIC_TYPES  shift, and go to state 11
+
+    tipo_elemental  go to state 17
+
+
+State 11
+
+   69 tipo_elemental: BASIC_TYPES .
+
+    $default  reduce using rule 69 (tipo_elemental)
+
+
+State 12
+
+    6 Declar_de_variables_locales: INITVAR Variables_locales . ENDVAR
+   10 Variables_locales: Variables_locales . Cuerpo_declar_variables
+
+    ENDVAR       shift, and go to state 18
+    LIST_OF      shift, and go to state 10
+    BASIC_TYPES  shift, and go to state 11
+
+    Cuerpo_declar_variables  go to state 19
+    tipo                     go to state 14
+    tipo_elemental           go to state 15
+
+
+State 13
+
+   11 Variables_locales: Cuerpo_declar_variables .
+
+    $default  reduce using rule 11 (Variables_locales)
+
+
+State 14
+
+   12 Cuerpo_declar_variables: tipo . list_id SEMICOLON
+
+    ID  shift, and go to state 20
+
+    list_id  go to state 21
+
+
+State 15
+
+   67 tipo: tipo_elemental .
+
+    $default  reduce using rule 67 (tipo)
+
+
+State 16
+
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs . Sentencias Fin_de_bloque
+    3 Declar_de_subprogs: Declar_de_subprogs . Declar_subprog
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    LIST_OF           shift, and go to state 10
+    BASIC_TYPES       shift, and go to state 11
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Declar_subprog        go to state 41
+    Inicio_de_bloque      go to state 7
+    Cabecera_subprograma  go to state 42
+    Sentencias            go to state 43
+    Sentencia             go to state 44
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    tipo                  go to state 56
+    tipo_elemental        go to state 15
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 17
+
+   68 tipo: LIST_OF tipo_elemental .
+
+    $default  reduce using rule 68 (tipo)
+
+
+State 18
+
+    6 Declar_de_variables_locales: INITVAR Variables_locales ENDVAR .
+
+    $default  reduce using rule 6 (Declar_de_variables_locales)
+
+
+State 19
+
+   10 Variables_locales: Variables_locales Cuerpo_declar_variables .
+
+    $default  reduce using rule 10 (Variables_locales)
+
+
+State 20
+
+   83 list_id: ID .
+
+    $default  reduce using rule 83 (list_id)
+
+
+State 21
+
+   12 Cuerpo_declar_variables: tipo list_id . SEMICOLON
+   82 list_id: list_id . COMA ID
+
+    SEMICOLON  shift, and go to state 61
+    COMA       shift, and go to state 62
+
+
+State 22
+
+   70 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
+   73 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
+   76 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
+   79 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
+
+    CONST_INT      shift, and go to state 63
+    CONST_DOUBLE   shift, and go to state 64
+    CONST_BOOLEAN  shift, and go to state 65
+    CONST_CHAR     shift, and go to state 66
+
+    list_int      go to state 67
+    list_double   go to state 68
+    list_boolean  go to state 69
+    list_char     go to state 70
+
+
+State 23
+
+   39 expresion: LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 72
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 24
+
+   29 sentencia_if: IF . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
+   30             | IF . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+    LEFT_PARENTHESIS  shift, and go to state 73
+
+
+State 25
+
+   31 sentencia_while: WHILE . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
+
+    LEFT_PARENTHESIS  shift, and go to state 74
+
+
+State 26
+
+   34 sentencia_return: RETURN . expresion SEMICOLON
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 75
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 27
+
+   35 sentencia_for: FOR . LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
+   36              | FOR . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia
+
+    LEFT_PARENTHESIS  shift, and go to state 76
+
+
+State 28
+
+   33 sentencia_salida: OUT . list_expresiones_o_cadena SEMICOLON
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    CADENA            shift, and go to state 77
+    ID                shift, and go to state 71
+
+    expresion                  go to state 78
+    funcion                    go to state 54
+    list_expresiones_o_cadena  go to state 79
+    exp_cad                    go to state 80
+    constante                  go to state 55
+    const_list_int             go to state 57
+    const_list_double          go to state 58
+    const_list_boolean         go to state 59
+    const_list_char            go to state 60
+
+
+State 29
+
+   32 sentencia_entrada: IN . list_id SEMICOLON
+
+    ID  shift, and go to state 20
+
+    list_id  go to state 81
+
+
+State 30
+
+   41 expresion: PLUSPLUS . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 82
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 31
+
+   38 sentencia_list: DOLLAR . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 83
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 32
+
+   40 expresion: NEG_COUNT_QUEST . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 84
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 33
+
+   43 expresion: SYMBOL_OP . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 85
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 34
+
+   42 expresion: MINUSMINUS . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 86
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 35
+
+   57 constante: CONST_INT .
+
+    $default  reduce using rule 57 (constante)
+
+
+State 36
+
+   58 constante: CONST_DOUBLE .
+
+    $default  reduce using rule 58 (constante)
+
+
+State 37
+
+   60 constante: CONST_BOOLEAN .
+
+    $default  reduce using rule 60 (constante)
+
+
+State 38
+
+   59 constante: CONST_CHAR .
+
+    $default  reduce using rule 59 (constante)
+
+
+State 39
+
+   28 sentencia_asignacion: ID . EQUALS expresion SEMICOLON
+   48 expresion: ID .
+   52 funcion: ID . LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  shift, and go to state 87
+    EQUALS            shift, and go to state 88
+
+    $default  reduce using rule 48 (expresion)
+
+
+State 40
+
+   19 Sentencia: bloque .
+
+    $default  reduce using rule 19 (Sentencia)
+
+
+State 41
+
+    3 Declar_de_subprogs: Declar_de_subprogs Declar_subprog .
+
+    $default  reduce using rule 3 (Declar_de_subprogs)
+
+
+State 42
+
+    5 Declar_subprog: Cabecera_subprograma . bloque
+
+    LEFT_KEY  shift, and go to state 5
+
+    bloque            go to state 89
+    Inicio_de_bloque  go to state 7
+
+
+State 43
+
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias . Fin_de_bloque
+   17 Sentencias: Sentencias . Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    RIGHT_KEY         shift, and go to state 90
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Fin_de_bloque         go to state 91
+    Sentencia             go to state 92
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 44
+
+   18 Sentencias: Sentencia .
+
+    $default  reduce using rule 18 (Sentencias)
+
+
+State 45
+
+   20 Sentencia: sentencia_asignacion .
+
+    $default  reduce using rule 20 (Sentencia)
+
+
+State 46
+
+   21 Sentencia: sentencia_if .
+
+    $default  reduce using rule 21 (Sentencia)
+
+
+State 47
+
+   22 Sentencia: sentencia_while .
+
+    $default  reduce using rule 22 (Sentencia)
+
+
+State 48
+
+   23 Sentencia: sentencia_entrada .
+
+    $default  reduce using rule 23 (Sentencia)
+
+
+State 49
+
+   24 Sentencia: sentencia_salida .
+
+    $default  reduce using rule 24 (Sentencia)
+
+
+State 50
+
+   25 Sentencia: sentencia_return .
+
+    $default  reduce using rule 25 (Sentencia)
+
+
+State 51
+
+   26 Sentencia: sentencia_for .
+
+    $default  reduce using rule 26 (Sentencia)
+
+
+State 52
+
+   27 Sentencia: sentencia_list .
+
+    $default  reduce using rule 27 (Sentencia)
+
+
+State 53
+
+   37 sentencia_list: expresion . LIST_OP
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+    LIST_OP     shift, and go to state 98
+
+
+State 54
+
+   50 expresion: funcion .
+
+    $default  reduce using rule 50 (expresion)
+
+
+State 55
+
+   49 expresion: constante .
+
+    $default  reduce using rule 49 (expresion)
+
+
+State 56
+
+   13 Cabecera_subprograma: tipo . ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+    ID  shift, and go to state 99
+
+
+State 57
+
+   61 constante: const_list_int .
+
+    $default  reduce using rule 61 (constante)
+
+
+State 58
+
+   62 constante: const_list_double .
+
+    $default  reduce using rule 62 (constante)
+
+
+State 59
+
+   63 constante: const_list_boolean .
+
+    $default  reduce using rule 63 (constante)
+
+
+State 60
+
+   64 constante: const_list_char .
+
+    $default  reduce using rule 64 (constante)
+
+
+State 61
+
+   12 Cuerpo_declar_variables: tipo list_id SEMICOLON .
+
+    $default  reduce using rule 12 (Cuerpo_declar_variables)
+
+
+State 62
+
+   82 list_id: list_id COMA . ID
+
+    ID  shift, and go to state 100
+
+
+State 63
+
+   72 list_int: CONST_INT .
+
+    $default  reduce using rule 72 (list_int)
+
+
+State 64
+
+   75 list_double: CONST_DOUBLE .
+
+    $default  reduce using rule 75 (list_double)
+
+
+State 65
+
+   78 list_boolean: CONST_BOOLEAN .
+
+    $default  reduce using rule 78 (list_boolean)
+
+
+State 66
+
+   81 list_char: CONST_CHAR .
+
+    $default  reduce using rule 81 (list_char)
+
+
+State 67
+
+   70 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
+   71 list_int: list_int . COMA CONST_INT
+
+    RIGHT_BRACKET  shift, and go to state 101
+    COMA           shift, and go to state 102
+
+
+State 68
+
+   73 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
+   74 list_double: list_double . COMA CONST_DOUBLE
+
+    RIGHT_BRACKET  shift, and go to state 103
+    COMA           shift, and go to state 104
+
+
+State 69
+
+   76 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
+   77 list_boolean: list_boolean . COMA CONST_BOOLEAN
+
+    RIGHT_BRACKET  shift, and go to state 105
+    COMA           shift, and go to state 106
+
+
+State 70
+
+   79 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
+   80 list_char: list_char . COMA CONST_CHAR
+
+    RIGHT_BRACKET  shift, and go to state 107
+    COMA           shift, and go to state 108
+
+
+State 71
+
+   48 expresion: ID .
+   52 funcion: ID . LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  shift, and go to state 87
+
+    LEFT_PARENTHESIS  [reduce using rule 48 (expresion)]
+    $default          reduce using rule 48 (expresion)
+
+
+State 72
+
+   39 expresion: LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS
+   44          | expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 109
+    PLUSPLUS           shift, and go to state 93
+    AT                 shift, and go to state 94
+    SYMBOL_OP          shift, and go to state 95
+    MINUSMINUS         shift, and go to state 96
+    BINARY_OP          shift, and go to state 97
+
+
+State 73
+
+   29 sentencia_if: IF LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS THEN Sentencia
+   30             | IF LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 110
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 74
+
+   31 sentencia_while: WHILE LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS Sentencia
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 111
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 75
+
+   34 sentencia_return: RETURN expresion . SEMICOLON
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    SEMICOLON   shift, and go to state 112
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+
+State 76
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS . expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
+   36              | FOR LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS DO Sentencia
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 113
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 77
+
+   56 exp_cad: CADENA .
+
+    $default  reduce using rule 56 (exp_cad)
+
+
+State 78
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+   55 exp_cad: expresion .
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    $default  reduce using rule 55 (exp_cad)
+
+
+State 79
+
+   33 sentencia_salida: OUT list_expresiones_o_cadena . SEMICOLON
+   53 list_expresiones_o_cadena: list_expresiones_o_cadena . COMA exp_cad
+
+    SEMICOLON  shift, and go to state 114
+    COMA       shift, and go to state 115
+
+
+State 80
+
+   54 list_expresiones_o_cadena: exp_cad .
+
+    $default  reduce using rule 54 (list_expresiones_o_cadena)
+
+
+State 81
+
+   32 sentencia_entrada: IN list_id . SEMICOLON
+   82 list_id: list_id . COMA ID
+
+    SEMICOLON  shift, and go to state 116
+    COMA       shift, and go to state 62
+
+
+State 82
+
+   41 expresion: PLUSPLUS expresion .
+   44          | expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 41 (expresion)]
+    AT          [reduce using rule 41 (expresion)]
+    SYMBOL_OP   [reduce using rule 41 (expresion)]
+    MINUSMINUS  [reduce using rule 41 (expresion)]
+    BINARY_OP   [reduce using rule 41 (expresion)]
+    $default    reduce using rule 41 (expresion)
+
+
+State 83
+
+   38 sentencia_list: DOLLAR expresion .
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 38 (sentencia_list)]
+    SYMBOL_OP   [reduce using rule 38 (sentencia_list)]
+    MINUSMINUS  [reduce using rule 38 (sentencia_list)]
+    $default    reduce using rule 38 (sentencia_list)
+
+
+State 84
+
+   40 expresion: NEG_COUNT_QUEST expresion .
+   44          | expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 40 (expresion)]
+    AT          [reduce using rule 40 (expresion)]
+    SYMBOL_OP   [reduce using rule 40 (expresion)]
+    MINUSMINUS  [reduce using rule 40 (expresion)]
+    BINARY_OP   [reduce using rule 40 (expresion)]
+    $default    reduce using rule 40 (expresion)
+
+
+State 85
+
+   43 expresion: SYMBOL_OP expresion .
+   44          | expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 43 (expresion)]
+    AT          [reduce using rule 43 (expresion)]
+    SYMBOL_OP   [reduce using rule 43 (expresion)]
+    MINUSMINUS  [reduce using rule 43 (expresion)]
+    BINARY_OP   [reduce using rule 43 (expresion)]
+    $default    reduce using rule 43 (expresion)
+
+
+State 86
+
+   42 expresion: MINUSMINUS expresion .
+   44          | expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 42 (expresion)]
+    AT          [reduce using rule 42 (expresion)]
+    SYMBOL_OP   [reduce using rule 42 (expresion)]
+    MINUSMINUS  [reduce using rule 42 (expresion)]
+    BINARY_OP   [reduce using rule 42 (expresion)]
+    $default    reduce using rule 42 (expresion)
+
+
+State 87
+
+   52 funcion: ID LEFT_PARENTHESIS . list_expresiones RIGHT_PARENTHESIS
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 117
+    funcion             go to state 54
+    constante           go to state 55
+    list_expresiones    go to state 118
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 88
+
+   28 sentencia_asignacion: ID EQUALS . expresion SEMICOLON
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 119
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 89
+
+    5 Declar_subprog: Cabecera_subprograma bloque .
+
+    $default  reduce using rule 5 (Declar_subprog)
+
+
+State 90
+
+    9 Fin_de_bloque: RIGHT_KEY .
+
+    $default  reduce using rule 9 (Fin_de_bloque)
+
+
+State 91
+
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque .
+
+    $default  reduce using rule 2 (bloque)
+
+
+State 92
+
+   17 Sentencias: Sentencias Sentencia .
+
+    $default  reduce using rule 17 (Sentencias)
+
+
+State 93
+
+   51 expresion: expresion PLUSPLUS . expresion AT expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 120
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 94
+
+   46 expresion: expresion AT . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 121
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 95
+
+   44 expresion: expresion SYMBOL_OP . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 122
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 96
+
+   47 expresion: expresion MINUSMINUS . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 123
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 97
+
+   45 expresion: expresion BINARY_OP . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 124
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 98
+
+   37 sentencia_list: expresion LIST_OP .
+
+    $default  reduce using rule 37 (sentencia_list)
+
+
+State 99
+
+   13 Cabecera_subprograma: tipo ID . LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  shift, and go to state 125
+
+
+State 100
+
+   82 list_id: list_id COMA ID .
+
+    $default  reduce using rule 82 (list_id)
+
+
+State 101
+
+   70 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
+
+    $default  reduce using rule 70 (const_list_int)
+
+
+State 102
+
+   71 list_int: list_int COMA . CONST_INT
+
+    CONST_INT  shift, and go to state 126
+
+
+State 103
+
+   73 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
+
+    $default  reduce using rule 73 (const_list_double)
+
+
+State 104
+
+   74 list_double: list_double COMA . CONST_DOUBLE
+
+    CONST_DOUBLE  shift, and go to state 127
+
+
+State 105
+
+   76 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
+
+    $default  reduce using rule 76 (const_list_boolean)
+
+
+State 106
+
+   77 list_boolean: list_boolean COMA . CONST_BOOLEAN
+
+    CONST_BOOLEAN  shift, and go to state 128
+
+
+State 107
+
+   79 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
+
+    $default  reduce using rule 79 (const_list_char)
+
+
+State 108
+
+   80 list_char: list_char COMA . CONST_CHAR
+
+    CONST_CHAR  shift, and go to state 129
+
+
+State 109
+
+   39 expresion: LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS .
+
+    $default  reduce using rule 39 (expresion)
+
+
+State 110
+
+   29 sentencia_if: IF LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS THEN Sentencia
+   30             | IF LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 130
+    PLUSPLUS           shift, and go to state 93
+    AT                 shift, and go to state 94
+    SYMBOL_OP          shift, and go to state 95
+    MINUSMINUS         shift, and go to state 96
+    BINARY_OP          shift, and go to state 97
+
+
+State 111
+
+   31 sentencia_while: WHILE LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS Sentencia
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 131
+    PLUSPLUS           shift, and go to state 93
+    AT                 shift, and go to state 94
+    SYMBOL_OP          shift, and go to state 95
+    MINUSMINUS         shift, and go to state 96
+    BINARY_OP          shift, and go to state 97
+
+
+State 112
+
+   34 sentencia_return: RETURN expresion SEMICOLON .
+
+    $default  reduce using rule 34 (sentencia_return)
+
+
+State 113
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion . TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
+   36              | FOR LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS DO Sentencia
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 132
+    TO                 shift, and go to state 133
+    PLUSPLUS           shift, and go to state 93
+    AT                 shift, and go to state 94
+    SYMBOL_OP          shift, and go to state 95
+    MINUSMINUS         shift, and go to state 96
+    BINARY_OP          shift, and go to state 97
+
+
+State 114
+
+   33 sentencia_salida: OUT list_expresiones_o_cadena SEMICOLON .
+
+    $default  reduce using rule 33 (sentencia_salida)
+
+
+State 115
+
+   53 list_expresiones_o_cadena: list_expresiones_o_cadena COMA . exp_cad
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    CADENA            shift, and go to state 77
+    ID                shift, and go to state 71
+
+    expresion           go to state 78
+    funcion             go to state 54
+    exp_cad             go to state 134
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 116
+
+   32 sentencia_entrada: IN list_id SEMICOLON .
+
+    $default  reduce using rule 32 (sentencia_entrada)
+
+
+State 117
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+   66 list_expresiones: expresion .
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    $default  reduce using rule 66 (list_expresiones)
+
+
+State 118
+
+   52 funcion: ID LEFT_PARENTHESIS list_expresiones . RIGHT_PARENTHESIS
+   65 list_expresiones: list_expresiones . COMA expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 135
+    COMA               shift, and go to state 136
+
+
+State 119
+
+   28 sentencia_asignacion: ID EQUALS expresion . SEMICOLON
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    SEMICOLON   shift, and go to state 137
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+
+State 120
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+   51          | expresion PLUSPLUS expresion . AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 138
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+
+State 121
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   46          | expresion AT expresion .
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 46 (expresion)]
+    AT          [reduce using rule 46 (expresion)]
+    SYMBOL_OP   [reduce using rule 46 (expresion)]
+    MINUSMINUS  [reduce using rule 46 (expresion)]
+    BINARY_OP   [reduce using rule 46 (expresion)]
+    $default    reduce using rule 46 (expresion)
+
+
+State 122
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   44          | expresion SYMBOL_OP expresion .
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 44 (expresion)]
+    AT          [reduce using rule 44 (expresion)]
+    SYMBOL_OP   [reduce using rule 44 (expresion)]
+    MINUSMINUS  [reduce using rule 44 (expresion)]
+    BINARY_OP   [reduce using rule 44 (expresion)]
+    $default    reduce using rule 44 (expresion)
+
+
+State 123
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   47          | expresion MINUSMINUS expresion .
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 47 (expresion)]
+    AT          [reduce using rule 47 (expresion)]
+    SYMBOL_OP   [reduce using rule 47 (expresion)]
+    MINUSMINUS  [reduce using rule 47 (expresion)]
+    BINARY_OP   [reduce using rule 47 (expresion)]
+    $default    reduce using rule 47 (expresion)
+
+
+State 124
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   45          | expresion BINARY_OP expresion .
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 45 (expresion)]
+    AT          [reduce using rule 45 (expresion)]
+    SYMBOL_OP   [reduce using rule 45 (expresion)]
+    MINUSMINUS  [reduce using rule 45 (expresion)]
+    BINARY_OP   [reduce using rule 45 (expresion)]
+    $default    reduce using rule 45 (expresion)
+
+
+State 125
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
+
+    LIST_OF      shift, and go to state 10
+    BASIC_TYPES  shift, and go to state 11
+
+    argumentos      go to state 139
+    argumento       go to state 140
+    tipo            go to state 141
+    tipo_elemental  go to state 15
+
+
+State 126
+
+   71 list_int: list_int COMA CONST_INT .
+
+    $default  reduce using rule 71 (list_int)
+
+
+State 127
+
+   74 list_double: list_double COMA CONST_DOUBLE .
+
+    $default  reduce using rule 74 (list_double)
+
+
+State 128
+
+   77 list_boolean: list_boolean COMA CONST_BOOLEAN .
+
+    $default  reduce using rule 77 (list_boolean)
+
+
+State 129
+
+   80 list_char: list_char COMA CONST_CHAR .
+
+    $default  reduce using rule 80 (list_char)
+
+
+State 130
+
+   29 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . THEN Sentencia
+   30             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . THEN Sentencia ELSE Sentencia
+
+    THEN  shift, and go to state 142
+
+
+State 131
+
+   31 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 143
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 132
+
+   36 sentencia_for: FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . DO Sentencia
+
+    DO  shift, and go to state 144
+
+
+State 133
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO . expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 145
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 134
+
+   53 list_expresiones_o_cadena: list_expresiones_o_cadena COMA exp_cad .
+
+    $default  reduce using rule 53 (list_expresiones_o_cadena)
+
+
+State 135
+
+   52 funcion: ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS .
+
+    $default  reduce using rule 52 (funcion)
+
+
+State 136
+
+   65 list_expresiones: list_expresiones COMA . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 146
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 137
+
+   28 sentencia_asignacion: ID EQUALS expresion SEMICOLON .
+
+    $default  reduce using rule 28 (sentencia_asignacion)
+
+
+State 138
+
+   46 expresion: expresion AT . expresion
+   51          | expresion PLUSPLUS expresion AT . expresion
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 147
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 139
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
+   14 argumentos: argumentos . COMA argumento
+
+    RIGHT_PARENTHESIS  shift, and go to state 148
+    COMA               shift, and go to state 149
+
+
+State 140
+
+   15 argumentos: argumento .
+
+    $default  reduce using rule 15 (argumentos)
+
+
+State 141
+
+   16 argumento: tipo . ID
+
+    ID  shift, and go to state 150
+
+
+State 142
+
+   29 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN . Sentencia
+   30             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN . Sentencia ELSE Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 151
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 143
+
+   31 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia .
+
+    $default  reduce using rule 31 (sentencia_while)
+
+
+State 144
+
+   36 sentencia_for: FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO . Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 152
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 145
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion . COMA expresion RIGHT_PARENTHESIS DO Sentencia
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    COMA        shift, and go to state 153
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+
+State 146
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+   65 list_expresiones: list_expresiones COMA expresion .
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    $default  reduce using rule 65 (list_expresiones)
+
+
+State 147
+
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   46          | expresion AT expresion .
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+   51          | expresion PLUSPLUS expresion AT expresion .
+
+    PLUSPLUS    shift, and go to state 93
+    AT          shift, and go to state 94
+    SYMBOL_OP   shift, and go to state 95
+    MINUSMINUS  shift, and go to state 96
+    BINARY_OP   shift, and go to state 97
+
+    PLUSPLUS    [reduce using rule 46 (expresion)]
+    PLUSPLUS    [reduce using rule 51 (expresion)]
+    AT          [reduce using rule 46 (expresion)]
+    AT          [reduce using rule 51 (expresion)]
+    SYMBOL_OP   [reduce using rule 46 (expresion)]
+    SYMBOL_OP   [reduce using rule 51 (expresion)]
+    MINUSMINUS  [reduce using rule 46 (expresion)]
+    MINUSMINUS  [reduce using rule 51 (expresion)]
+    BINARY_OP   [reduce using rule 46 (expresion)]
+    BINARY_OP   [reduce using rule 51 (expresion)]
+    $default    reduce using rule 51 (expresion)
+
+
+State 148
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
+
+    $default  reduce using rule 13 (Cabecera_subprograma)
+
+
+State 149
+
+   14 argumentos: argumentos COMA . argumento
+
+    LIST_OF      shift, and go to state 10
+    BASIC_TYPES  shift, and go to state 11
+
+    argumento       go to state 154
+    tipo            go to state 141
+    tipo_elemental  go to state 15
+
+
+State 150
+
+   16 argumento: tipo ID .
+
+    $default  reduce using rule 16 (argumento)
+
+
+State 151
+
+   29 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia .
+   30             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia . ELSE Sentencia
+
+    ELSE  shift, and go to state 155
+
+    ELSE      [reduce using rule 29 (sentencia_if)]
+    $default  reduce using rule 29 (sentencia_if)
+
+
+State 152
+
+   36 sentencia_for: FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia .
+
+    $default  reduce using rule 36 (sentencia_for)
+
+
+State 153
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA . expresion RIGHT_PARENTHESIS DO Sentencia
+
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    PLUSPLUS          shift, and go to state 30
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 71
+
+    expresion           go to state 156
+    funcion             go to state 54
+    constante           go to state 55
+    const_list_int      go to state 57
+    const_list_double   go to state 58
+    const_list_boolean  go to state 59
+    const_list_char     go to state 60
+
+
+State 154
+
+   14 argumentos: argumentos COMA argumento .
+
+    $default  reduce using rule 14 (argumentos)
+
+
+State 155
+
+   30 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE . Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 157
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 156
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion . RIGHT_PARENTHESIS DO Sentencia
+   44 expresion: expresion . SYMBOL_OP expresion
+   45          | expresion . BINARY_OP expresion
+   46          | expresion . AT expresion
+   47          | expresion . MINUSMINUS expresion
+   51          | expresion . PLUSPLUS expresion AT expresion
+
+    RIGHT_PARENTHESIS  shift, and go to state 158
+    PLUSPLUS           shift, and go to state 93
+    AT                 shift, and go to state 94
+    SYMBOL_OP          shift, and go to state 95
+    MINUSMINUS         shift, and go to state 96
+    BINARY_OP          shift, and go to state 97
+
+
+State 157
+
+   30 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia .
+
+    $default  reduce using rule 30 (sentencia_if)
+
+
+State 158
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS . DO Sentencia
+
+    DO  shift, and go to state 159
+
+
+State 159
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO . Sentencia
+
+    LEFT_KEY          shift, and go to state 5
+    LEFT_BRACKET      shift, and go to state 22
+    LEFT_PARENTHESIS  shift, and go to state 23
+    IF                shift, and go to state 24
+    WHILE             shift, and go to state 25
+    RETURN            shift, and go to state 26
+    FOR               shift, and go to state 27
+    OUT               shift, and go to state 28
+    IN                shift, and go to state 29
+    PLUSPLUS          shift, and go to state 30
+    DOLLAR            shift, and go to state 31
+    NEG_COUNT_QUEST   shift, and go to state 32
+    SYMBOL_OP         shift, and go to state 33
+    MINUSMINUS        shift, and go to state 34
+    CONST_INT         shift, and go to state 35
+    CONST_DOUBLE      shift, and go to state 36
+    CONST_BOOLEAN     shift, and go to state 37
+    CONST_CHAR        shift, and go to state 38
+    ID                shift, and go to state 39
+
+    bloque                go to state 40
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 160
+    sentencia_asignacion  go to state 45
+    sentencia_if          go to state 46
+    sentencia_while       go to state 47
+    sentencia_entrada     go to state 48
+    sentencia_salida      go to state 49
+    sentencia_return      go to state 50
+    sentencia_for         go to state 51
+    sentencia_list        go to state 52
+    expresion             go to state 53
+    funcion               go to state 54
+    constante             go to state 55
+    const_list_int        go to state 57
+    const_list_double     go to state 58
+    const_list_boolean    go to state 59
+    const_list_char       go to state 60
+
+
+State 160
+
+   35 sentencia_for: FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia .
+
+    $default  reduce using rule 35 (sentencia_for)

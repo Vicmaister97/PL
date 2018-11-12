@@ -7,7 +7,7 @@ y.tab.o: y.tab.c
 main.o: main.c
 	gcc -c main.c
 y.tab.c: gramatica.y lex.yy.c
-	bison -o y.tab.c gramatica.y
+	bison -v -o y.tab.c gramatica.y
 lex.yy.c: tokens.l
 	lex tokens.l
 clean:
