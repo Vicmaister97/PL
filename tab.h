@@ -7,7 +7,7 @@
 #define LEFT_PARENTHESIS  263
 #define RIGHT_PARENTHESIS 264
 #define COMA              265
-#define EQUALS            266
+#define ASSIGN            266
 #define IF                267
 #define THEN              268
 #define ELSE              269
@@ -25,6 +25,11 @@
 #define DOLLAR            281
 #define NEG_COUNT_QUEST   282
 #define SYMBOL_OP         283
+#define RELATION_OP       296
+#define EQUALS_OP         299
+#define AND_OP            295
+#define OR_OP             297
+#define XOR_OP            298
 #define MINUSMINUS        284
 #define BINARY_OP         285
 #define LIST_OP           286
