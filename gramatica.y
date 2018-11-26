@@ -15,7 +15,7 @@ int linea_actual = 1;
 
 /** Declaramos la lista de tokens de nuestra gramática
 **/
-%token MAIN LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON  LEFT_PARENTHESIS RIGHT_PARENTHESIS COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
+%token MAIN SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
 %left OR_OP
 %left AND_OP
 %left XOR_OP
@@ -28,6 +28,8 @@ int linea_actual = 1;
 %right PLUSPLUS
 %right DOLLAR LIST_OP
 %right AT
+%left LEFT_PARENTHESIS RIGHT_PARENTHESIS LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET
+
 
 
 /** Declaramos la precedencia (de menor a mayor) y asociatividad de los operadores
@@ -75,7 +77,8 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
                   | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON ;
 Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS ;
-argumentos  : argumentos COMA argumento | argumento ;
+argumentos  : argumentos COMA argumento
+						| argumento ;
 argumento : tipo ID ;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
@@ -99,8 +102,10 @@ sentencia_for : FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT
               | FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia ;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
-expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
-          | NEG_COUNT_QUEST expresion
+
+/** Hemos quitado esto y ya va guay:   expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS**/
+
+expresion : NEG_COUNT_QUEST expresion
           | PLUSPLUS expresion
           | MINUSMINUS expresion
           | SYMBOL_OP expresion %prec NEG_COUNT_QUEST

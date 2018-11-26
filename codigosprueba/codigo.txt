@@ -1,12 +1,13 @@
-int main(){
-
-  dou··ble j = +5.0;
+main{
+  initVar
+  double j = +5.0;
   double w = -3.5;
   char letra;
-  boo··lean verdadero = true;
+  boolean verdadero = true;
   boolean indefinido;
   int sumador = 0;
   list_of int lista_ints = [3,4,5,7,1]
+  endVar
   @
   <<
   >>
