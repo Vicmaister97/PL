@@ -55,7 +55,7 @@ int n_lines = 1;
 \+|\-                                        return SYMBOL_OP;
 "--"                                         return MINUSMINUS;
 \*|\/|%|\*\*                                 return BINARY_OP;
-<|<=|>|>=                                    return RELATION_OP;
+>|<=|<|>=                                    return RELATION_OP;
 ==|<>                                        return EQUALS_OP;
 "and"                                        return AND_OP;
 "or"                                         return OR_OP;
@@ -67,8 +67,8 @@ int n_lines = 1;
 [0-9]*\.[0-9]+                               return CONST_DOUBLE;
 "true"|"false"                               return CONST_BOOLEAN;
 \"[^\"]\"                                    return CONST_CHAR;
-\"[^\"]*\"                                   return ID;
-[_a-zA-Z][_a-zA-Z0-9]*                       return CADENA;
+\"[^\"]*\"                                   return CADENA;
+[_a-zA-Z][_a-zA-Z0-9]*                       return ID;
 \n                                           { /** lleva la cuenta de las líneas **/
 						n_lines++; }
 [ \t]+	                                     { /** accion vacia: se ignoran los espacios y tabuladores **/ }

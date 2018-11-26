@@ -1,4 +1,5 @@
 %{
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,13 +10,21 @@
 
 void yyerror(const char *msg);
 int yylex();
-int linea_actual = 1;
+
 %}
+
+/** Para uso de mensajes de error sintáctico con BISON.
+*** La siguiente declaración provoca que ’bison’, ante un error sintáctico,
+*** visualice mensajes de error con indicación de los tokens que se esperaban
+*** en el lugar en el que produjo el error.
+**/
+
 %error-verbose
 
-/** Declaramos la lista de tokens de nuestra gramática
+/** Declaramos la lista de nombres simbólicos de los tokens de nuestra gramática, junto con su asociatividad y precedencia
 **/
-%token MAIN LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON  LEFT_PARENTHESIS RIGHT_PARENTHESIS COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
+
+%token MAIN SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
 %left OR_OP
 %left AND_OP
 %left XOR_OP
@@ -28,7 +37,9 @@ int linea_actual = 1;
 %right PLUSPLUS
 %right DOLLAR LIST_OP
 %right AT
+%left LEFT_PARENTHESIS RIGHT_PARENTHESIS LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET
 
+/** CONSULTAR PRECEDENCIA DOLLAR LIST_OP, AT Y PARENTESIS
 
 /** Declaramos la precedencia (de menor a mayor) y asociatividad de los operadores
 
@@ -56,10 +67,9 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 
-
 %%
 
-/** Declaramos el conjunto de reglas o producciones de nuestra gramática
+/** Declaramos el conjunto de reglas o producciones que definen nuestra gramática
 **/
 
 Programa : Cabecera_programa bloque ;
@@ -75,7 +85,8 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
                   | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON ;
 Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS ;
-argumentos  : argumentos COMA argumento | argumento ;
+argumentos  : argumentos COMA argumento
+						| argumento ;
 argumento : tipo ID ;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
@@ -99,8 +110,10 @@ sentencia_for : FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT
               | FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia ;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
-expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
-          | NEG_COUNT_QUEST expresion
+
+/** Hemos quitado esto y ya va guay:   expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS**/
+
+expresion : NEG_COUNT_QUEST expresion
           | PLUSPLUS expresion
           | MINUSMINUS expresion
           | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
@@ -157,17 +170,22 @@ list_id   : list_id COMA ID
 
 %%
 
+
 #ifdef DOSWINDOWS
 #include "lexyy.c"
 #else
 #include "lex.yy.c"
 #endif
 
-/** se debe implementar la función yyerror. En este caso
+/** Implementamos la función yyerror. En este caso
 *** simplemente escribimos el mensaje de error en pantalla
+**/
+
+/** Utilizamos la variable ’yylineno’ que nos muestra la línea actual. Para ello es necesario
+*** invocar a lex con la opción ’-l’.
 **/
 
 void yyerror (const char *msg)
 {
-  fprintf(stderr,"[Linea %d]: %s/n", linea_actual, msg);
+  fprintf(stderr,"[Linea %d]: %s\n", yylineno, msg);
 }

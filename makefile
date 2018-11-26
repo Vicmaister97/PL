@@ -9,7 +9,7 @@ main.o: main.c
 y.tab.c: gramatica.y lex.yy.c
 	bison -v -o y.tab.c gramatica.y
 lex.yy.c: tokens.l
-	lex tokens.l
+	lex -l tokens.l
 clean:
 	rm -f prueba main.o y.tab.o y.tab.c lex.yy.c
 all:
