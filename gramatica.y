@@ -15,14 +15,26 @@ int linea_actual = 1;
 
 /** Declaramos la lista de tokens de nuestra gramática
 **/
+%token MAIN LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON  LEFT_PARENTHESIS RIGHT_PARENTHESIS COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
+%left OR_OP
+%left AND_OP
+%left XOR_OP
+%left EQUALS_OP
+%left RELATION_OP
+%left SYMBOL_OP
+%left BINARY_OP
+%right NEG_COUNT_QUEST
+%right MINUSMINUS
+%right PLUSPLUS
+%right DOLLAR LIST_OP
+%right AT
 
-%token MAIN LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON LEFT_PARENTHESIS RIGHT_PARENTHESIS COMA EQUALS IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR PLUSPLUS AT DOLLAR NEG_COUNT_QUEST SYMBOL_OP MINUSMINUS BINARY_OP LIST_OP LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
 
 /** Declaramos la precedencia (de menor a mayor) y asociatividad de los operadores
 
 PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MISMO TOKEN (BINARY_OP...)
 	 	 CAMBIO TOKENS.L?????
-	  
+
 	  TBIEN COINCIDENCIAS ++ Y + POR EL SIMBOLO (REDECLARACION DE '+')
 
 %left "||"
@@ -76,7 +88,7 @@ Sentencia   : bloque
             | sentencia_return
             | sentencia_for
             | sentencia_list ;
-sentencia_asignacion  : ID EQUALS expresion SEMICOLON ;
+sentencia_asignacion  : ID ASSIGN expresion SEMICOLON ;
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia ;
 sentencia_while : WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia ;
@@ -91,16 +103,22 @@ expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
           | NEG_COUNT_QUEST expresion
           | PLUSPLUS expresion
           | MINUSMINUS expresion
-          | SYMBOL_OP expresion
+          | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
           | expresion SYMBOL_OP expresion
           | expresion BINARY_OP expresion
+          | expresion AND_OP expresion
+          | expresion OR_OP expresion
+          | expresion XOR_OP expresion
+          | expresion RELATION_OP expresion
+          | expresion EQUALS_OP expresion
           | expresion AT expresion
           | expresion MINUSMINUS expresion
           | ID
           | constante
           | funcion
           | expresion PLUSPLUS expresion AT expresion ;
-funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS ;
+funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+					| ID LEFT_PARENTHESIS RIGHT_PARENTHESIS ;
 list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad
                           | exp_cad ;
 exp_cad                   : expresion

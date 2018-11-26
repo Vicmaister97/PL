@@ -35,7 +35,7 @@ int n_lines = 1;
 "\("                                         return LEFT_PARENTHESIS;
 "\)"                                         return RIGHT_PARENTHESIS;
 ","                                          return COMA;
-"="                                          return EQUALS;
+"="                                          return ASSIGN;
 "if"                                         return IF;
 "then"                                       return THEN;
 "else"                                       return ELSE;
@@ -54,7 +54,12 @@ int n_lines = 1;
 !|#|\?                                       return NEG_COUNT_QUEST;
 \+|\-                                        return SYMBOL_OP;
 "--"                                         return MINUSMINUS;
-\*|\/|<|<=|>|>=|==|and|or|xor|%|\*\*         return BINARY_OP;
+\*|\/|%|\*\*                                 return BINARY_OP;
+<|<=|>|>=                                    return RELATION_OP;
+==|<>                                        return EQUALS_OP;
+"and"                                        return AND_OP;
+"or"                                         return OR_OP;
+"xor"                                        return XOR_OP;
 "<<|>>"                                      return LIST_OP;
 "list_of"                                    return LIST_OF;
 "int"|"double"|"boolean"|"char"              return BASIC_TYPES;
@@ -74,4 +79,3 @@ int n_lines = 1;
 
 %%
 /*----- Sección de Procedimientos --------*/
-
