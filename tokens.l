@@ -42,6 +42,7 @@ int n_lines = 1;
 "while"                                      return WHILE;
 "return"                                     return RETURN;
 "for"                                        return FOR;
+:=                                           return ASSIGN_FOR;
 "to"                                         return TO;
 "do"                                         return DO;
 "out"                                        return OUT;

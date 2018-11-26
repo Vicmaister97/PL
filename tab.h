@@ -14,6 +14,7 @@
 #define WHILE             270
 #define RETURN            271
 #define FOR               272
+#define ASSIGN_FOR        300
 #define TO                273
 #define DO                274
 #define OUT               275

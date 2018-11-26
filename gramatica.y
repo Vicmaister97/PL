@@ -24,7 +24,7 @@ int yylex();
 /** Declaramos la lista de nombres simbólicos de los tokens de nuestra gramática, junto con su asociatividad y precedencia
 **/
 
-%token MAIN SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
+%token MAIN SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR ASSIGN_FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
 %left OR_OP
 %left AND_OP
 %left XOR_OP
@@ -73,14 +73,13 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque  : Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque ;
+bloque  : LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY ;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma bloque ;
-Declar_de_variables_locales : INITVAR Variables_locales ENDVAR ;
+Declar_de_variables_locales : INITVAR Variables_locales ENDVAR;
+														| INITVAR ENDVAR;
 Cabecera_programa           : MAIN ;
-Inicio_de_bloque  : LEFT_KEY ;
-Fin_de_bloque : RIGHT_KEY ;
 Variables_locales : Variables_locales Cuerpo_declar_variables
                   | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON ;
@@ -99,6 +98,7 @@ Sentencia   : bloque
             | sentencia_return
             | sentencia_for
             | sentencia_list ;
+/**Decidir que hacer con sentencias del estilo:     sumador++;      **/
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON ;
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia ;
@@ -106,8 +106,7 @@ sentencia_while : WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia ;
 sentencia_entrada : IN list_id SEMICOLON;
 sentencia_salida  : OUT list_expresiones_o_cadena SEMICOLON ;
 sentencia_return  : RETURN expresion SEMICOLON ;
-sentencia_for : FOR LEFT_PARENTHESIS expresion TO expresion COMA expresion RIGHT_PARENTHESIS DO Sentencia
-              | FOR LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS DO Sentencia ;
+sentencia_for : FOR ID ASSIGN_FOR constante TO constante DO bloque;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
 
