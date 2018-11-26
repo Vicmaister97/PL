@@ -1,6 +1,8 @@
 # PL
 Procesadores de Lenguajes, 2018-19 UGR
 
++   PRECEDENCIA PARENTESIS Y CORCHETES
+
 - PONER CABECERAS PROGRAMAS CON AUTORES CORREOS ETC 
 
 Útil para precedencia y asociatividad: 
