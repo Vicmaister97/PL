@@ -1,7 +1,10 @@
 # PL
 Procesadores de Lenguajes, 2018-19 UGR
 
-+   PRECEDENCIA PARENTESIS Y CORCHETES
++   Conflictos IF-ELSE, AT. Este último varios conflictos reducción/reducción
++   Problema PLUSPLUS y MINUSMINUS (una línea dentro de un bloque e.g sumador++;). PROBLEMA DE VERLO COMO EXPRESIÓN DE ASIGNACIÓN (sumador = sumador+1;)
++   VER INITVAR Y ENDVAR SI NECESARIOS y si cambiarlos a ser opcionales o qué (SI NO QUEREMOS DECLARAR VARIABLES, NECESITAMOS PONER IGUALMENTE initVar endVar)
++   Ver caso MAIN() LOS PARENTESIS
 
 - PONER CABECERAS PROGRAMAS CON AUTORES CORREOS ETC 
 
