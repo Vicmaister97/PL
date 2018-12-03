@@ -1,4 +1,4 @@
-Estado 172 conflictos: 1 desplazamiento/reducción
+Estado 173 conflictos: 1 desplazamiento/reducción
 
 
 Gramática
@@ -58,7 +58,7 @@ Gramática
 
    36 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
 
-   37 sentencia_entrada: IN CADENA list_id SEMICOLON
+   37 sentencia_entrada: IN CADENA COMA list_id SEMICOLON
    38                  | IN list_id SEMICOLON
 
    39 sentencia_salida: OUT list_expresiones_o_cadena SEMICOLON
@@ -148,7 +148,7 @@ RIGHT_KEY (261) 2
 LEFT_BRACKET (262) 79 82 85 88
 RIGHT_BRACKET (263) 79 82 85 88
 SEMICOLON (264) 11 29 30 31 32 33 37 38 39 40
-COMA (265) 13 62 74 80 83 86 89 91
+COMA (265) 13 37 62 74 80 83 86 89 91
 ASSIGN (266) 33
 IF (267) 34 35
 THEN (268) 34 35
@@ -658,7 +658,7 @@ Estado 34
 
 Estado 35
 
-   37 sentencia_entrada: IN . CADENA list_id SEMICOLON
+   37 sentencia_entrada: IN . CADENA COMA list_id SEMICOLON
    38                  | IN . list_id SEMICOLON
 
     CADENA  desplazar e ir al estado 88
@@ -1286,11 +1286,9 @@ Estado 87
 
 Estado 88
 
-   37 sentencia_entrada: IN CADENA . list_id SEMICOLON
+   37 sentencia_entrada: IN CADENA . COMA list_id SEMICOLON
 
-    ID  desplazar e ir al estado 27
-
-    list_id  ir al estado 130
+    COMA  desplazar e ir al estado 130
 
 
 Estado 89
@@ -1990,11 +1988,11 @@ Estado 129
 
 Estado 130
 
-   37 sentencia_entrada: IN CADENA list_id . SEMICOLON
-   91 list_id: list_id . COMA ID
+   37 sentencia_entrada: IN CADENA COMA . list_id SEMICOLON
 
-    SEMICOLON  desplazar e ir al estado 160
-    COMA       desplazar e ir al estado 70
+    ID  desplazar e ir al estado 27
+
+    list_id  ir al estado 160
 
 
 Estado 131
@@ -2455,9 +2453,11 @@ Estado 159
 
 Estado 160
 
-   37 sentencia_entrada: IN CADENA list_id SEMICOLON .
+   37 sentencia_entrada: IN CADENA COMA list_id . SEMICOLON
+   91 list_id: list_id . COMA ID
 
-    $default  reduce usando la regla 37 (sentencia_entrada)
+    SEMICOLON  desplazar e ir al estado 169
+    COMA       desplazar e ir al estado 70
 
 
 Estado 161
@@ -2488,7 +2488,7 @@ Estado 163
     NEG_COUNT_QUEST   desplazar e ir al estado 42
     LEFT_PARENTHESIS  desplazar e ir al estado 46
 
-    expresion           ir al estado 169
+    expresion           ir al estado 170
     funcion             ir al estado 62
     constante           ir al estado 63
     const_list_int      ir al estado 65
@@ -2510,7 +2510,7 @@ Estado 164
     ID                desplazar e ir al estado 81
     SYMBOL_OP         desplazar e ir al estado 41
     NEG_COUNT_QUEST   desplazar e ir al estado 42
-    AT                desplazar e ir al estado 170
+    AT                desplazar e ir al estado 171
     LEFT_PARENTHESIS  desplazar e ir al estado 46
 
     expresion           ir al estado 150
@@ -2527,7 +2527,7 @@ Estado 165
    12 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
    13 argumentos: argumentos . COMA argumento
 
-    RIGHT_PARENTHESIS  desplazar e ir al estado 171
+    RIGHT_PARENTHESIS  desplazar e ir al estado 172
     COMA               desplazar e ir al estado 18
 
 
@@ -2557,7 +2557,7 @@ Estado 166
     LEFT_PARENTHESIS  desplazar e ir al estado 46
 
     bloque                ir al estado 47
-    Sentencia             ir al estado 172
+    Sentencia             ir al estado 173
     sentencia_contador    ir al estado 52
     sentencia_asignacion  ir al estado 53
     sentencia_if          ir al estado 54
@@ -2593,7 +2593,7 @@ Estado 168
     CONST_BOOLEAN  desplazar e ir al estado 38
     CONST_CHAR     desplazar e ir al estado 39
 
-    constante           ir al estado 173
+    constante           ir al estado 174
     const_list_int      ir al estado 65
     const_list_double   ir al estado 66
     const_list_boolean  ir al estado 67
@@ -2601,6 +2601,13 @@ Estado 168
 
 
 Estado 169
+
+   37 sentencia_entrada: IN CADENA COMA list_id SEMICOLON .
+
+    $default  reduce usando la regla 37 (sentencia_entrada)
+
+
+Estado 170
 
    46 expresion: expresion . SYMBOL_OP expresion
    47          | expresion . BINARY_OP expresion
@@ -2628,7 +2635,7 @@ Estado 169
     $default  reduce usando la regla 74 (list_expresiones)
 
 
-Estado 170
+Estado 171
 
    58 expresion: expresion PLUSPLUS expresion AT AT . expresion
 
@@ -2642,7 +2649,7 @@ Estado 170
     NEG_COUNT_QUEST   desplazar e ir al estado 42
     LEFT_PARENTHESIS  desplazar e ir al estado 46
 
-    expresion           ir al estado 174
+    expresion           ir al estado 175
     funcion             ir al estado 62
     constante           ir al estado 63
     const_list_int      ir al estado 65
@@ -2651,32 +2658,32 @@ Estado 170
     const_list_char     ir al estado 68
 
 
-Estado 171
+Estado 172
 
    12 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
 
     $default  reduce usando la regla 12 (Cabecera_subprograma)
 
 
-Estado 172
+Estado 173
 
    34 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia .
    35             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia . ELSE Sentencia
 
-    ELSE  desplazar e ir al estado 175
+    ELSE  desplazar e ir al estado 176
 
     ELSE      [reduce usando la regla 34 (sentencia_if)]
     $default  reduce usando la regla 34 (sentencia_if)
 
 
-Estado 173
+Estado 174
 
    41 sentencia_for: FOR ID ASSIGN_FOR constante TO constante . DO bloque
 
-    DO  desplazar e ir al estado 176
+    DO  desplazar e ir al estado 177
 
 
-Estado 174
+Estado 175
 
    46 expresion: expresion . SYMBOL_OP expresion
    47          | expresion . BINARY_OP expresion
@@ -2695,7 +2702,7 @@ Estado 174
     $default  reduce usando la regla 58 (expresion)
 
 
-Estado 175
+Estado 176
 
    35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE . Sentencia
 
@@ -2720,7 +2727,7 @@ Estado 175
     LEFT_PARENTHESIS  desplazar e ir al estado 46
 
     bloque                ir al estado 47
-    Sentencia             ir al estado 177
+    Sentencia             ir al estado 178
     sentencia_contador    ir al estado 52
     sentencia_asignacion  ir al estado 53
     sentencia_if          ir al estado 54
@@ -2739,23 +2746,23 @@ Estado 175
     const_list_char       ir al estado 68
 
 
-Estado 176
+Estado 177
 
    41 sentencia_for: FOR ID ASSIGN_FOR constante TO constante DO . bloque
 
     LEFT_KEY  desplazar e ir al estado 6
 
-    bloque  ir al estado 178
+    bloque  ir al estado 179
 
 
-Estado 177
+Estado 178
 
    35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia .
 
     $default  reduce usando la regla 35 (sentencia_if)
 
 
-Estado 178
+Estado 179
 
    41 sentencia_for: FOR ID ASSIGN_FOR constante TO constante DO bloque .
 
