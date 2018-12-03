@@ -24,7 +24,7 @@ int yylex();
 /** Declaramos la lista de nombres simbólicos de los tokens de nuestra gramática, junto con su asociatividad y precedencia
 **/
 
-%token MAIN RIGHT_PARENTHESIS LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR ASSIGN_FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR CADENA ID
+%token MAIN RIGHT_PARENTHESIS LEFT_KEY RIGHT_KEY LEFT_BRACKET RIGHT_BRACKET SEMICOLON COMA ASSIGN IF THEN ELSE WHILE RETURN FOR ASSIGN_FOR TO DO OUT IN INITVAR ENDVAR LIST_OF BASIC_TYPES CADENA
 %left OR_OP
 %left AND_OP
 %left XOR_OP
@@ -37,7 +37,7 @@ int yylex();
 %right PLUSPLUS
 %right DOLLAR LIST_OP
 %right AT
-%left ID
+%left CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR ID
 %right LEFT_PARENTHESIS
 
 /** CONSULTAR PRECEDENCIA DOLLAR LIST_OP, AT Y PARENTESIS
@@ -74,25 +74,26 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY ;
+bloque	 : LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY
+	 | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY ;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma bloque ;
 Declar_de_variables_locales : INITVAR Variables_locales ENDVAR;
-														|;
-Cabecera_programa           : MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
-Variables_locales : Variables_locales Cuerpo_declar_variables
-                  | Cuerpo_declar_variables ;
-Cuerpo_declar_variables : tipo list_id SEMICOLON ;
-Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS ;
+			    |;
+Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
+Variables_locales	: Variables_locales Cuerpo_declar_variables
+			| Cuerpo_declar_variables ;
+Cuerpo_declar_variables : tipo list_id SEMICOLON;
+Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
-						| argumento
-						|;
-argumento : tipo ID ;
+	    | argumento
+	    |;
+argumento : tipo ID;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
 Sentencia   : bloque
-						| sentencia_contador
+	    | sentencia_contador
             | sentencia_asignacion
             | sentencia_if
             | sentencia_while
@@ -100,26 +101,23 @@ Sentencia   : bloque
             | sentencia_salida
             | sentencia_return
             | sentencia_for
-            | sentencia_list ;
-/**Intento de solucionar el problema del sumador++;     **/
+            | sentencia_list;
+
 sentencia_contador	: PLUSPLUS expresion SEMICOLON
-										|	MINUSMINUS expresion SEMICOLON
-										| expresion PLUSPLUS SEMICOLON
-										|	expresion MINUSMINUS SEMICOLON
-										;
-sentencia_asignacion  : ID ASSIGN expresion SEMICOLON ;
+			| MINUSMINUS expresion SEMICOLON
+			| expresion PLUSPLUS SEMICOLON
+			| expresion MINUSMINUS SEMICOLON;
+sentencia_asignacion  : ID ASSIGN expresion SEMICOLON;
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia ;
 sentencia_while : WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia ;
 sentencia_entrada : IN CADENA list_id SEMICOLON
-									| IN list_id SEMICOLON;
+		  | IN list_id SEMICOLON;
 sentencia_salida  : OUT list_expresiones_o_cadena SEMICOLON ;
 sentencia_return  : RETURN expresion SEMICOLON ;
 sentencia_for 	: FOR ID ASSIGN_FOR constante TO constante DO bloque;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
-
-/** Hemos quitado esto y ya va guay:   expresion : LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS**/
 
 expresion : NEG_COUNT_QUEST expresion
           | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
@@ -136,9 +134,11 @@ expresion : NEG_COUNT_QUEST expresion
           | constante
           | funcion
           | expresion PLUSPLUS expresion AT AT expresion
-					| LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS;
+	  | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+	  | error;
+
 funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
-					| ID LEFT_PARENTHESIS RIGHT_PARENTHESIS ;
+	  | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
 list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad
                           | exp_cad ;
 exp_cad                   : expresion
@@ -152,10 +152,11 @@ constante                 : CONST_INT
                           | const_list_boolean
                           | const_list_char ;
 list_expresiones          : list_expresiones COMA expresion
-                          | expresion ;
+                          | expresion;
 tipo                      : tipo_elemental
-                          | LIST_OF tipo_elemental ;
-tipo_elemental            : BASIC_TYPES;
+                          | LIST_OF tipo_elemental;
+tipo_elemental            : BASIC_TYPES
+			  | error;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
@@ -173,7 +174,7 @@ list_char  : list_char COMA CONST_CHAR
           | CONST_CHAR ;
 
 list_id   : list_id COMA ID
-          | ID ;
+          | ID;
 
 %%
 
