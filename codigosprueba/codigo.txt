@@ -1,4 +1,4 @@
-main{
+main(){
   initVar
   double j ;
   double w ;
@@ -6,31 +6,35 @@ main{
   char letra;
   boolean verdadero ;
   boolean indefinido;
+  boolean no_indefinido;
   int sumador;
+  int resultado;
   list_of int lista_ints ;
+  list_of int copia_rara;
+  list_of int lista_esquinas ;
+  list_of double lista_reales ;
+  int valor, posicion;
+
   endVar
+
   lista_ints = [1,2,3];
+  copia_rara = lista_ints ++ valor @ @ posicion;
   indefinido = true;
-  while (indefinido){
-    initVar
-    endVar
-    sumador = sumador+1;
+  lista_esquinas = dimeValores(Esquinas(Cuadro(long_aristas, centro), dosDimensiones));
+  while (indefinido <> no_indefinido){
+    ++sumador;
+    sumador++;
     if(sumador == 3) then{
-      initVar
-      endVar
       indefinido = false;
     }
     else{
-      initVar
-      endVar
       letra = "f";
     }
   }
   indefinido = !indefinido;
+  resultado=((3+4)*5/7);
 
   for i := 0 to 10 do{
-    initVar
-    endVar
     out letra;
     out "me llamo";
     out "ç";
