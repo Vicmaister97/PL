@@ -2,16 +2,19 @@ main(){
   initVar
   int ve ;
   itn error1;
-  int error21, error22 error23
+  int double error12;
+  int error21 error22, error23, error24
   int error25, error26 error27;
 
   double vf ;
   char vc ;
   boolean vl ;
+  int double error123;
   list_of int pe, pe2 ;
   list_of double pf, pf2 ;
   list_of char pc, pc2 ;
   list_of boolean pl ;
+  turbiooooo1;
   endVar
 
   int funcionA (int a1 double a2, boolean a3 error3){
@@ -19,21 +22,19 @@ main(){
     int x1, x2 ;
     endVar
 
-    error4 = (3*/4);
-
-    error5 = 34>5 * and (id or (64+5)</)
-
-    x2 += 22
-
     char funcionB (char b1, boolean b2){
       initVar
       double xf, x2 ;
+      int turbio1 turbio2;
       endVar
+
       double funcionC (boolean c1, int c2){
         initVar
         double x1 ;
         endVar
+
         x1 = 1.3 ;
+	      turbiooooooo2;
         if(c2>10) then {
           c2= c2-1 ;
         }
@@ -42,17 +43,29 @@ main(){
         }
         return x1 ;
       }
+
+      error4 = (3*/4);
+
+      error5 = 34>5 * and (id or (64+5)</);
+
+      x2 = 22;
+
       xf= functionC (true, 10);
       x2= xf*(funcionC(false,1)-funcionC(true,23))/10.0;
       while (x2*funcionC(false,1)-xf<10.0)
       x2= x2*xf ;
     }
+
     double funcionD (double d1){
       initVar
       char dato ;
       int valor ;
       endVar
+
       char funcionE (char e1, char e2){
+
+  	    error42 = (3*/4);
+
         in "introduzca dos caracteres: " e1, e2 ;
         if (e1=="a") then
           return e1 ;
@@ -61,31 +74,33 @@ main(){
         else
           return " ";
       }
-      in "introduzca un valor entero: " valor ;
-      if (d1>0.0) then{
-        initVar
-        int dato ;
-        endVar
-        dato= 2 ;
-        dato= valor*20/dato ;
-      }
-      else {
-        valor= valor * 100 ;
-        d1= d1/1000.0 ;
-      }
-      return d1 ;
+
+    in "introduzca un valor entero: " valor ;
+    if (d1>0.0) then{
+      initVar
+      int dato ;
+      endVar
+      dato= 2 ;
+      dato= valor*20/dato ;
     }
+    else {
+      valor= valor * 100 ;
+      d1= d1/1000.0 ;
+      }
+    return d1 ;
+    }
+
+  pe = pe ++ 10 @ @ #pe;
+  pf = pf ++ 10.0 @ @ #pf;
+  pc = pc ++ "#" @ @ #pc;
+  if (?pe == 20) then {
     pe = pe ++ 10 @ @ #pe;
-    pf = pf ++ 10.0 @ @ #pf;
-    pc = pc ++ "#" @ @ #pc;
-    if (?pe == 20) then {
-      pe = pe ++ 10 @ @ #pe;
-      ve = l@#pe;
-    }
-    else{
-      pe = pe ** pe2 ;
-      pe = pe2 - pe ++ (10 * (20/2000)) @ @ #pe ;
-    }
+    ve = l@#pe;
+  }
+  else{
+    pe = pe ** pe2 ;
+    pe = pe2 - pe ++ (10 * (20/2000)) @ @ #pe ;
+  }
   }
 
 }

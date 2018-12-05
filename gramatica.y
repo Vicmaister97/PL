@@ -174,7 +174,8 @@ list_char  : list_char COMA CONST_CHAR
           | CONST_CHAR ;
 
 list_id   : list_id COMA ID
-          | ID;
+          | ID
+	  | error;
 
 %%
 
