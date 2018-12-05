@@ -1,0 +1,2851 @@
+Estado 177 conflictos: 1 desplazamiento/reducción
+
+
+Gramática
+
+    0 $accept: Programa $end
+
+    1 Programa: Cabecera_programa bloque
+
+    2 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY
+    3       | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY
+
+    4 Declar_de_subprogs: Declar_de_subprogs Declar_subprog
+    5                   | %empty
+
+    6 Declar_subprog: Cabecera_subprograma bloque
+
+    7 Declar_de_variables_locales: INITVAR Variables_locales ENDVAR
+    8                            | %empty
+
+    9 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+   10 Variables_locales: Variables_locales Cuerpo_declar_variables
+   11                  | Cuerpo_declar_variables
+
+   12 Cuerpo_declar_variables: tipo list_id SEMICOLON
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+   14 argumentos: argumentos COMA argumento
+   15           | argumento
+   16           | %empty
+
+   17 argumento: tipo ID
+
+   18 Sentencias: Sentencias Sentencia
+   19           | Sentencia
+
+   20 Sentencia: bloque
+   21          | sentencia_contador
+   22          | sentencia_asignacion
+   23          | sentencia_if
+   24          | sentencia_while
+   25          | sentencia_entrada
+   26          | sentencia_salida
+   27          | sentencia_return
+   28          | sentencia_for
+   29          | sentencia_list
+
+   30 sentencia_contador: PLUSPLUS expresion SEMICOLON
+   31                   | MINUSMINUS expresion SEMICOLON
+   32                   | expresion PLUSPLUS SEMICOLON
+   33                   | expresion MINUSMINUS SEMICOLON
+
+   34 sentencia_asignacion: ID ASSIGN expresion SEMICOLON
+
+   35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
+   36             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+   37 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
+
+   38 sentencia_entrada: IN CADENA list_id SEMICOLON
+   39                  | IN list_id SEMICOLON
+
+   40 sentencia_salida: OUT list_expresiones_o_cadena SEMICOLON
+
+   41 sentencia_return: RETURN expresion SEMICOLON
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante TO constante DO bloque
+
+   43 sentencia_list: expresion LIST_OP
+   44               | DOLLAR expresion
+
+   45 expresion: NEG_COUNT_QUEST expresion
+   46          | SYMBOL_OP expresion
+   47          | expresion SYMBOL_OP expresion
+   48          | expresion BINARY_OP expresion
+   49          | expresion AND_OP expresion
+   50          | expresion OR_OP expresion
+   51          | expresion XOR_OP expresion
+   52          | expresion RELATION_OP expresion
+   53          | expresion EQUALS_OP expresion
+   54          | expresion AT expresion
+   55          | expresion MINUSMINUS expresion
+   56          | ID
+   57          | constante
+   58          | funcion
+   59          | expresion PLUSPLUS expresion AT AT expresion
+   60          | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS
+   61          | error
+
+   62 funcion: ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+   63        | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS
+
+   64 list_expresiones_o_cadena: list_expresiones_o_cadena COMA exp_cad
+   65                          | exp_cad
+
+   66 exp_cad: expresion
+   67        | CADENA
+
+   68 constante: CONST_INT
+   69          | CONST_DOUBLE
+   70          | CONST_CHAR
+   71          | CONST_BOOLEAN
+   72          | const_list_int
+   73          | const_list_double
+   74          | const_list_boolean
+   75          | const_list_char
+
+   76 list_expresiones: list_expresiones COMA expresion
+   77                 | expresion
+
+   78 tipo: tipo_elemental
+   79     | LIST_OF tipo_elemental
+
+   80 tipo_elemental: BASIC_TYPES
+   81               | error
+
+   82 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
+
+   83 list_int: list_int COMA CONST_INT
+   84         | CONST_INT
+
+   85 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
+
+   86 list_double: list_double COMA CONST_DOUBLE
+   87            | CONST_DOUBLE
+
+   88 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
+
+   89 list_boolean: list_boolean COMA CONST_BOOLEAN
+   90             | CONST_BOOLEAN
+
+   91 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
+
+   92 list_char: list_char COMA CONST_CHAR
+   93          | CONST_CHAR
+
+   94 list_id: list_id COMA ID
+   95        | ID
+   96        | error
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256) 61 81 96
+MAIN (258) 9
+RIGHT_PARENTHESIS (259) 9 13 35 36 37 60 62 63
+LEFT_KEY (260) 2 3
+RIGHT_KEY (261) 2 3
+LEFT_BRACKET (262) 82 85 88 91
+RIGHT_BRACKET (263) 82 85 88 91
+SEMICOLON (264) 12 30 31 32 33 34 38 39 40 41
+COMA (265) 14 64 76 83 86 89 92 94
+ASSIGN (266) 34
+IF (267) 35 36
+THEN (268) 35 36
+ELSE (269) 36
+WHILE (270) 37
+RETURN (271) 41
+FOR (272) 42
+ASSIGN_FOR (273) 42
+TO (274) 42
+DO (275) 42
+OUT (276) 40
+IN (277) 38 39
+INITVAR (278) 7
+ENDVAR (279) 7
+LIST_OF (280) 79
+BASIC_TYPES (281) 80
+CADENA (282) 38 67
+OR_OP (283) 50
+AND_OP (284) 49
+XOR_OP (285) 51
+EQUALS_OP (286) 53
+RELATION_OP (287) 52
+SYMBOL_OP (288) 46 47
+BINARY_OP (289) 48
+NEG_COUNT_QUEST (290) 45
+MINUSMINUS (291) 31 33 55
+PLUSPLUS (292) 30 32 59
+DOLLAR (293) 44
+LIST_OP (294) 43
+AT (295) 54 59
+CONST_INT (296) 68 83 84
+CONST_DOUBLE (297) 69 86 87
+CONST_BOOLEAN (298) 71 89 90
+CONST_CHAR (299) 70 92 93
+ID (300) 13 17 34 42 56 62 63 94 95
+LEFT_PARENTHESIS (301) 9 13 35 36 37 60 62 63
+
+
+No terminales con las reglas donde aparecen
+
+$accept (47)
+    en la izquierda: 0
+Programa (48)
+    en la izquierda: 1, en la derecha: 0
+bloque (49)
+    en la izquierda: 2 3, en la derecha: 1 6 20 42
+Declar_de_subprogs (50)
+    en la izquierda: 4 5, en la derecha: 2 3 4
+Declar_subprog (51)
+    en la izquierda: 6, en la derecha: 4
+Declar_de_variables_locales (52)
+    en la izquierda: 7 8, en la derecha: 2 3
+Cabecera_programa (53)
+    en la izquierda: 9, en la derecha: 1
+Variables_locales (54)
+    en la izquierda: 10 11, en la derecha: 7 10
+Cuerpo_declar_variables (55)
+    en la izquierda: 12, en la derecha: 10 11
+Cabecera_subprograma (56)
+    en la izquierda: 13, en la derecha: 6
+argumentos (57)
+    en la izquierda: 14 15 16, en la derecha: 9 13 14
+argumento (58)
+    en la izquierda: 17, en la derecha: 14 15
+Sentencias (59)
+    en la izquierda: 18 19, en la derecha: 2 18
+Sentencia (60)
+    en la izquierda: 20 21 22 23 24 25 26 27 28 29, en la derecha:
+    18 19 35 36 37
+sentencia_contador (61)
+    en la izquierda: 30 31 32 33, en la derecha: 21
+sentencia_asignacion (62)
+    en la izquierda: 34, en la derecha: 22
+sentencia_if (63)
+    en la izquierda: 35 36, en la derecha: 23
+sentencia_while (64)
+    en la izquierda: 37, en la derecha: 24
+sentencia_entrada (65)
+    en la izquierda: 38 39, en la derecha: 25
+sentencia_salida (66)
+    en la izquierda: 40, en la derecha: 26
+sentencia_return (67)
+    en la izquierda: 41, en la derecha: 27
+sentencia_for (68)
+    en la izquierda: 42, en la derecha: 28
+sentencia_list (69)
+    en la izquierda: 43 44, en la derecha: 29
+expresion (70)
+    en la izquierda: 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
+    61, en la derecha: 30 31 32 33 34 35 36 37 41 43 44 45 46 47 48
+    49 50 51 52 53 54 55 59 60 66 76 77
+funcion (71)
+    en la izquierda: 62 63, en la derecha: 58
+list_expresiones_o_cadena (72)
+    en la izquierda: 64 65, en la derecha: 40 64
+exp_cad (73)
+    en la izquierda: 66 67, en la derecha: 64 65
+constante (74)
+    en la izquierda: 68 69 70 71 72 73 74 75, en la derecha: 42 57
+list_expresiones (75)
+    en la izquierda: 76 77, en la derecha: 62 76
+tipo (76)
+    en la izquierda: 78 79, en la derecha: 12 13 17
+tipo_elemental (77)
+    en la izquierda: 80 81, en la derecha: 78 79
+const_list_int (78)
+    en la izquierda: 82, en la derecha: 72
+list_int (79)
+    en la izquierda: 83 84, en la derecha: 82 83
+const_list_double (80)
+    en la izquierda: 85, en la derecha: 73
+list_double (81)
+    en la izquierda: 86 87, en la derecha: 85 86
+const_list_boolean (82)
+    en la izquierda: 88, en la derecha: 74
+list_boolean (83)
+    en la izquierda: 89 90, en la derecha: 88 89
+const_list_char (84)
+    en la izquierda: 91, en la derecha: 75
+list_char (85)
+    en la izquierda: 92 93, en la derecha: 91 92
+list_id (86)
+    en la izquierda: 94 95 96, en la derecha: 12 38 39 94
+
+
+Estado 0
+
+    0 $accept: . Programa $end
+
+    MAIN  desplazar e ir al estado 1
+
+    Programa           ir al estado 2
+    Cabecera_programa  ir al estado 3
+
+
+Estado 1
+
+    9 Cabecera_programa: MAIN . LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  desplazar e ir al estado 4
+
+
+Estado 2
+
+    0 $accept: Programa . $end
+
+    $end  desplazar e ir al estado 5
+
+
+Estado 3
+
+    1 Programa: Cabecera_programa . bloque
+
+    LEFT_KEY  desplazar e ir al estado 6
+
+    bloque  ir al estado 7
+
+
+Estado 4
+
+    9 Cabecera_programa: MAIN LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
+
+    error        desplazar e ir al estado 8
+    LIST_OF      desplazar e ir al estado 9
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    RIGHT_PARENTHESIS  reduce usando la regla 16 (argumentos)
+    COMA               reduce usando la regla 16 (argumentos)
+
+    argumentos      ir al estado 11
+    argumento       ir al estado 12
+    tipo            ir al estado 13
+    tipo_elemental  ir al estado 14
+
+
+Estado 5
+
+    0 $accept: Programa $end .
+
+    $default  aceptar
+
+
+Estado 6
+
+    2 bloque: LEFT_KEY . Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY
+    3       | LEFT_KEY . Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY
+
+    INITVAR  desplazar e ir al estado 15
+
+    $default  reduce usando la regla 8 (Declar_de_variables_locales)
+
+    Declar_de_variables_locales  ir al estado 16
+
+
+Estado 7
+
+    1 Programa: Cabecera_programa bloque .
+
+    $default  reduce usando la regla 1 (Programa)
+
+
+Estado 8
+
+   81 tipo_elemental: error .
+
+    $default  reduce usando la regla 81 (tipo_elemental)
+
+
+Estado 9
+
+   79 tipo: LIST_OF . tipo_elemental
+
+    error        desplazar e ir al estado 8
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    tipo_elemental  ir al estado 17
+
+
+Estado 10
+
+   80 tipo_elemental: BASIC_TYPES .
+
+    $default  reduce usando la regla 80 (tipo_elemental)
+
+
+Estado 11
+
+    9 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
+   14 argumentos: argumentos . COMA argumento
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 18
+    COMA               desplazar e ir al estado 19
+
+
+Estado 12
+
+   15 argumentos: argumento .
+
+    $default  reduce usando la regla 15 (argumentos)
+
+
+Estado 13
+
+   17 argumento: tipo . ID
+
+    ID  desplazar e ir al estado 20
+
+
+Estado 14
+
+   78 tipo: tipo_elemental .
+
+    $default  reduce usando la regla 78 (tipo)
+
+
+Estado 15
+
+    7 Declar_de_variables_locales: INITVAR . Variables_locales ENDVAR
+
+    error        desplazar e ir al estado 8
+    LIST_OF      desplazar e ir al estado 9
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    Variables_locales        ir al estado 21
+    Cuerpo_declar_variables  ir al estado 22
+    tipo                     ir al estado 23
+    tipo_elemental           ir al estado 14
+
+
+Estado 16
+
+    2 bloque: LEFT_KEY Declar_de_variables_locales . Declar_de_subprogs Sentencias RIGHT_KEY
+    3       | LEFT_KEY Declar_de_variables_locales . Declar_de_subprogs RIGHT_KEY
+
+    $default  reduce usando la regla 5 (Declar_de_subprogs)
+
+    Declar_de_subprogs  ir al estado 24
+
+
+Estado 17
+
+   79 tipo: LIST_OF tipo_elemental .
+
+    $default  reduce usando la regla 79 (tipo)
+
+
+Estado 18
+
+    9 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
+
+    $default  reduce usando la regla 9 (Cabecera_programa)
+
+
+Estado 19
+
+   14 argumentos: argumentos COMA . argumento
+
+    error        desplazar e ir al estado 8
+    LIST_OF      desplazar e ir al estado 9
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    argumento       ir al estado 25
+    tipo            ir al estado 13
+    tipo_elemental  ir al estado 14
+
+
+Estado 20
+
+   17 argumento: tipo ID .
+
+    $default  reduce usando la regla 17 (argumento)
+
+
+Estado 21
+
+    7 Declar_de_variables_locales: INITVAR Variables_locales . ENDVAR
+   10 Variables_locales: Variables_locales . Cuerpo_declar_variables
+
+    error        desplazar e ir al estado 8
+    ENDVAR       desplazar e ir al estado 26
+    LIST_OF      desplazar e ir al estado 9
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    Cuerpo_declar_variables  ir al estado 27
+    tipo                     ir al estado 23
+    tipo_elemental           ir al estado 14
+
+
+Estado 22
+
+   11 Variables_locales: Cuerpo_declar_variables .
+
+    $default  reduce usando la regla 11 (Variables_locales)
+
+
+Estado 23
+
+   12 Cuerpo_declar_variables: tipo . list_id SEMICOLON
+
+    error  desplazar e ir al estado 28
+    ID     desplazar e ir al estado 29
+
+    list_id  ir al estado 30
+
+
+Estado 24
+
+    2 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs . Sentencias RIGHT_KEY
+    3       | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs . RIGHT_KEY
+    4 Declar_de_subprogs: Declar_de_subprogs . Declar_subprog
+
+    error             desplazar e ir al estado 31
+    LEFT_KEY          desplazar e ir al estado 6
+    RIGHT_KEY         desplazar e ir al estado 32
+    LEFT_BRACKET      desplazar e ir al estado 33
+    IF                desplazar e ir al estado 34
+    WHILE             desplazar e ir al estado 35
+    RETURN            desplazar e ir al estado 36
+    FOR               desplazar e ir al estado 37
+    OUT               desplazar e ir al estado 38
+    IN                desplazar e ir al estado 39
+    LIST_OF           desplazar e ir al estado 9
+    BASIC_TYPES       desplazar e ir al estado 10
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    MINUSMINUS        desplazar e ir al estado 42
+    PLUSPLUS          desplazar e ir al estado 43
+    DOLLAR            desplazar e ir al estado 44
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 49
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    bloque                ir al estado 51
+    Declar_subprog        ir al estado 52
+    Cabecera_subprograma  ir al estado 53
+    Sentencias            ir al estado 54
+    Sentencia             ir al estado 55
+    sentencia_contador    ir al estado 56
+    sentencia_asignacion  ir al estado 57
+    sentencia_if          ir al estado 58
+    sentencia_while       ir al estado 59
+    sentencia_entrada     ir al estado 60
+    sentencia_salida      ir al estado 61
+    sentencia_return      ir al estado 62
+    sentencia_for         ir al estado 63
+    sentencia_list        ir al estado 64
+    expresion             ir al estado 65
+    funcion               ir al estado 66
+    constante             ir al estado 67
+    tipo                  ir al estado 68
+    tipo_elemental        ir al estado 14
+    const_list_int        ir al estado 69
+    const_list_double     ir al estado 70
+    const_list_boolean    ir al estado 71
+    const_list_char       ir al estado 72
+
+
+Estado 25
+
+   14 argumentos: argumentos COMA argumento .
+
+    $default  reduce usando la regla 14 (argumentos)
+
+
+Estado 26
+
+    7 Declar_de_variables_locales: INITVAR Variables_locales ENDVAR .
+
+    $default  reduce usando la regla 7 (Declar_de_variables_locales)
+
+
+Estado 27
+
+   10 Variables_locales: Variables_locales Cuerpo_declar_variables .
+
+    $default  reduce usando la regla 10 (Variables_locales)
+
+
+Estado 28
+
+   96 list_id: error .
+
+    $default  reduce usando la regla 96 (list_id)
+
+
+Estado 29
+
+   95 list_id: ID .
+
+    $default  reduce usando la regla 95 (list_id)
+
+
+Estado 30
+
+   12 Cuerpo_declar_variables: tipo list_id . SEMICOLON
+   94 list_id: list_id . COMA ID
+
+    SEMICOLON  desplazar e ir al estado 73
+    COMA       desplazar e ir al estado 74
+
+
+Estado 31
+
+   61 expresion: error .
+   81 tipo_elemental: error .
+
+    ID        reduce usando la regla 81 (tipo_elemental)
+    $default  reduce usando la regla 61 (expresion)
+
+
+Estado 32
+
+    3 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY .
+
+    $default  reduce usando la regla 3 (bloque)
+
+
+Estado 33
+
+   82 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
+   85 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
+   88 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
+   91 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
+
+    CONST_INT      desplazar e ir al estado 75
+    CONST_DOUBLE   desplazar e ir al estado 76
+    CONST_BOOLEAN  desplazar e ir al estado 77
+    CONST_CHAR     desplazar e ir al estado 78
+
+    list_int      ir al estado 79
+    list_double   ir al estado 80
+    list_boolean  ir al estado 81
+    list_char     ir al estado 82
+
+
+Estado 34
+
+   35 sentencia_if: IF . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
+   36             | IF . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+    LEFT_PARENTHESIS  desplazar e ir al estado 83
+
+
+Estado 35
+
+   37 sentencia_while: WHILE . LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
+
+    LEFT_PARENTHESIS  desplazar e ir al estado 84
+
+
+Estado 36
+
+   41 sentencia_return: RETURN . expresion SEMICOLON
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 87
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 37
+
+   42 sentencia_for: FOR . ID ASSIGN_FOR constante TO constante DO bloque
+
+    ID  desplazar e ir al estado 88
+
+
+Estado 38
+
+   40 sentencia_salida: OUT . list_expresiones_o_cadena SEMICOLON
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    CADENA            desplazar e ir al estado 89
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion                  ir al estado 90
+    funcion                    ir al estado 66
+    list_expresiones_o_cadena  ir al estado 91
+    exp_cad                    ir al estado 92
+    constante                  ir al estado 67
+    const_list_int             ir al estado 69
+    const_list_double          ir al estado 70
+    const_list_boolean         ir al estado 71
+    const_list_char            ir al estado 72
+
+
+Estado 39
+
+   38 sentencia_entrada: IN . CADENA list_id SEMICOLON
+   39                  | IN . list_id SEMICOLON
+
+    error   desplazar e ir al estado 28
+    CADENA  desplazar e ir al estado 93
+    ID      desplazar e ir al estado 29
+
+    list_id  ir al estado 94
+
+
+Estado 40
+
+   46 expresion: SYMBOL_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 95
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 41
+
+   45 expresion: NEG_COUNT_QUEST . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 96
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 42
+
+   31 sentencia_contador: MINUSMINUS . expresion SEMICOLON
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 97
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 43
+
+   30 sentencia_contador: PLUSPLUS . expresion SEMICOLON
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 98
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 44
+
+   44 sentencia_list: DOLLAR . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 99
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 45
+
+   68 constante: CONST_INT .
+
+    $default  reduce usando la regla 68 (constante)
+
+
+Estado 46
+
+   69 constante: CONST_DOUBLE .
+
+    $default  reduce usando la regla 69 (constante)
+
+
+Estado 47
+
+   71 constante: CONST_BOOLEAN .
+
+    $default  reduce usando la regla 71 (constante)
+
+
+Estado 48
+
+   70 constante: CONST_CHAR .
+
+    $default  reduce usando la regla 70 (constante)
+
+
+Estado 49
+
+   34 sentencia_asignacion: ID . ASSIGN expresion SEMICOLON
+   56 expresion: ID .
+   62 funcion: ID . LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+   63        | ID . LEFT_PARENTHESIS RIGHT_PARENTHESIS
+
+    ASSIGN            desplazar e ir al estado 100
+    LEFT_PARENTHESIS  desplazar e ir al estado 101
+
+    $default  reduce usando la regla 56 (expresion)
+
+
+Estado 50
+
+   60 expresion: LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 102
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 51
+
+   20 Sentencia: bloque .
+
+    $default  reduce usando la regla 20 (Sentencia)
+
+
+Estado 52
+
+    4 Declar_de_subprogs: Declar_de_subprogs Declar_subprog .
+
+    $default  reduce usando la regla 4 (Declar_de_subprogs)
+
+
+Estado 53
+
+    6 Declar_subprog: Cabecera_subprograma . bloque
+
+    LEFT_KEY  desplazar e ir al estado 6
+
+    bloque  ir al estado 103
+
+
+Estado 54
+
+    2 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias . RIGHT_KEY
+   18 Sentencias: Sentencias . Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_KEY          desplazar e ir al estado 6
+    RIGHT_KEY         desplazar e ir al estado 104
+    LEFT_BRACKET      desplazar e ir al estado 33
+    IF                desplazar e ir al estado 34
+    WHILE             desplazar e ir al estado 35
+    RETURN            desplazar e ir al estado 36
+    FOR               desplazar e ir al estado 37
+    OUT               desplazar e ir al estado 38
+    IN                desplazar e ir al estado 39
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    MINUSMINUS        desplazar e ir al estado 42
+    PLUSPLUS          desplazar e ir al estado 43
+    DOLLAR            desplazar e ir al estado 44
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 49
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    bloque                ir al estado 51
+    Sentencia             ir al estado 105
+    sentencia_contador    ir al estado 56
+    sentencia_asignacion  ir al estado 57
+    sentencia_if          ir al estado 58
+    sentencia_while       ir al estado 59
+    sentencia_entrada     ir al estado 60
+    sentencia_salida      ir al estado 61
+    sentencia_return      ir al estado 62
+    sentencia_for         ir al estado 63
+    sentencia_list        ir al estado 64
+    expresion             ir al estado 65
+    funcion               ir al estado 66
+    constante             ir al estado 67
+    const_list_int        ir al estado 69
+    const_list_double     ir al estado 70
+    const_list_boolean    ir al estado 71
+    const_list_char       ir al estado 72
+
+
+Estado 55
+
+   19 Sentencias: Sentencia .
+
+    $default  reduce usando la regla 19 (Sentencias)
+
+
+Estado 56
+
+   21 Sentencia: sentencia_contador .
+
+    $default  reduce usando la regla 21 (Sentencia)
+
+
+Estado 57
+
+   22 Sentencia: sentencia_asignacion .
+
+    $default  reduce usando la regla 22 (Sentencia)
+
+
+Estado 58
+
+   23 Sentencia: sentencia_if .
+
+    $default  reduce usando la regla 23 (Sentencia)
+
+
+Estado 59
+
+   24 Sentencia: sentencia_while .
+
+    $default  reduce usando la regla 24 (Sentencia)
+
+
+Estado 60
+
+   25 Sentencia: sentencia_entrada .
+
+    $default  reduce usando la regla 25 (Sentencia)
+
+
+Estado 61
+
+   26 Sentencia: sentencia_salida .
+
+    $default  reduce usando la regla 26 (Sentencia)
+
+
+Estado 62
+
+   27 Sentencia: sentencia_return .
+
+    $default  reduce usando la regla 27 (Sentencia)
+
+
+Estado 63
+
+   28 Sentencia: sentencia_for .
+
+    $default  reduce usando la regla 28 (Sentencia)
+
+
+Estado 64
+
+   29 Sentencia: sentencia_list .
+
+    $default  reduce usando la regla 29 (Sentencia)
+
+
+Estado 65
+
+   32 sentencia_contador: expresion . PLUSPLUS SEMICOLON
+   33                   | expresion . MINUSMINUS SEMICOLON
+   43 sentencia_list: expresion . LIST_OP
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 113
+    PLUSPLUS     desplazar e ir al estado 114
+    LIST_OP      desplazar e ir al estado 115
+    AT           desplazar e ir al estado 116
+
+
+Estado 66
+
+   58 expresion: funcion .
+
+    $default  reduce usando la regla 58 (expresion)
+
+
+Estado 67
+
+   57 expresion: constante .
+
+    $default  reduce usando la regla 57 (expresion)
+
+
+Estado 68
+
+   13 Cabecera_subprograma: tipo . ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+    ID  desplazar e ir al estado 117
+
+
+Estado 69
+
+   72 constante: const_list_int .
+
+    $default  reduce usando la regla 72 (constante)
+
+
+Estado 70
+
+   73 constante: const_list_double .
+
+    $default  reduce usando la regla 73 (constante)
+
+
+Estado 71
+
+   74 constante: const_list_boolean .
+
+    $default  reduce usando la regla 74 (constante)
+
+
+Estado 72
+
+   75 constante: const_list_char .
+
+    $default  reduce usando la regla 75 (constante)
+
+
+Estado 73
+
+   12 Cuerpo_declar_variables: tipo list_id SEMICOLON .
+
+    $default  reduce usando la regla 12 (Cuerpo_declar_variables)
+
+
+Estado 74
+
+   94 list_id: list_id COMA . ID
+
+    ID  desplazar e ir al estado 118
+
+
+Estado 75
+
+   84 list_int: CONST_INT .
+
+    $default  reduce usando la regla 84 (list_int)
+
+
+Estado 76
+
+   87 list_double: CONST_DOUBLE .
+
+    $default  reduce usando la regla 87 (list_double)
+
+
+Estado 77
+
+   90 list_boolean: CONST_BOOLEAN .
+
+    $default  reduce usando la regla 90 (list_boolean)
+
+
+Estado 78
+
+   93 list_char: CONST_CHAR .
+
+    $default  reduce usando la regla 93 (list_char)
+
+
+Estado 79
+
+   82 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
+   83 list_int: list_int . COMA CONST_INT
+
+    RIGHT_BRACKET  desplazar e ir al estado 119
+    COMA           desplazar e ir al estado 120
+
+
+Estado 80
+
+   85 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
+   86 list_double: list_double . COMA CONST_DOUBLE
+
+    RIGHT_BRACKET  desplazar e ir al estado 121
+    COMA           desplazar e ir al estado 122
+
+
+Estado 81
+
+   88 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
+   89 list_boolean: list_boolean . COMA CONST_BOOLEAN
+
+    RIGHT_BRACKET  desplazar e ir al estado 123
+    COMA           desplazar e ir al estado 124
+
+
+Estado 82
+
+   91 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
+   92 list_char: list_char . COMA CONST_CHAR
+
+    RIGHT_BRACKET  desplazar e ir al estado 125
+    COMA           desplazar e ir al estado 126
+
+
+Estado 83
+
+   35 sentencia_if: IF LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS THEN Sentencia
+   36             | IF LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 127
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 84
+
+   37 sentencia_while: WHILE LEFT_PARENTHESIS . expresion RIGHT_PARENTHESIS Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 128
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 85
+
+   61 expresion: error .
+
+    $default  reduce usando la regla 61 (expresion)
+
+
+Estado 86
+
+   56 expresion: ID .
+   62 funcion: ID . LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
+   63        | ID . LEFT_PARENTHESIS RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  desplazar e ir al estado 101
+
+    $default  reduce usando la regla 56 (expresion)
+
+
+Estado 87
+
+   41 sentencia_return: RETURN expresion . SEMICOLON
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    SEMICOLON    desplazar e ir al estado 129
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+
+Estado 88
+
+   42 sentencia_for: FOR ID . ASSIGN_FOR constante TO constante DO bloque
+
+    ASSIGN_FOR  desplazar e ir al estado 132
+
+
+Estado 89
+
+   67 exp_cad: CADENA .
+
+    $default  reduce usando la regla 67 (exp_cad)
+
+
+Estado 90
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   66 exp_cad: expresion .
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 66 (exp_cad)
+
+
+Estado 91
+
+   40 sentencia_salida: OUT list_expresiones_o_cadena . SEMICOLON
+   64 list_expresiones_o_cadena: list_expresiones_o_cadena . COMA exp_cad
+
+    SEMICOLON  desplazar e ir al estado 133
+    COMA       desplazar e ir al estado 134
+
+
+Estado 92
+
+   65 list_expresiones_o_cadena: exp_cad .
+
+    $default  reduce usando la regla 65 (list_expresiones_o_cadena)
+
+
+Estado 93
+
+   38 sentencia_entrada: IN CADENA . list_id SEMICOLON
+
+    error  desplazar e ir al estado 28
+    ID     desplazar e ir al estado 29
+
+    list_id  ir al estado 135
+
+
+Estado 94
+
+   39 sentencia_entrada: IN list_id . SEMICOLON
+   94 list_id: list_id . COMA ID
+
+    SEMICOLON  desplazar e ir al estado 136
+    COMA       desplazar e ir al estado 74
+
+
+Estado 95
+
+   46 expresion: SYMBOL_OP expresion .
+   47          | expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 46 (expresion)
+
+
+Estado 96
+
+   45 expresion: NEG_COUNT_QUEST expresion .
+   47          | expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 45 (expresion)
+
+
+Estado 97
+
+   31 sentencia_contador: MINUSMINUS expresion . SEMICOLON
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    SEMICOLON    desplazar e ir al estado 137
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+
+Estado 98
+
+   30 sentencia_contador: PLUSPLUS expresion . SEMICOLON
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    SEMICOLON    desplazar e ir al estado 138
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+
+Estado 99
+
+   44 sentencia_list: DOLLAR expresion .
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    BINARY_OP    desplazar e ir al estado 112
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 44 (sentencia_list)
+
+
+Estado 100
+
+   34 sentencia_asignacion: ID ASSIGN . expresion SEMICOLON
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 139
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 101
+
+   62 funcion: ID LEFT_PARENTHESIS . list_expresiones RIGHT_PARENTHESIS
+   63        | ID LEFT_PARENTHESIS . RIGHT_PARENTHESIS
+
+    error              desplazar e ir al estado 85
+    RIGHT_PARENTHESIS  desplazar e ir al estado 140
+    LEFT_BRACKET       desplazar e ir al estado 33
+    SYMBOL_OP          desplazar e ir al estado 40
+    NEG_COUNT_QUEST    desplazar e ir al estado 41
+    CONST_INT          desplazar e ir al estado 45
+    CONST_DOUBLE       desplazar e ir al estado 46
+    CONST_BOOLEAN      desplazar e ir al estado 47
+    CONST_CHAR         desplazar e ir al estado 48
+    ID                 desplazar e ir al estado 86
+    LEFT_PARENTHESIS   desplazar e ir al estado 50
+
+    expresion           ir al estado 141
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    list_expresiones    ir al estado 142
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 102
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   60          | LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 143
+    OR_OP              desplazar e ir al estado 106
+    AND_OP             desplazar e ir al estado 107
+    XOR_OP             desplazar e ir al estado 108
+    EQUALS_OP          desplazar e ir al estado 109
+    RELATION_OP        desplazar e ir al estado 110
+    SYMBOL_OP          desplazar e ir al estado 111
+    BINARY_OP          desplazar e ir al estado 112
+    MINUSMINUS         desplazar e ir al estado 130
+    PLUSPLUS           desplazar e ir al estado 131
+    AT                 desplazar e ir al estado 116
+
+
+Estado 103
+
+    6 Declar_subprog: Cabecera_subprograma bloque .
+
+    $default  reduce usando la regla 6 (Declar_subprog)
+
+
+Estado 104
+
+    2 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY .
+
+    $default  reduce usando la regla 2 (bloque)
+
+
+Estado 105
+
+   18 Sentencias: Sentencias Sentencia .
+
+    $default  reduce usando la regla 18 (Sentencias)
+
+
+Estado 106
+
+   50 expresion: expresion OR_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 144
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 107
+
+   49 expresion: expresion AND_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 145
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 108
+
+   51 expresion: expresion XOR_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 146
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 109
+
+   53 expresion: expresion EQUALS_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 147
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 110
+
+   52 expresion: expresion RELATION_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 148
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 111
+
+   47 expresion: expresion SYMBOL_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 149
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 112
+
+   48 expresion: expresion BINARY_OP . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 150
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 113
+
+   33 sentencia_contador: expresion MINUSMINUS . SEMICOLON
+   55 expresion: expresion MINUSMINUS . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SEMICOLON         desplazar e ir al estado 151
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 152
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 114
+
+   32 sentencia_contador: expresion PLUSPLUS . SEMICOLON
+   59 expresion: expresion PLUSPLUS . expresion AT AT expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SEMICOLON         desplazar e ir al estado 153
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 154
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 115
+
+   43 sentencia_list: expresion LIST_OP .
+
+    $default  reduce usando la regla 43 (sentencia_list)
+
+
+Estado 116
+
+   54 expresion: expresion AT . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 155
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 117
+
+   13 Cabecera_subprograma: tipo ID . LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  desplazar e ir al estado 156
+
+
+Estado 118
+
+   94 list_id: list_id COMA ID .
+
+    $default  reduce usando la regla 94 (list_id)
+
+
+Estado 119
+
+   82 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
+
+    $default  reduce usando la regla 82 (const_list_int)
+
+
+Estado 120
+
+   83 list_int: list_int COMA . CONST_INT
+
+    CONST_INT  desplazar e ir al estado 157
+
+
+Estado 121
+
+   85 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
+
+    $default  reduce usando la regla 85 (const_list_double)
+
+
+Estado 122
+
+   86 list_double: list_double COMA . CONST_DOUBLE
+
+    CONST_DOUBLE  desplazar e ir al estado 158
+
+
+Estado 123
+
+   88 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
+
+    $default  reduce usando la regla 88 (const_list_boolean)
+
+
+Estado 124
+
+   89 list_boolean: list_boolean COMA . CONST_BOOLEAN
+
+    CONST_BOOLEAN  desplazar e ir al estado 159
+
+
+Estado 125
+
+   91 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
+
+    $default  reduce usando la regla 91 (const_list_char)
+
+
+Estado 126
+
+   92 list_char: list_char COMA . CONST_CHAR
+
+    CONST_CHAR  desplazar e ir al estado 160
+
+
+Estado 127
+
+   35 sentencia_if: IF LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS THEN Sentencia
+   36             | IF LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 161
+    OR_OP              desplazar e ir al estado 106
+    AND_OP             desplazar e ir al estado 107
+    XOR_OP             desplazar e ir al estado 108
+    EQUALS_OP          desplazar e ir al estado 109
+    RELATION_OP        desplazar e ir al estado 110
+    SYMBOL_OP          desplazar e ir al estado 111
+    BINARY_OP          desplazar e ir al estado 112
+    MINUSMINUS         desplazar e ir al estado 130
+    PLUSPLUS           desplazar e ir al estado 131
+    AT                 desplazar e ir al estado 116
+
+
+Estado 128
+
+   37 sentencia_while: WHILE LEFT_PARENTHESIS expresion . RIGHT_PARENTHESIS Sentencia
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 162
+    OR_OP              desplazar e ir al estado 106
+    AND_OP             desplazar e ir al estado 107
+    XOR_OP             desplazar e ir al estado 108
+    EQUALS_OP          desplazar e ir al estado 109
+    RELATION_OP        desplazar e ir al estado 110
+    SYMBOL_OP          desplazar e ir al estado 111
+    BINARY_OP          desplazar e ir al estado 112
+    MINUSMINUS         desplazar e ir al estado 130
+    PLUSPLUS           desplazar e ir al estado 131
+    AT                 desplazar e ir al estado 116
+
+
+Estado 129
+
+   41 sentencia_return: RETURN expresion SEMICOLON .
+
+    $default  reduce usando la regla 41 (sentencia_return)
+
+
+Estado 130
+
+   55 expresion: expresion MINUSMINUS . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 152
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 131
+
+   59 expresion: expresion PLUSPLUS . expresion AT AT expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 154
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 132
+
+   42 sentencia_for: FOR ID ASSIGN_FOR . constante TO constante DO bloque
+
+    LEFT_BRACKET   desplazar e ir al estado 33
+    CONST_INT      desplazar e ir al estado 45
+    CONST_DOUBLE   desplazar e ir al estado 46
+    CONST_BOOLEAN  desplazar e ir al estado 47
+    CONST_CHAR     desplazar e ir al estado 48
+
+    constante           ir al estado 163
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 133
+
+   40 sentencia_salida: OUT list_expresiones_o_cadena SEMICOLON .
+
+    $default  reduce usando la regla 40 (sentencia_salida)
+
+
+Estado 134
+
+   64 list_expresiones_o_cadena: list_expresiones_o_cadena COMA . exp_cad
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    CADENA            desplazar e ir al estado 89
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 90
+    funcion             ir al estado 66
+    exp_cad             ir al estado 164
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 135
+
+   38 sentencia_entrada: IN CADENA list_id . SEMICOLON
+   94 list_id: list_id . COMA ID
+
+    SEMICOLON  desplazar e ir al estado 165
+    COMA       desplazar e ir al estado 74
+
+
+Estado 136
+
+   39 sentencia_entrada: IN list_id SEMICOLON .
+
+    $default  reduce usando la regla 39 (sentencia_entrada)
+
+
+Estado 137
+
+   31 sentencia_contador: MINUSMINUS expresion SEMICOLON .
+
+    $default  reduce usando la regla 31 (sentencia_contador)
+
+
+Estado 138
+
+   30 sentencia_contador: PLUSPLUS expresion SEMICOLON .
+
+    $default  reduce usando la regla 30 (sentencia_contador)
+
+
+Estado 139
+
+   34 sentencia_asignacion: ID ASSIGN expresion . SEMICOLON
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    SEMICOLON    desplazar e ir al estado 166
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+
+Estado 140
+
+   63 funcion: ID LEFT_PARENTHESIS RIGHT_PARENTHESIS .
+
+    $default  reduce usando la regla 63 (funcion)
+
+
+Estado 141
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   77 list_expresiones: expresion .
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 77 (list_expresiones)
+
+
+Estado 142
+
+   62 funcion: ID LEFT_PARENTHESIS list_expresiones . RIGHT_PARENTHESIS
+   76 list_expresiones: list_expresiones . COMA expresion
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 167
+    COMA               desplazar e ir al estado 168
+
+
+Estado 143
+
+   60 expresion: LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS .
+
+    $default  reduce usando la regla 60 (expresion)
+
+
+Estado 144
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   50          | expresion OR_OP expresion .
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 50 (expresion)
+
+
+Estado 145
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   49          | expresion AND_OP expresion .
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 49 (expresion)
+
+
+Estado 146
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   51          | expresion XOR_OP expresion .
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 51 (expresion)
+
+
+Estado 147
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   53          | expresion EQUALS_OP expresion .
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 53 (expresion)
+
+
+Estado 148
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   52          | expresion RELATION_OP expresion .
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    SYMBOL_OP   desplazar e ir al estado 111
+    BINARY_OP   desplazar e ir al estado 112
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 52 (expresion)
+
+
+Estado 149
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   47          | expresion SYMBOL_OP expresion .
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    BINARY_OP   desplazar e ir al estado 112
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 47 (expresion)
+
+
+Estado 150
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   48          | expresion BINARY_OP expresion .
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 48 (expresion)
+
+
+Estado 151
+
+   33 sentencia_contador: expresion MINUSMINUS SEMICOLON .
+
+    $default  reduce usando la regla 33 (sentencia_contador)
+
+
+Estado 152
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   55          | expresion MINUSMINUS expresion .
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    MINUSMINUS  desplazar e ir al estado 130
+    PLUSPLUS    desplazar e ir al estado 131
+    AT          desplazar e ir al estado 116
+
+    $default  reduce usando la regla 55 (expresion)
+
+
+Estado 153
+
+   32 sentencia_contador: expresion PLUSPLUS SEMICOLON .
+
+    $default  reduce usando la regla 32 (sentencia_contador)
+
+
+Estado 154
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   59          | expresion PLUSPLUS expresion . AT AT expresion
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 169
+
+
+Estado 155
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   54          | expresion AT expresion .
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+
+    AT  desplazar e ir al estado 116
+
+    $default  reduce usando la regla 54 (expresion)
+
+
+Estado 156
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
+
+    error        desplazar e ir al estado 8
+    LIST_OF      desplazar e ir al estado 9
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    RIGHT_PARENTHESIS  reduce usando la regla 16 (argumentos)
+    COMA               reduce usando la regla 16 (argumentos)
+
+    argumentos      ir al estado 170
+    argumento       ir al estado 12
+    tipo            ir al estado 13
+    tipo_elemental  ir al estado 14
+
+
+Estado 157
+
+   83 list_int: list_int COMA CONST_INT .
+
+    $default  reduce usando la regla 83 (list_int)
+
+
+Estado 158
+
+   86 list_double: list_double COMA CONST_DOUBLE .
+
+    $default  reduce usando la regla 86 (list_double)
+
+
+Estado 159
+
+   89 list_boolean: list_boolean COMA CONST_BOOLEAN .
+
+    $default  reduce usando la regla 89 (list_boolean)
+
+
+Estado 160
+
+   92 list_char: list_char COMA CONST_CHAR .
+
+    $default  reduce usando la regla 92 (list_char)
+
+
+Estado 161
+
+   35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . THEN Sentencia
+   36             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . THEN Sentencia ELSE Sentencia
+
+    THEN  desplazar e ir al estado 171
+
+
+Estado 162
+
+   37 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS . Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_KEY          desplazar e ir al estado 6
+    LEFT_BRACKET      desplazar e ir al estado 33
+    IF                desplazar e ir al estado 34
+    WHILE             desplazar e ir al estado 35
+    RETURN            desplazar e ir al estado 36
+    FOR               desplazar e ir al estado 37
+    OUT               desplazar e ir al estado 38
+    IN                desplazar e ir al estado 39
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    MINUSMINUS        desplazar e ir al estado 42
+    PLUSPLUS          desplazar e ir al estado 43
+    DOLLAR            desplazar e ir al estado 44
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 49
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    bloque                ir al estado 51
+    Sentencia             ir al estado 172
+    sentencia_contador    ir al estado 56
+    sentencia_asignacion  ir al estado 57
+    sentencia_if          ir al estado 58
+    sentencia_while       ir al estado 59
+    sentencia_entrada     ir al estado 60
+    sentencia_salida      ir al estado 61
+    sentencia_return      ir al estado 62
+    sentencia_for         ir al estado 63
+    sentencia_list        ir al estado 64
+    expresion             ir al estado 65
+    funcion               ir al estado 66
+    constante             ir al estado 67
+    const_list_int        ir al estado 69
+    const_list_double     ir al estado 70
+    const_list_boolean    ir al estado 71
+    const_list_char       ir al estado 72
+
+
+Estado 163
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante . TO constante DO bloque
+
+    TO  desplazar e ir al estado 173
+
+
+Estado 164
+
+   64 list_expresiones_o_cadena: list_expresiones_o_cadena COMA exp_cad .
+
+    $default  reduce usando la regla 64 (list_expresiones_o_cadena)
+
+
+Estado 165
+
+   38 sentencia_entrada: IN CADENA list_id SEMICOLON .
+
+    $default  reduce usando la regla 38 (sentencia_entrada)
+
+
+Estado 166
+
+   34 sentencia_asignacion: ID ASSIGN expresion SEMICOLON .
+
+    $default  reduce usando la regla 34 (sentencia_asignacion)
+
+
+Estado 167
+
+   62 funcion: ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS .
+
+    $default  reduce usando la regla 62 (funcion)
+
+
+Estado 168
+
+   76 list_expresiones: list_expresiones COMA . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 174
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 169
+
+   54 expresion: expresion AT . expresion
+   59          | expresion PLUSPLUS expresion AT . AT expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    AT                desplazar e ir al estado 175
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 155
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 170
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
+   14 argumentos: argumentos . COMA argumento
+
+    RIGHT_PARENTHESIS  desplazar e ir al estado 176
+    COMA               desplazar e ir al estado 19
+
+
+Estado 171
+
+   35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN . Sentencia
+   36             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN . Sentencia ELSE Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_KEY          desplazar e ir al estado 6
+    LEFT_BRACKET      desplazar e ir al estado 33
+    IF                desplazar e ir al estado 34
+    WHILE             desplazar e ir al estado 35
+    RETURN            desplazar e ir al estado 36
+    FOR               desplazar e ir al estado 37
+    OUT               desplazar e ir al estado 38
+    IN                desplazar e ir al estado 39
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    MINUSMINUS        desplazar e ir al estado 42
+    PLUSPLUS          desplazar e ir al estado 43
+    DOLLAR            desplazar e ir al estado 44
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 49
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    bloque                ir al estado 51
+    Sentencia             ir al estado 177
+    sentencia_contador    ir al estado 56
+    sentencia_asignacion  ir al estado 57
+    sentencia_if          ir al estado 58
+    sentencia_while       ir al estado 59
+    sentencia_entrada     ir al estado 60
+    sentencia_salida      ir al estado 61
+    sentencia_return      ir al estado 62
+    sentencia_for         ir al estado 63
+    sentencia_list        ir al estado 64
+    expresion             ir al estado 65
+    funcion               ir al estado 66
+    constante             ir al estado 67
+    const_list_int        ir al estado 69
+    const_list_double     ir al estado 70
+    const_list_boolean    ir al estado 71
+    const_list_char       ir al estado 72
+
+
+Estado 172
+
+   37 sentencia_while: WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia .
+
+    $default  reduce usando la regla 37 (sentencia_while)
+
+
+Estado 173
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante TO . constante DO bloque
+
+    LEFT_BRACKET   desplazar e ir al estado 33
+    CONST_INT      desplazar e ir al estado 45
+    CONST_DOUBLE   desplazar e ir al estado 46
+    CONST_BOOLEAN  desplazar e ir al estado 47
+    CONST_CHAR     desplazar e ir al estado 48
+
+    constante           ir al estado 178
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 174
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   76 list_expresiones: list_expresiones COMA expresion .
+
+    OR_OP        desplazar e ir al estado 106
+    AND_OP       desplazar e ir al estado 107
+    XOR_OP       desplazar e ir al estado 108
+    EQUALS_OP    desplazar e ir al estado 109
+    RELATION_OP  desplazar e ir al estado 110
+    SYMBOL_OP    desplazar e ir al estado 111
+    BINARY_OP    desplazar e ir al estado 112
+    MINUSMINUS   desplazar e ir al estado 130
+    PLUSPLUS     desplazar e ir al estado 131
+    AT           desplazar e ir al estado 116
+
+    $default  reduce usando la regla 76 (list_expresiones)
+
+
+Estado 175
+
+   59 expresion: expresion PLUSPLUS expresion AT AT . expresion
+
+    error             desplazar e ir al estado 85
+    LEFT_BRACKET      desplazar e ir al estado 33
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 86
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    expresion           ir al estado 179
+    funcion             ir al estado 66
+    constante           ir al estado 67
+    const_list_int      ir al estado 69
+    const_list_double   ir al estado 70
+    const_list_boolean  ir al estado 71
+    const_list_char     ir al estado 72
+
+
+Estado 176
+
+   13 Cabecera_subprograma: tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
+
+    $default  reduce usando la regla 13 (Cabecera_subprograma)
+
+
+Estado 177
+
+   35 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia .
+   36             | IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia . ELSE Sentencia
+
+    ELSE  desplazar e ir al estado 180
+
+    ELSE      [reduce usando la regla 35 (sentencia_if)]
+    $default  reduce usando la regla 35 (sentencia_if)
+
+
+Estado 178
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante TO constante . DO bloque
+
+    DO  desplazar e ir al estado 181
+
+
+Estado 179
+
+   47 expresion: expresion . SYMBOL_OP expresion
+   48          | expresion . BINARY_OP expresion
+   49          | expresion . AND_OP expresion
+   50          | expresion . OR_OP expresion
+   51          | expresion . XOR_OP expresion
+   52          | expresion . RELATION_OP expresion
+   53          | expresion . EQUALS_OP expresion
+   54          | expresion . AT expresion
+   55          | expresion . MINUSMINUS expresion
+   59          | expresion . PLUSPLUS expresion AT AT expresion
+   59          | expresion PLUSPLUS expresion AT AT expresion .
+
+    AT  desplazar e ir al estado 116
+
+    $default  reduce usando la regla 59 (expresion)
+
+
+Estado 180
+
+   36 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE . Sentencia
+
+    error             desplazar e ir al estado 85
+    LEFT_KEY          desplazar e ir al estado 6
+    LEFT_BRACKET      desplazar e ir al estado 33
+    IF                desplazar e ir al estado 34
+    WHILE             desplazar e ir al estado 35
+    RETURN            desplazar e ir al estado 36
+    FOR               desplazar e ir al estado 37
+    OUT               desplazar e ir al estado 38
+    IN                desplazar e ir al estado 39
+    SYMBOL_OP         desplazar e ir al estado 40
+    NEG_COUNT_QUEST   desplazar e ir al estado 41
+    MINUSMINUS        desplazar e ir al estado 42
+    PLUSPLUS          desplazar e ir al estado 43
+    DOLLAR            desplazar e ir al estado 44
+    CONST_INT         desplazar e ir al estado 45
+    CONST_DOUBLE      desplazar e ir al estado 46
+    CONST_BOOLEAN     desplazar e ir al estado 47
+    CONST_CHAR        desplazar e ir al estado 48
+    ID                desplazar e ir al estado 49
+    LEFT_PARENTHESIS  desplazar e ir al estado 50
+
+    bloque                ir al estado 51
+    Sentencia             ir al estado 182
+    sentencia_contador    ir al estado 56
+    sentencia_asignacion  ir al estado 57
+    sentencia_if          ir al estado 58
+    sentencia_while       ir al estado 59
+    sentencia_entrada     ir al estado 60
+    sentencia_salida      ir al estado 61
+    sentencia_return      ir al estado 62
+    sentencia_for         ir al estado 63
+    sentencia_list        ir al estado 64
+    expresion             ir al estado 65
+    funcion               ir al estado 66
+    constante             ir al estado 67
+    const_list_int        ir al estado 69
+    const_list_double     ir al estado 70
+    const_list_boolean    ir al estado 71
+    const_list_char       ir al estado 72
+
+
+Estado 181
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante TO constante DO . bloque
+
+    LEFT_KEY  desplazar e ir al estado 6
+
+    bloque  ir al estado 183
+
+
+Estado 182
+
+   36 sentencia_if: IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia ELSE Sentencia .
+
+    $default  reduce usando la regla 36 (sentencia_if)
+
+
+Estado 183
+
+   42 sentencia_for: FOR ID ASSIGN_FOR constante TO constante DO bloque .
+
+    $default  reduce usando la regla 42 (sentencia_for)
