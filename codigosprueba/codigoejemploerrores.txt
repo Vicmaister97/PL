@@ -1,9 +1,9 @@
 main(){
   initVar
   int ve ;
-  itn error1;
-  int error21, error22 error23
-  int error25, error26 error27;
+  int error1;
+  int error21, error22, error23, error24;
+  int error25, error26, error27;
 
   double vf ;
   char vc ;
@@ -14,16 +14,10 @@ main(){
   list_of boolean pl ;
   endVar
 
-  int funcionA (int a1 double a2, boolean a3 error3){
+  int funcionA (int a1, double a2, boolean a3){
     initVar
     int x1, x2 ;
     endVar
-
-    error4 = (3*/4);
-
-    error5 = 34>5 * and (id or (64+5)</)
-
-    x2 += 22
 
     char funcionB (char b1, boolean b2){
       initVar
@@ -46,6 +40,8 @@ main(){
       x2= xf*(funcionC(false,1)-funcionC(true,23))/10.0;
       while (x2*funcionC(false,1)-xf<10.0)
       x2= x2*xf ;
+      t = 3*/8;
+      a = l * and 8 < -;
     }
     double funcionD (double d1){
       initVar
@@ -75,11 +71,11 @@ main(){
       }
       return d1 ;
     }
-    pe = pe ++ 10 @ @ #pe;
-    pf = pf ++ 10.0 @ @ #pf;
-    pc = pc ++ "#" @ @ #pc;
+    pe = pe ++ 10 @@ #pe;
+    pf = pf ++ 10.0 @@ #pf;
+    pc = pc ++ "#" @@ #pc;
     if (?pe == 20) then {
-      pe = pe ++ 10 @ @ #pe;
+      pe = pe ++ 10 @@ #pe;
       ve = l@#pe;
     }
     else{
