@@ -1,3 +1,11 @@
+/*********************************************************
+**
+** Fichero: GRAMATICA.Y
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
+** Función: Archivo YACC para implementar el traductor.
+**
+*********************************************************/
+
 %{
 
 #include <stdlib.h>

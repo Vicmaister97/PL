@@ -9,6 +9,9 @@
 /*----- Sección de Declaraciones --------------*/
 %{
 
+/*----- Sección de Declaraciones --------------*/
+%{
+
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
 **/
