@@ -12,7 +12,7 @@ main(){
   int double error28;
   list_of int pe, pe2 ;
   list_of double pf, pf2 ;
-  list_of char pc;
+  list_of list_of char pc;
   list_of boolean pl ;
   error29;
   endVar

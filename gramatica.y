@@ -154,9 +154,11 @@ constante                 : CONST_INT
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
-                          | LIST_OF tipo_elemental;
+                          | list tipo_elemental;
+list											: list LIST_OF
+													| LIST_OF;
 tipo_elemental            : BASIC_TYPES
-			              | error;
+			              			| error;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
