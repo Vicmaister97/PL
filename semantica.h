@@ -3,8 +3,8 @@
 ** Procesadores de Lenguajes, 2018-2019
 ** Fichero: SEMANTICA.H
 ** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
-** Función: Archivo de definición de la tabla de símbolos (TS) para
-** 	    las comprobaciones semánticas del traductor.
+** Función: Archivo de definición de la tabla de símbolos (TS) junto con sus constantes
+** 	   		y procedimientos para las comprobaciones semánticas del traductor.
 **
 **
 *********************************************************/
@@ -24,14 +24,14 @@ typedef enum{	// Enumeración para definir el tipo de entrada en la TS
 
 typedef enum {	// Enumeración para definir el tipo de dato de las entradas función, variable local o parámetro formal
 
-	INT = 0,			// Entero
+	INT = 0,		// Entero
 	DOUBLE,			// Real
 	CHAR,			// Caracter
 	BOOLEAN,		// Booleano
 	LIST,			// Lista
 	MATRIX,			// Matriz???
 	SIZE,			// Tamanio o dimensión de una lista situada en la entrada anterior
-	NOT_ASSIGN		// Aun no se ha asignado el tipo, para inicialización
+	NO_ASSIG		// Aun no se ha asignado el tipo, para inicialización
 
 } tipoDato;
 
@@ -74,6 +74,7 @@ typedef struct entradaTS{	// Entrada de la tabla de símbolos (TS)
 
 };
 
+/**
 extern long int TOPE = 0 ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
@@ -81,8 +82,8 @@ extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 // Línea del fichero que se está analizando
 extern int line;
 
-// Se indica si se están utilizando las variables (0) o si se están declarando
-// (1), (2) llamada desde expresión
+// Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
+// o si se llaman desde una expresión (decVar=2)
 extern int decVar;
 
 // Indica el comienzo de un subprograma o función con 0 si es un bloque y 1 si
@@ -111,7 +112,7 @@ int isArray(attrs e);
 int equalSize(attrs e1, attrs e2);
 
 // Guarda el tipo de la variable
-int setType(attrs value);
+int setType(attrs value); **/
 
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
