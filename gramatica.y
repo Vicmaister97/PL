@@ -82,18 +82,20 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY
+bloque	 : LEFT_KEY Declar_de_variables_locales
+					Declar_de_subprogs Sentencias RIGHT_KEY
 	     | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY ;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
-Declar_subprog      : Cabecera_subprograma bloque ;
-Declar_de_variables_locales : INITVAR Variables_locales ENDVAR;
+Declar_subprog      : Cabecera_subprograma  bloque ;
+Declar_de_variables_locales : INITVAR Variables_locales ENDVAR ;
 			                |;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON;
-Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
+Cabecera_subprograma : tipo ID
+ 											LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
 	        | argumento
 	        |;
@@ -162,9 +164,8 @@ constante                 : CONST_INT
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
-                          | list tipo_elemental;
-list											: list LIST_OF
-													| LIST_OF;
+                          | LIST_OF tipo_elemental
+													| LIST_OF LIST_OF tipo_elemental;
 tipo_elemental            : BASIC_TYPES
 			              			| error;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;

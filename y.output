@@ -111,51 +111,49 @@ Gramática
    77                 | expresion
 
    78 tipo: tipo_elemental
-   79     | list tipo_elemental
+   79     | LIST_OF tipo_elemental
+   80     | LIST_OF LIST_OF tipo_elemental
 
-   80 list: list LIST_OF
-   81     | LIST_OF
+   81 tipo_elemental: BASIC_TYPES
+   82               | error
 
-   82 tipo_elemental: BASIC_TYPES
-   83               | error
+   83 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
 
-   84 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
+   84 list_int: list_int COMA CONST_INT
+   85         | CONST_INT
 
-   85 list_int: list_int COMA CONST_INT
-   86         | CONST_INT
+   86 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
 
-   87 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
+   87 list_double: list_double COMA CONST_DOUBLE
+   88            | CONST_DOUBLE
 
-   88 list_double: list_double COMA CONST_DOUBLE
-   89            | CONST_DOUBLE
+   89 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
 
-   90 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
+   90 list_boolean: list_boolean COMA CONST_BOOLEAN
+   91             | CONST_BOOLEAN
 
-   91 list_boolean: list_boolean COMA CONST_BOOLEAN
-   92             | CONST_BOOLEAN
+   92 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
 
-   93 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
+   93 list_char: list_char COMA CONST_CHAR
+   94          | CONST_CHAR
 
-   94 list_char: list_char COMA CONST_CHAR
-   95          | CONST_CHAR
-
-   96 list_id: list_id COMA ID
-   97        | ID
-   98        | error
+   95 list_id: list_id COMA ID
+   96        | ID
+   97        | error
 
 
 Terminales con las reglas donde aparecen
 
 $end (0) 0
-error (256) 61 83 98
+error (256) 61 82 97
 MAIN (258) 9
 RIGHT_PARENTHESIS (259) 9 13 35 36 37 60 62 63
 LEFT_KEY (260) 2 3
 RIGHT_KEY (261) 2 3
-LEFT_BRACKET (262) 84 87 90 93
-RIGHT_BRACKET (263) 84 87 90 93
+LEFT_BRACKET (262) 83 86 89 92
+RIGHT_BRACKET (263) 83 86 89 92
 SEMICOLON (264) 12 30 31 32 33 34 38 39 40 41
-COMA (265) 14 64 76 85 88 91 94 96
+COMA (265) 14 64 76 84 87 90 93 95
 ASSIGN (266) 34
 IF (267) 35 36
 THEN (268) 35 36
@@ -170,8 +168,8 @@ OUT (276) 40
 IN (277) 38 39
 INITVAR (278) 7
 ENDVAR (279) 7
-LIST_OF (280) 80 81
-BASIC_TYPES (281) 82
+LIST_OF (280) 79 80
+BASIC_TYPES (281) 81
 CADENA (282) 38 67
 OR_OP (283) 50
 AND_OP (284) 49
@@ -186,11 +184,11 @@ PLUSPLUS (292) 30 32 59
 DOLLAR (293) 44
 LIST_OP (294) 43
 AT (295) 54 59
-CONST_INT (296) 68 85 86
-CONST_DOUBLE (297) 69 88 89
-CONST_BOOLEAN (298) 71 91 92
-CONST_CHAR (299) 70 94 95
-ID (300) 13 17 34 42 56 62 63 96 97
+CONST_INT (296) 68 84 85
+CONST_DOUBLE (297) 69 87 88
+CONST_BOOLEAN (298) 71 90 91
+CONST_CHAR (299) 70 93 94
+ID (300) 13 17 34 42 56 62 63 95 96
 LEFT_PARENTHESIS (301) 9 13 35 36 37 60 62 63
 
 
@@ -258,29 +256,27 @@ constante (74)
 list_expresiones (75)
     en la izquierda: 76 77, en la derecha: 62 76
 tipo (76)
-    en la izquierda: 78 79, en la derecha: 12 13 17
-list (77)
-    en la izquierda: 80 81, en la derecha: 79 80
-tipo_elemental (78)
-    en la izquierda: 82 83, en la derecha: 78 79
-const_list_int (79)
-    en la izquierda: 84, en la derecha: 72
-list_int (80)
-    en la izquierda: 85 86, en la derecha: 84 85
-const_list_double (81)
-    en la izquierda: 87, en la derecha: 73
-list_double (82)
-    en la izquierda: 88 89, en la derecha: 87 88
-const_list_boolean (83)
-    en la izquierda: 90, en la derecha: 74
-list_boolean (84)
-    en la izquierda: 91 92, en la derecha: 90 91
-const_list_char (85)
-    en la izquierda: 93, en la derecha: 75
-list_char (86)
-    en la izquierda: 94 95, en la derecha: 93 94
-list_id (87)
-    en la izquierda: 96 97 98, en la derecha: 12 38 39 96
+    en la izquierda: 78 79 80, en la derecha: 12 13 17
+tipo_elemental (77)
+    en la izquierda: 81 82, en la derecha: 78 79 80
+const_list_int (78)
+    en la izquierda: 83, en la derecha: 72
+list_int (79)
+    en la izquierda: 84 85, en la derecha: 83 84
+const_list_double (80)
+    en la izquierda: 86, en la derecha: 73
+list_double (81)
+    en la izquierda: 87 88, en la derecha: 86 87
+const_list_boolean (82)
+    en la izquierda: 89, en la derecha: 74
+list_boolean (83)
+    en la izquierda: 90 91, en la derecha: 89 90
+const_list_char (84)
+    en la izquierda: 92, en la derecha: 75
+list_char (85)
+    en la izquierda: 93 94, en la derecha: 92 93
+list_id (86)
+    en la izquierda: 95 96 97, en la derecha: 12 38 39 95
 
 
 Estado 0
@@ -330,8 +326,7 @@ Estado 4
     argumentos      ir al estado 11
     argumento       ir al estado 12
     tipo            ir al estado 13
-    list            ir al estado 14
-    tipo_elemental  ir al estado 15
+    tipo_elemental  ir al estado 14
 
 
 Estado 5
@@ -346,11 +341,11 @@ Estado 6
     2 bloque: LEFT_KEY . Declar_de_variables_locales Declar_de_subprogs Sentencias RIGHT_KEY
     3       | LEFT_KEY . Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY
 
-    INITVAR  desplazar e ir al estado 16
+    INITVAR  desplazar e ir al estado 15
 
     $default  reduce usando la regla 8 (Declar_de_variables_locales)
 
-    Declar_de_variables_locales  ir al estado 17
+    Declar_de_variables_locales  ir al estado 16
 
 
 Estado 7
@@ -362,23 +357,28 @@ Estado 7
 
 Estado 8
 
-   83 tipo_elemental: error .
+   82 tipo_elemental: error .
 
-    $default  reduce usando la regla 83 (tipo_elemental)
+    $default  reduce usando la regla 82 (tipo_elemental)
 
 
 Estado 9
 
-   81 list: LIST_OF .
+   79 tipo: LIST_OF . tipo_elemental
+   80     | LIST_OF . LIST_OF tipo_elemental
 
-    $default  reduce usando la regla 81 (list)
+    error        desplazar e ir al estado 8
+    LIST_OF      desplazar e ir al estado 17
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    tipo_elemental  ir al estado 18
 
 
 Estado 10
 
-   82 tipo_elemental: BASIC_TYPES .
+   81 tipo_elemental: BASIC_TYPES .
 
-    $default  reduce usando la regla 82 (tipo_elemental)
+    $default  reduce usando la regla 81 (tipo_elemental)
 
 
 Estado 11
@@ -386,8 +386,8 @@ Estado 11
     9 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
    14 argumentos: argumentos . COMA argumento
 
-    RIGHT_PARENTHESIS  desplazar e ir al estado 18
-    COMA               desplazar e ir al estado 19
+    RIGHT_PARENTHESIS  desplazar e ir al estado 19
+    COMA               desplazar e ir al estado 20
 
 
 Estado 12
@@ -401,29 +401,17 @@ Estado 13
 
    17 argumento: tipo . ID
 
-    ID  desplazar e ir al estado 20
+    ID  desplazar e ir al estado 21
 
 
 Estado 14
-
-   79 tipo: list . tipo_elemental
-   80 list: list . LIST_OF
-
-    error        desplazar e ir al estado 8
-    LIST_OF      desplazar e ir al estado 21
-    BASIC_TYPES  desplazar e ir al estado 10
-
-    tipo_elemental  ir al estado 22
-
-
-Estado 15
 
    78 tipo: tipo_elemental .
 
     $default  reduce usando la regla 78 (tipo)
 
 
-Estado 16
+Estado 15
 
     7 Declar_de_variables_locales: INITVAR . Variables_locales ENDVAR
 
@@ -431,31 +419,47 @@ Estado 16
     LIST_OF      desplazar e ir al estado 9
     BASIC_TYPES  desplazar e ir al estado 10
 
-    Variables_locales        ir al estado 23
-    Cuerpo_declar_variables  ir al estado 24
-    tipo                     ir al estado 25
-    list                     ir al estado 14
-    tipo_elemental           ir al estado 15
+    Variables_locales        ir al estado 22
+    Cuerpo_declar_variables  ir al estado 23
+    tipo                     ir al estado 24
+    tipo_elemental           ir al estado 14
 
 
-Estado 17
+Estado 16
 
     2 bloque: LEFT_KEY Declar_de_variables_locales . Declar_de_subprogs Sentencias RIGHT_KEY
     3       | LEFT_KEY Declar_de_variables_locales . Declar_de_subprogs RIGHT_KEY
 
     $default  reduce usando la regla 5 (Declar_de_subprogs)
 
-    Declar_de_subprogs  ir al estado 26
+    Declar_de_subprogs  ir al estado 25
+
+
+Estado 17
+
+   80 tipo: LIST_OF LIST_OF . tipo_elemental
+
+    error        desplazar e ir al estado 8
+    BASIC_TYPES  desplazar e ir al estado 10
+
+    tipo_elemental  ir al estado 26
 
 
 Estado 18
+
+   79 tipo: LIST_OF tipo_elemental .
+
+    $default  reduce usando la regla 79 (tipo)
+
+
+Estado 19
 
     9 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
 
     $default  reduce usando la regla 9 (Cabecera_programa)
 
 
-Estado 19
+Estado 20
 
    14 argumentos: argumentos COMA . argumento
 
@@ -465,32 +469,17 @@ Estado 19
 
     argumento       ir al estado 27
     tipo            ir al estado 13
-    list            ir al estado 14
-    tipo_elemental  ir al estado 15
+    tipo_elemental  ir al estado 14
 
 
-Estado 20
+Estado 21
 
    17 argumento: tipo ID .
 
     $default  reduce usando la regla 17 (argumento)
 
 
-Estado 21
-
-   80 list: list LIST_OF .
-
-    $default  reduce usando la regla 80 (list)
-
-
 Estado 22
-
-   79 tipo: list tipo_elemental .
-
-    $default  reduce usando la regla 79 (tipo)
-
-
-Estado 23
 
     7 Declar_de_variables_locales: INITVAR Variables_locales . ENDVAR
    10 Variables_locales: Variables_locales . Cuerpo_declar_variables
@@ -501,19 +490,18 @@ Estado 23
     BASIC_TYPES  desplazar e ir al estado 10
 
     Cuerpo_declar_variables  ir al estado 29
-    tipo                     ir al estado 25
-    list                     ir al estado 14
-    tipo_elemental           ir al estado 15
+    tipo                     ir al estado 24
+    tipo_elemental           ir al estado 14
 
 
-Estado 24
+Estado 23
 
    11 Variables_locales: Cuerpo_declar_variables .
 
     $default  reduce usando la regla 11 (Variables_locales)
 
 
-Estado 25
+Estado 24
 
    12 Cuerpo_declar_variables: tipo . list_id SEMICOLON
 
@@ -523,7 +511,7 @@ Estado 25
     list_id  ir al estado 32
 
 
-Estado 26
+Estado 25
 
     2 bloque: LEFT_KEY Declar_de_variables_locales Declar_de_subprogs . Sentencias RIGHT_KEY
     3       | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs . RIGHT_KEY
@@ -571,12 +559,18 @@ Estado 26
     funcion               ir al estado 68
     constante             ir al estado 69
     tipo                  ir al estado 70
-    list                  ir al estado 14
-    tipo_elemental        ir al estado 15
+    tipo_elemental        ir al estado 14
     const_list_int        ir al estado 71
     const_list_double     ir al estado 72
     const_list_boolean    ir al estado 73
     const_list_char       ir al estado 74
+
+
+Estado 26
+
+   80 tipo: LIST_OF LIST_OF tipo_elemental .
+
+    $default  reduce usando la regla 80 (tipo)
 
 
 Estado 27
@@ -602,22 +596,22 @@ Estado 29
 
 Estado 30
 
-   98 list_id: error .
+   97 list_id: error .
 
-    $default  reduce usando la regla 98 (list_id)
+    $default  reduce usando la regla 97 (list_id)
 
 
 Estado 31
 
-   97 list_id: ID .
+   96 list_id: ID .
 
-    $default  reduce usando la regla 97 (list_id)
+    $default  reduce usando la regla 96 (list_id)
 
 
 Estado 32
 
    12 Cuerpo_declar_variables: tipo list_id . SEMICOLON
-   96 list_id: list_id . COMA ID
+   95 list_id: list_id . COMA ID
 
     SEMICOLON  desplazar e ir al estado 75
     COMA       desplazar e ir al estado 76
@@ -626,9 +620,9 @@ Estado 32
 Estado 33
 
    61 expresion: error .
-   83 tipo_elemental: error .
+   82 tipo_elemental: error .
 
-    ID        reduce usando la regla 83 (tipo_elemental)
+    ID        reduce usando la regla 82 (tipo_elemental)
     $default  reduce usando la regla 61 (expresion)
 
 
@@ -641,10 +635,10 @@ Estado 34
 
 Estado 35
 
-   84 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
-   87 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
-   90 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
-   93 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
+   83 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
+   86 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
+   89 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
+   92 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
 
     CONST_INT      desplazar e ir al estado 77
     CONST_DOUBLE   desplazar e ir al estado 78
@@ -1154,43 +1148,43 @@ Estado 75
 
 Estado 76
 
-   96 list_id: list_id COMA . ID
+   95 list_id: list_id COMA . ID
 
     ID  desplazar e ir al estado 120
 
 
 Estado 77
 
-   86 list_int: CONST_INT .
+   85 list_int: CONST_INT .
 
-    $default  reduce usando la regla 86 (list_int)
+    $default  reduce usando la regla 85 (list_int)
 
 
 Estado 78
 
-   89 list_double: CONST_DOUBLE .
+   88 list_double: CONST_DOUBLE .
 
-    $default  reduce usando la regla 89 (list_double)
+    $default  reduce usando la regla 88 (list_double)
 
 
 Estado 79
 
-   92 list_boolean: CONST_BOOLEAN .
+   91 list_boolean: CONST_BOOLEAN .
 
-    $default  reduce usando la regla 92 (list_boolean)
+    $default  reduce usando la regla 91 (list_boolean)
 
 
 Estado 80
 
-   95 list_char: CONST_CHAR .
+   94 list_char: CONST_CHAR .
 
-    $default  reduce usando la regla 95 (list_char)
+    $default  reduce usando la regla 94 (list_char)
 
 
 Estado 81
 
-   84 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
-   85 list_int: list_int . COMA CONST_INT
+   83 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
+   84 list_int: list_int . COMA CONST_INT
 
     RIGHT_BRACKET  desplazar e ir al estado 121
     COMA           desplazar e ir al estado 122
@@ -1198,8 +1192,8 @@ Estado 81
 
 Estado 82
 
-   87 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
-   88 list_double: list_double . COMA CONST_DOUBLE
+   86 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
+   87 list_double: list_double . COMA CONST_DOUBLE
 
     RIGHT_BRACKET  desplazar e ir al estado 123
     COMA           desplazar e ir al estado 124
@@ -1207,8 +1201,8 @@ Estado 82
 
 Estado 83
 
-   90 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
-   91 list_boolean: list_boolean . COMA CONST_BOOLEAN
+   89 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
+   90 list_boolean: list_boolean . COMA CONST_BOOLEAN
 
     RIGHT_BRACKET  desplazar e ir al estado 125
     COMA           desplazar e ir al estado 126
@@ -1216,8 +1210,8 @@ Estado 83
 
 Estado 84
 
-   93 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
-   94 list_char: list_char . COMA CONST_CHAR
+   92 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
+   93 list_char: list_char . COMA CONST_CHAR
 
     RIGHT_BRACKET  desplazar e ir al estado 127
     COMA           desplazar e ir al estado 128
@@ -1388,7 +1382,7 @@ Estado 95
 Estado 96
 
    39 sentencia_entrada: IN list_id . SEMICOLON
-   96 list_id: list_id . COMA ID
+   95 list_id: list_id . COMA ID
 
     SEMICOLON  desplazar e ir al estado 138
     COMA       desplazar e ir al estado 76
@@ -1874,63 +1868,63 @@ Estado 119
 
 Estado 120
 
-   96 list_id: list_id COMA ID .
+   95 list_id: list_id COMA ID .
 
-    $default  reduce usando la regla 96 (list_id)
+    $default  reduce usando la regla 95 (list_id)
 
 
 Estado 121
 
-   84 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
+   83 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
 
-    $default  reduce usando la regla 84 (const_list_int)
+    $default  reduce usando la regla 83 (const_list_int)
 
 
 Estado 122
 
-   85 list_int: list_int COMA . CONST_INT
+   84 list_int: list_int COMA . CONST_INT
 
     CONST_INT  desplazar e ir al estado 159
 
 
 Estado 123
 
-   87 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
+   86 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
 
-    $default  reduce usando la regla 87 (const_list_double)
+    $default  reduce usando la regla 86 (const_list_double)
 
 
 Estado 124
 
-   88 list_double: list_double COMA . CONST_DOUBLE
+   87 list_double: list_double COMA . CONST_DOUBLE
 
     CONST_DOUBLE  desplazar e ir al estado 160
 
 
 Estado 125
 
-   90 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
+   89 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
 
-    $default  reduce usando la regla 90 (const_list_boolean)
+    $default  reduce usando la regla 89 (const_list_boolean)
 
 
 Estado 126
 
-   91 list_boolean: list_boolean COMA . CONST_BOOLEAN
+   90 list_boolean: list_boolean COMA . CONST_BOOLEAN
 
     CONST_BOOLEAN  desplazar e ir al estado 161
 
 
 Estado 127
 
-   93 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
+   92 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
 
-    $default  reduce usando la regla 93 (const_list_char)
+    $default  reduce usando la regla 92 (const_list_char)
 
 
 Estado 128
 
-   94 list_char: list_char COMA . CONST_CHAR
+   93 list_char: list_char COMA . CONST_CHAR
 
     CONST_CHAR  desplazar e ir al estado 162
 
@@ -2098,7 +2092,7 @@ Estado 136
 Estado 137
 
    38 sentencia_entrada: IN CADENA list_id . SEMICOLON
-   96 list_id: list_id . COMA ID
+   95 list_id: list_id . COMA ID
 
     SEMICOLON  desplazar e ir al estado 167
     COMA       desplazar e ir al estado 76
@@ -2465,36 +2459,35 @@ Estado 158
     argumentos      ir al estado 172
     argumento       ir al estado 12
     tipo            ir al estado 13
-    list            ir al estado 14
-    tipo_elemental  ir al estado 15
+    tipo_elemental  ir al estado 14
 
 
 Estado 159
 
-   85 list_int: list_int COMA CONST_INT .
+   84 list_int: list_int COMA CONST_INT .
 
-    $default  reduce usando la regla 85 (list_int)
+    $default  reduce usando la regla 84 (list_int)
 
 
 Estado 160
 
-   88 list_double: list_double COMA CONST_DOUBLE .
+   87 list_double: list_double COMA CONST_DOUBLE .
 
-    $default  reduce usando la regla 88 (list_double)
+    $default  reduce usando la regla 87 (list_double)
 
 
 Estado 161
 
-   91 list_boolean: list_boolean COMA CONST_BOOLEAN .
+   90 list_boolean: list_boolean COMA CONST_BOOLEAN .
 
-    $default  reduce usando la regla 91 (list_boolean)
+    $default  reduce usando la regla 90 (list_boolean)
 
 
 Estado 162
 
-   94 list_char: list_char COMA CONST_CHAR .
+   93 list_char: list_char COMA CONST_CHAR .
 
-    $default  reduce usando la regla 94 (list_char)
+    $default  reduce usando la regla 93 (list_char)
 
 
 Estado 163
@@ -2641,7 +2634,7 @@ Estado 172
    14 argumentos: argumentos . COMA argumento
 
     RIGHT_PARENTHESIS  desplazar e ir al estado 178
-    COMA               desplazar e ir al estado 19
+    COMA               desplazar e ir al estado 20
 
 
 Estado 173

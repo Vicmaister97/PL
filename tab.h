@@ -24,7 +24,9 @@
 #define PLUSPLUS          279
 #define AT                280
 #define DOLLAR            281
-#define NEG_COUNT_QUEST   282
+#define NEG               282
+#define COUNT             302
+#define QUEST             303
 #define SYMBOL_OP         283
 #define RELATION_OP       296
 #define EQUALS_OP         299
@@ -33,6 +35,8 @@
 #define XOR_OP            298
 #define MINUSMINUS        284
 #define BINARY_OP         285
+#define BINARY_LIST_OP_I  301
+#define BINARY_LIST_OP_L  302
 #define LIST_OP           286
 #define LIST_OF           287
 #define BASIC_TYPES       288
