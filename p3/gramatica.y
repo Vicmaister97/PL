@@ -129,7 +129,7 @@ sentencia_for 	: FOR ID ASSIGN_FOR constante TO constante DO bloque;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
 
-expresion : NEG_COUNT_QUEST expresion
+expresion : NEG_COUNT QUEST expresion
           | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
           | expresion SYMBOL_OP expresion
           | expresion BINARY_OP expresion

@@ -1,8 +1,17 @@
+/*********************************************************
+**
+** Fichero: SEMANTICA.Y
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
+** Función: Archivo YACC para implementar el traductor.
+**
+*********************************************************/
+
 %{
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "semantica.h"
 
 /** La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
 *** fuente de lex (tokens.l)
@@ -31,8 +40,10 @@ int yylex();
 %left EQUALS_OP
 %left RELATION_OP
 %left SYMBOL_OP
-%left BINARY_OP
-%right NEG_COUNT_QUEST
+%left BINARY_OP BINARY_LIST_OP_I BINARY_LIST_OP_L
+%right NEG 
+%right COUNT 
+%right QUEST
 %right MINUSMINUS
 %right PLUSPLUS
 %right DOLLAR LIST_OP
@@ -122,7 +133,7 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
                     &&.type = $2.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
-                      {if ($1.type != $3.type){
+                      {if ($1.type != $3.type)
 		                      printf("Semantic Error(%d): Types are not equal.\n",line, $1.type, $3.type);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
@@ -150,8 +161,7 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           &&.type = INT;}
           | QUEST expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
-              || $3.type != INT)
+          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
           if ($1.type == INT)
               $$.type = INT;
@@ -161,7 +171,7 @@ expresion : NEG expresion
               $$.type = BOOLEAN;
           else if ($1.type == CHAR)
               $$.type = CHAR;}
-          | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
+          | SYMBOL_OP expresion %prec NEG
           {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST)
               printf("Semantic Error(%d): Type not signable.\n", line);
           &&.type = $2.type;}
@@ -263,14 +273,14 @@ list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParam++; TS
                           | exp_cad {nParam = 1; TS_CheckParam($1, nParam);};
 exp_cad                   : expresion
                           | CADENA ;
-constante                 : CONST_INT                       {$$.type = INT}
-                          | CONST_DOUBLE                    {$$.type = DOUBLE}
-                          | CONST_CHAR                      {$$.type = CHAR}
-                          | CONST_BOOLEAN                   {$$.type = BOOLEAN}
-                          | const_list_int                  {$$.type = LIST_INT}
-                          | const_list_double               {$$.type = LIST_DOUBLE}
-                          | const_list_boolean              {$$.type = LIST_BOOLEAN}
-                          | const_list_char ;               {$$.type = LIST_CHAR}
+constante                 : CONST_INT                       {$$.type = INT;}
+                          | CONST_DOUBLE                    {$$.type = DOUBLE;}
+                          | CONST_CHAR                      {$$.type = CHAR;}
+                          | CONST_BOOLEAN                   {$$.type = BOOLEAN;}
+                          | const_list_int                  {$$.type = LIST_INT;}
+                          | const_list_double               {$$.type = LIST_DOUBLE;}
+                          | const_list_boolean              {$$.type = LIST_BOOLEAN;}
+                          | const_list_char                {$$.type = LIST_CHAR;};
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental

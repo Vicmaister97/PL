@@ -13,8 +13,8 @@ semantica.o: semantica.c
 lex.yy.c: tokens.l
 	lex -l tokens.l
 clean:
-	rm -f prueba main.o y.tab.o y.tab.c lex.yy.c
+	rm -f semantica semantica.o main.o y.tab.o y.tab.c lex.yy.c
 all:
 	make clean
-	make prueba
+	make semantica
 
