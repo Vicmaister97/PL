@@ -1,11 +1,13 @@
-/*----- Sección de Declaraciones --------------*/
-%{
 /*********************************************************
 **
 ** Fichero: TOKENS.L
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
 ** Función: Pruebas de FLEX para practicas de PL.
 **
 *********************************************************/
+
+/*----- Sección de Declaraciones --------------*/
+%{
 
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
@@ -42,7 +44,7 @@ int n_lines = 1;
 "while"                                      return WHILE;
 "return"                                     return RETURN;
 "for"                                        return FOR;
-:=                                           return ASSIGN_FOR;
+":="                                         return ASSIGN_FOR;
 "to"                                         return TO;
 "do"                                         return DO;
 "out"                                        return OUT;
@@ -52,21 +54,36 @@ int n_lines = 1;
 "\+\+"                                       return PLUSPLUS;
 "@"                                          return AT;
 "\$"                                         return DOLLAR;
-!|#|\?                                       return NEG_COUNT_QUEST;
-\+|\-                                        return SYMBOL_OP;
+!                                            return NEG_COUNT_QUEST;
+#                                            return NEG_COUNT_QUEST;
+\?                                           return NEG_COUNT_QUEST;
+\+                                           return SYMBOL_OP;
+\-                                           return SYMBOL_OP;
 "--"                                         return MINUSMINUS;
-\*|\/|%|\*\*                                 return BINARY_OP;
->|<=|<|>=                                    return RELATION_OP;
-==|<>                                        return EQUALS_OP;
+\*                                           return BINARY_OP;
+\/                                           return BINARY_OP;
+%                                            return BINARY_OP;
+\*\*                                         return BINARY_OP;
+">"                                          return RELATION_OP;
+"<="                                         return RELATION_OP;
+"<"                                          return RELATION_OP;
+">="                                         return RELATION_OP;
+"=="                                         return EQUALS_OP;
+"<>"                                         return EQUALS_OP;
 "and"                                        return AND_OP;
 "or"                                         return OR_OP;
 "xor"                                        return XOR_OP;
-"<<|>>"                                      return LIST_OP;
+"<<"                                         return LIST_OP;
+">>"                                         return LIST_OP;
 "list_of"                                    return LIST_OF;
-"int"|"double"|"boolean"|"char"              return BASIC_TYPES;
+"int"                                        return BASIC_TYPES;
+"double"                                     return BASIC_TYPES;
+"boolean"                                    return BASIC_TYPES;
+"char"                                       return BASIC_TYPES;
 [0-9]+                                       return CONST_INT;
 [0-9]*\.[0-9]+                               return CONST_DOUBLE;
-"true"|"false"                               return CONST_BOOLEAN;
+"true"                                       return CONST_BOOLEAN;
+"false"                                      return CONST_BOOLEAN;
 \"[^\"]\"                                    return CONST_CHAR;
 \"[^\"]*\"                                   return CADENA;
 [_a-zA-Z][_a-zA-Z0-9]*                       return ID;

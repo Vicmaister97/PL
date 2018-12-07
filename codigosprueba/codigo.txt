@@ -2,7 +2,7 @@ main(){
   initVar
   double j ;
   double w ;
-  int i;
+  int i, j, k l;
   char letra;
   boolean verdadero ;
   boolean indefinido;
@@ -12,22 +12,28 @@ main(){
   list_of int lista_ints ;
   list_of int copia_rara;
   list_of int lista_esquinas ;
+  turbioo1
   list_of double lista_reales ;
   int valor, posicion;
 
   endVar
 
-  lista_ints = [1,2,3];
+  turbioo2
+
+  lista_ints = [1,2,3] turbioo3;
   copia_rara = lista_ints ++ valor @ @ posicion;
   indefinido = true;
-  lista_esquinas = dimeValores(Esquinas(Cuadro(long_aristas, centro), dosDimensiones));
-  while (indefinido <> no_indefinido){
+  lista_esquinas = dimeValores(Esquinas(Cuadro(long_aristas, centro), dosDimensiones turbioo4));
+  while (indefinido <> no_indefinido) turbioooo{
     ++sumador;
     sumador++;
-    if(sumador == 3) then{
+    turbiooo5
+    if(sumador == 3) then turbioo6{
       indefinido = false;
+      turbioo5
     }
-    else{
+    turbiooooooo
+    else turbioo7{
       letra = "f";
     }
   }
