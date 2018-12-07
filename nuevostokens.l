@@ -53,8 +53,8 @@ int n_lines = 1;
 "@"                                          return AT;
 "\$"                                         return DOLLAR;
 !                                            {return NEG;}
-#                                            {yylval.attr = 0; return COUNT_QUEST;}
-\?                                           {yylval.attr = 1; return COUNT_QUEST;}
+#                                            return COUNT;
+\?                                           return QUEST;
 \+                                           {yylval.attr = 0; return SYMBOL_OP;}
 \-                                           {yylval.attr = 1; return SYMBOL_OP;}
 "--"                                         return MINUSMINUS;

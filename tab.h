@@ -25,7 +25,8 @@
 #define AT                280
 #define DOLLAR            281
 #define NEG               282
-#define COUNT_QUEST       302
+#define COUNT             302
+#define QUEST             303
 #define SYMBOL_OP         283
 #define RELATION_OP       296
 #define EQUALS_OP         299
