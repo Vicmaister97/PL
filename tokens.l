@@ -1,16 +1,11 @@
-/*******************
+/*----- Sección de Declaraciones --------------*/
+%{
+/*********************************************************
 **
 ** Fichero: TOKENS.L
-** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
 ** Función: Pruebas de FLEX para practicas de PL.
 **
-*******************/
-
-/*----- Sección de Declaraciones --------------*/
-%{
-
-/*----- Sección de Declaraciones --------------*/
-%{
+*********************************************************/
 
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
@@ -23,7 +18,7 @@ int n_lines = 1;
 %}
 
 /** La siguiente declaración indica que no se va a escribir la función ’yywrap’
-* evita que se tenga que enlazar con -lfl, o que se tenga que escribir ’yywrap’
+*** evita que se tenga que enlazar con -lfl, o que se tenga que escribir ’yywrap’
 **/
 
 %option noyywrap
@@ -57,38 +52,38 @@ int n_lines = 1;
 "\+\+"                                       return PLUSPLUS;
 "@"                                          return AT;
 "\$"                                         return DOLLAR;
-!                                            return NEG;
+!                                            {return NEG;}
 #                                            return COUNT;
 \?                                           return QUEST;
-\+                                           return SYMBOL_OP;
-\-                                           return SYMBOL_OP;
+\+                                           {yylval.attr = 0; return SYMBOL_OP;}
+\-                                           {yylval.attr = 1; return SYMBOL_OP;}
 "--"                                         return MINUSMINUS;
-\*                                           return BINARY_OP;
-\/                                           return BINARY_OP;
+\*                                           {yylval.attr = 0; return BINARY_OP;}
+\/                                           {yylval.attr = 1; return BINARY_OP;}
 %                                            return BINARY_LIST_OP_I;
 \*\*                                         return BINARY_LIST_OP_L;
-">"                                          return RELATION_OP;
-"<="                                         return RELATION_OP;
-"<"                                          return RELATION_OP;
-">="                                         return RELATION_OP;
-"=="                                         return EQUALS_OP;
-"<>"                                         return EQUALS_OP;
+">"                                          {yylval.attr = 0; return RELATION_OP;}
+"<="                                         {yylval.attr = 1; return RELATION_OP;}
+"<"                                          {yylval.attr = 2; return RELATION_OP;}
+">="                                         {yylval.attr = 3; return RELATION_OP;}
+"=="                                         {yylval.attr = 0; return EQUALS_OP;}
+"<>"                                         {yylval.attr = 1; return EQUALS_OP;}
 "and"                                        return AND_OP;
 "or"                                         return OR_OP;
 "xor"                                        return XOR_OP;
 "<<"                                         return LIST_OP;
 ">>"                                         return LIST_OP;
 "list_of"                                    return LIST_OF;
-"int"                                        return BASIC_TYPES;
-"double"                                     return BASIC_TYPES;
-"boolean"                                    return BASIC_TYPES;
-"char"                                       return BASIC_TYPES;
-[0-9]+                                       return CONST_INT;
-[0-9]*\.[0-9]+                               return CONST_DOUBLE;
-"true"                                       return CONST_BOOLEAN;
-"false"                                      return CONST_BOOLEAN;
-\"[^\"]\"                                    return CONST_CHAR;
-\"[^\"]*\"                                   return CADENA;
+"int"                                        {yylval.type = INT; return BASIC_TYPES;}
+"double"                                     {yylval.type = DOUBLE; return BASIC_TYPES;}
+"boolean"                                    {yylval.type = BOOLEAN; return BASIC_TYPES;}
+"char"                                       {yylval.type = CHAR; return BASIC_TYPES;}
+"true"                                       {yylval.attr = 0; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
+"false"                                      {yylval.attr = 1; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
+[0-9]+                                       {yylval.name = strdup(yytext); yylval.attr = 0; return CONST_INT;}
+[0-9]*\.[0-9]+                               {yylval.name = strdup(yytext); yylval.attr = 1; return CONST_DOUBLE;}
+\"[^\"]\"                                    {yylval.name = strdup(yytext); yylval.attr = 2; return CONST_CHAR;}
+\"[^\"]*\"                                   {yylval.name = strdup(yytext); yylval.attr = 3; return CADENA;}
 [_a-zA-Z][_a-zA-Z0-9]*                       return ID;
 \n                                           { /** lleva la cuenta de las líneas **/
 						n_lines++; }
