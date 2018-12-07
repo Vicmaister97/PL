@@ -1,11 +1,13 @@
-/*----- Sección de Declaraciones --------------*/
-%{
 /*********************************************************
 **
 ** Fichero: TOKENS.L
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
 ** Función: Pruebas de FLEX para practicas de PL.
 **
 *********************************************************/
+
+/*----- Sección de Declaraciones --------------*/
+%{
 
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
