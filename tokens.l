@@ -1,11 +1,14 @@
-/*----- Sección de Declaraciones --------------*/
-%{
 /*********************************************************
 **
 ** Fichero: TOKENS.L
-** Función: Pruebas de FLEX para practicas de PL.
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera. 
+** Función: Implementar el analizador léxico para el compilador
+**	    a realizar en las prácticas de Procesadores de Lenguajes
 **
 *********************************************************/
+
+/*----- Sección de Declaraciones --------------*/
+%{
 
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto

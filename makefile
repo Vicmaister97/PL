@@ -1,22 +1,21 @@
 
+semantic: main.o y.tab.o semant.o
+	gcc -o prueba main.o y.tab.o semant.o
 
-semantica: semant.o main.o y.tab.o
-	gcc -o semantica semant.o main.o y.tab.o
-
-main.o: main.c
-	gcc -o -c main.c
+semant.o: semant.c
+	gcc -c semant.c
 
 y.tab.o: y.tab.c
-	gcc -o -c y.tab.c
+	gcc -c y.tab.c
+
+main.o: main.c
+	gcc -c main.c
 
 y.tab.c: semant.y lex.yy.c
-	bison -v -d -o semant.y
+	bison -v -o y.tab.c semant.y
 
 lex.yy.c: tokens.l
 	lex -o tokens.l
-
-semant.o: semant.c
-	gcc -o -c semant.c
 
 all:
 	make semantica
