@@ -111,6 +111,8 @@ extern int currentFunction;
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
 **************************************************************/
+/* Guarda el type o tipo de dato del atributo leido */
+void getType(atributos value);
 
 /* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_AddEntry(entradaTS entrada);
