@@ -1,17 +1,25 @@
-.SUFFIXES:
 
-prueba: main.o y.tab.o
-	gcc -o prueba main.o y.tab.o
-y.tab.o: y.tab.c
-	gcc -c y.tab.c
+
+semantica: semant.o main.o y.tab.o
+	gcc -o semantica semant.o main.o y.tab.o
+
 main.o: main.c
-	gcc -c main.c
-y.tab.c: semantica.y lex.yy.c
-	bison -v -o y.tab.c semantica.y
+	gcc -o -c main.c
+
+y.tab.o: y.tab.c
+	gcc -o -c y.tab.c
+
+y.tab.c: semant.y lex.yy.c
+	bison -v -d -o semant.y
+
 lex.yy.c: tokens.l
-	lex -l tokens.l
-clean:
-	rm -f prueba main.o y.tab.o y.tab.c lex.yy.c
+	lex -o tokens.l
+
+semant.o: semant.c
+	gcc -o -c semant.c
+
 all:
-	make clean
-	make prueba
+	make semantica
+
+clean:
+	rm -rf semantica y.tab.c lex.yy.c semant.o
