@@ -1571,7 +1571,7 @@ yyreduce:
   case 45:
 #line 109 "semantica.y" /* yacc.c:1646  */
     {if ((yyvsp[-3]).type != (yyvsp[-1]).type)
-		                      printf("Semantic Error(%d): Types are not equal.\n",line, (yyvsp[-3]).type, (yyvsp[-1]).type);}
+		      printf("Semantic Error(%d): Types are not equal.\n",line, (yyvsp[-3]).type, (yyvsp[-1]).type);}
 #line 1576 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -2120,5 +2120,5 @@ yyreturn:
 
 void yyerror (const char *msg)
 {
-  fprintf(stderr,"[Linea %d]: %s\n", yylineno, msg);
+  fprintf(stderr,"GRAMMAR ERR[Line %d]: %s\n", yylineno, msg);
 }

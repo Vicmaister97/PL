@@ -59,7 +59,7 @@ int yylex();
 Programa : Cabecera_programa bloque ;
 bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY {TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
-				 | Declar_de_variables_locales Declar_de_subprogs;
+	 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
@@ -67,19 +67,19 @@ Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { d
 			                      | ;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
-			        | Cuerpo_declar_variables ;
+			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
-												| error;
+			| error;
 Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
- 											LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
+ 		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
-	        | argumento
-	        |;
+	    | argumento
+	    |;
 argumento : tipo ID;
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
 Sentencia   : bloque
-	        | sentencia_contador
+	    | sentencia_contador
             | sentencia_asignacion
             | sentencia_if
             | sentencia_while
@@ -107,7 +107,7 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                     &&.type = $2.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
                       {if ($1.type != $3.type)
-		                      printf("Semantic Error(%d): Types are not equal.\n",line, $1.type, $3.type);};
+		      printf("Semantic Error(%d): Types are not equal.\n",line, $1.type, $3.type);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
                   printf("Semantic Error(%d): Expression are not logic.\n", line);}
@@ -241,7 +241,7 @@ expresion : NEG expresion
 	      | error;
 
 funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
-	      | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
+	  | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
 list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParam++; TS_CheckParam($1, nParam);}
                           | exp_cad {nParam = 1; TS_CheckParam($1, nParam);};
 exp_cad                   : expresion
@@ -277,7 +277,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
           | ID									{TS_AddVar($1);}
-	      | error;
+	  | error;
 
 %%
 
@@ -298,5 +298,5 @@ list_id   : list_id COMA ID			{TS_AddVar($3);}
 
 void yyerror (const char *msg)
 {
-  fprintf(stderr,"[Linea %d]: %s\n", yylineno, msg);
+  fprintf(stderr,"GRAMMAR ERR[Line %d]: %s\n", yylineno, msg);
 }
