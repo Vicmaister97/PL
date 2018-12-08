@@ -78,8 +78,11 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 
 }entradaTS;
 
+/* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
+int TS_AddEntry(entradaTS entrada)
 
-extern long int TOPE ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
+/**
+extern long int TOPE = 0 ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 
@@ -100,7 +103,7 @@ extern int decParam;
 extern int decFunction;
 
 // Variable global que almacena el tipo en las declaraciones
-extern tipoDato globalType;
+extern tData globalType;
 
 // Cuenta el número de parámetros de una función
 extern int nParam;
@@ -109,45 +112,23 @@ extern int nParam;
 extern int currentFunction;
 extern int aux;
 
+// Devuelve si el atributo es array o no
+int isArray(attrs e);
+
+// Devuelve si los dos posibles arrays que recibe tienen el mismo tamaño
+int equalSize(attrs e1, attrs e2);
+
+// Guarda el tipo de la variable
+int setType(attrs value); **/
+
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
 **************************************************************/
 
-/* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
-int TS_AddEntry(entradaTS entrada);
+///////////////////////////////////////////////////////////////////////////////
+// Tabla de Símbolos
+//
 
-/* Elimina una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
-int TS_DelEntry();
+// Inserta una entrada en la tabla de símbolos
 
-/* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
-int TS_CleanBlock();
-
-// Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
-int TS_FindByID(atributos e);
-
-// Busca una entrada en la TS de una función por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
-int TS_FindByName(atributos e);
-
-// Inserta una entrada en la tabla de símbolos de una función o un bloque
-void TS_AddMark();
-
-// Añade una entrada en la tabla de símbolos de una variable local
-void TS_AddVar(atributos e);
-
-// Inserta una entrada en la tabla de símbolos de una función
-void TS_AddFunction(atributos e);
-
-// Inserta una entrada en la tabla de símbolos de un parámetro formal
-void TS_AddParam(atributos e);
-
-// Comprueba si el type de la expresión coincide con lo que devuelve la función
-void TS_CheckReturn(atributos expr, atributos* res);
-
-// Devuelve el identificador
-void TS_GetId(atributos id, atributos* res);
-
-// Realiza la comprobación de la llamada a una función
-void TS_FunctionCall(atributos id, atributos* res);
-
-// Realiza la comprobación de cada parámetro de una función
-void TS_CheckParam(atributos param, int checkParam);
+/* Fin de funciones y procedimientos para manejo de la TS */
