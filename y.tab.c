@@ -1801,13 +1801,13 @@ yyreduce:
 
   case 80:
 #line 245 "semant.y" /* yacc.c:1646  */
-    {nParam++; TS_CheckParam((yyvsp[-2]), nParam);}
+    {nParams++; TS_CheckParam((yyvsp[-2]), nParams);}
 #line 1806 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
 #line 246 "semant.y" /* yacc.c:1646  */
-    {nParam = 1; TS_CheckParam((yyvsp[0]), nParam);}
+    {nParams = 1; TS_CheckParam((yyvsp[0]), nParams);}
 #line 1812 "y.tab.c" /* yacc.c:1646  */
     break;
 
