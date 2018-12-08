@@ -97,7 +97,7 @@ extern int subProg;
 // Indica si se están declarando parámetros formales en una función
 extern int decParam;
 
-extern int decFunction;
+extern int esFunc;
 
 // Variable global que almacena el tipo en las declaraciones
 extern tipoDato globalType;
@@ -107,7 +107,6 @@ extern int nParam;
 
 // Índice de la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
-extern int aux;
 
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
