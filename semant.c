@@ -54,8 +54,7 @@ int TS_AddEntry(entradaTS entrada){
 	}
 	else{	// Si está completa
 
-		printf("Semantic Error[line %d]: SYMBOL TABLE (TS) OVERFLOW", line);
-
+		printf("ERR[line %d]: SYMBOL TABLE (TS) OVERFLOW", line);
 		return -1;
 
 	}
@@ -73,7 +72,7 @@ int TS_DelEntry(){
 	}
 	else{
 
-		printf("Semantic Error[line %d]: SYMBOL TABLE (TS) EMPTY", line);
+		printf("ERR[line %d]: SYMBOL TABLE (TS) EMPTY", line);
 		return -1;
 
 	}
@@ -204,7 +203,7 @@ void TS_AddVar(atributos e){
 			}
 			else{
 				found = 1;
-				printf("Semantic Error[linea %d]: Ident already exists: %s\n", line, e.name);
+				printf("DECLARE ERR[line %d]: Ident already exists: %s\n", line, e.name);
 	 		}
 		}
 
@@ -241,7 +240,7 @@ void TS_AddParam(atributos e){
 		}
 		else{
 			found = 1;
-			printf("Semantic Error[linea %d]: Param already exists: %s\n", line, e.name);
+			printf("DECLARE ERR[line %d]: Param already exists: %s\n", line, e.name);
     }
 	}
 
@@ -264,14 +263,14 @@ void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
 	if (index > -1) {
 		if (expr.type != TS[index].type) {
-			printf("Semantic Error[linea %d]: Return type not equal to function type.\n", line);
+			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
 		res->type = expr.type;	//REALLY??????????????????????????????
 		//return; //ANIADIDO POR MANUEL--GRANDEEEE
 	}
 	else {
-		printf("Semantic Error[linea %d]: Result not declared into function.\n", line);
+		printf("RETURN ERR[line %d]: Result not declared into function.\n", line);
 		return;
 	}
 
@@ -282,7 +281,7 @@ void TS_GetId(atributos id, atributos* res){
 	int index = TS_FindByID(id);
 	if(index == -1) {
         if(TS[index].entry != FUNCTION)
-		    printf("\nSemantic Error[linea %d]: Id not found %s.\n", line, id.name);
+		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
 	}
 	else {
 		res->name = strdup(TS[index].name);
@@ -295,11 +294,11 @@ void TS_FunctionCall(atributos id, atributos* res){
 	int index = TS_FindByName(id);
 	if(index == -1) {
 		currentFunction = -1;
-		printf("\nSemantic Error[linea %d]: Function: Id not found %s.\n", line, id.name);
+		printf("\nSEARCH ERR[line %d]: Function: Id not found %s.\n", line, id.name);
   	}
 	else {
 		if (nParams != TS[index].nParams) {
-			printf("Semantic Error[linea %d]: Number of params not valid.\n", line);
+			printf("ARGS ERR[line %d]: Number of params not valid.\n", line);
 		}
 		else {
 			currentFunction = index;
@@ -315,7 +314,7 @@ void TS_CheckParam(atributos param, int checkParam){
 	int posParam = (currentFunction + TS[currentFunction].nParams) - (checkParam - 1);
 	int error = TS[currentFunction].nParams - checkParam + 1;
 	if(param.type != TS[posParam].type) {
-		printf("Semantic Error[linea %d]: Param type (%d) not valid.\n", line, error);
+		printf("ARGS ERR[line %d]: Param type (%d) not valid.\n", line, error);
 		return;
 	}
 }

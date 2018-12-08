@@ -81,8 +81,8 @@ int n_lines = 1;
 "double"                                     {yylval.type = DOUBLE; return BASIC_TYPES;}
 "boolean"                                    {yylval.type = BOOLEAN; return BASIC_TYPES;}
 "char"                                       {yylval.type = CHAR; return BASIC_TYPES;}
-"true"                                       {yylval.attr = 0; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
-"false"                                      {yylval.attr = 1; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
+"true"                                       {yylval.attr = 0; yylval.name = strdup(yytext) ;return CONST_BOOLEAN;}
+"false"                                      {yylval.attr = 1; yylval.name = strdup(yytext) ;return CONST_BOOLEAN;}
 [0-9]+                                       {yylval.name = strdup(yytext); yylval.attr = 0; return CONST_INT;}
 [0-9]*\.[0-9]+                               {yylval.name = strdup(yytext); yylval.attr = 1; return CONST_DOUBLE;}
 \"[^\"]\"                                    {yylval.name = strdup(yytext); yylval.attr = 2; return CONST_CHAR;}
