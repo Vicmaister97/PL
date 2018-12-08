@@ -40,11 +40,14 @@ typedef enum {	// Enumeración para definir el tipo de dato de las entradas func
 } tipoDato;
 
 
-typedef struct atributos{	// Los atributos usados son el tipo de los elementos y el lexema
+
+
+#define YYSTYPE atributos	// A partir de ahora, cada símbolo tiene una estructura de tipo atributos
+typedef struct {	// Los atributos usados son el tipo de los elementos y el lexema
 
 	int attr;				// Atributo del símbolo (si tiene)
-	char *name;				// Nombre del lexema 
-	tipoDato type;			// Tipo del símbolo	
+	char *name;				// Nombre del lexema
+	tipoDato type;			// Tipo del símbolo
 	/*unsigned int nDim;	// En el caso de una lista, indica su dimensión o tamanio
 
 	// Tamaño de la dimensión 1
@@ -53,16 +56,13 @@ typedef struct atributos{	// Los atributos usados son el tipo de los elementos y
 	// Tamaño de la dimensión 2
 	int tDim2;*/
 
-};
-
-#define YYSTYPE atributos	// A partir de ahora, cada símbolo tiene una estructura de tipo atributos
-
+}atributos;
 /*************************************************************
 ** DEFINICIÓN DE LOS ELEMENTOS DE LA TABLA DE SÍMBOLOS (TS) **
 **************************************************************/
 #define MAX_TS 1000	// Tamanio máximo de la tabla de símbolos
 
-typedef struct entradaTS{	// Entrada de la tabla de símbolos (TS)
+typedef struct {	// Entrada de la tabla de símbolos (TS)
 
 	tipoEntrada entry;		// Tipo de entrada, valor del tipo enum tipoEntrada
 	char *name;				// Nombre o caracteres que conforman el identificador, no utilizado en una marca de bloque
@@ -76,7 +76,7 @@ typedef struct entradaTS{	// Entrada de la tabla de símbolos (TS)
 	// Tamaño de la dimensión 2
 	int tDim2;*/
 
-};
+}entradaTS;
 
 /**
 extern long int TOPE = 0 ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
@@ -129,5 +129,3 @@ int setType(attrs value); **/
 // Inserta una entrada en la tabla de símbolos
 
 /* Fin de funciones y procedimientos para manejo de la TS */
-
-

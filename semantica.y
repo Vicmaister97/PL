@@ -51,34 +51,6 @@ int yylex();
 %left CONST_INT CONST_DOUBLE CONST_BOOLEAN CONST_CHAR ID
 %right LEFT_PARENTHESIS
 
-/** CONSULTAR PRECEDENCIA DOLLAR LIST_OP, AT Y PARENTESIS
-
-/** Declaramos la precedencia (de menor a mayor) y asociatividad de los operadores
-
-PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MISMO TOKEN (BINARY_OP...)
-	 	 CAMBIO TOKENS.L?????
-
-	  TBIEN COINCIDENCIAS ++ Y + POR EL SIMBOLO (REDECLARACION DE '+')
-
-%left "||"
-%left "&&"
-%left "|"
-%left "^"
-%left "&"
-%left "==" "!="
-%left "<" ">" "<=" ">="
-%left "+" "-"
-%left "*" "/" "%"
-%right "*" "&" "+" "-" "!"
-%right "--"
-%right "++"
-%left "--"
-%left "++"
-%left "[" "]"
-
-**/
-
-
 %%
 
 /** Declaramos el conjunto de reglas o producciones que definen nuestra gramática

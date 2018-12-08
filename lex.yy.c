@@ -385,18 +385,18 @@ struct yy_trans_info
 static const flex_int16_t yy_accept[135] =
     {   0,
         0,    0,   64,   62,   61,   60,   27,   62,   28,   26,
-       35,    7,    8,   33,   30,    9,   31,   62,   34,   53,
+       35,    7,    8,   33,   30,    9,   31,   62,   34,   55,
        62,    6,   39,   10,   37,   29,   25,   59,    4,    5,
        59,   59,   59,   59,   59,   59,   59,   59,   59,   59,
        59,   59,   59,   59,    2,    3,   61,    0,   58,   36,
-       24,   32,   54,    0,   53,   17,   46,   38,   42,   41,
+       24,   32,   56,    0,   55,   17,   46,   38,   42,   41,
        40,   47,   59,   59,   59,   59,   19,   59,   59,   59,
        59,   11,   21,   59,   59,   44,   59,   59,   59,   18,
        59,   59,   59,    0,   57,   43,   59,   59,   59,   59,
        59,   59,   16,   59,   49,   59,   59,   20,   59,   59,
 
        59,   59,   45,   59,   52,   59,   13,   59,   59,   59,
-       59,    1,   59,   12,   55,   59,   59,   59,   59,   56,
+       59,    1,   59,   12,   53,   59,   59,   59,   59,   54,
        59,   59,   59,   14,   59,   50,   23,   59,   59,   15,
        51,   22,   48,    0
     } ;
@@ -560,15 +560,14 @@ int yy_flex_debug = 0;
 char yytext[YYLMAX];
 char *yytext_ptr;
 #line 1 "tokens.l"
+/*----- Sección de Declaraciones --------------*/
+#line 3 "tokens.l"
 /*********************************************************
 **
 ** Fichero: TOKENS.L
-** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
 ** Función: Pruebas de FLEX para practicas de PL.
 **
 *********************************************************/
-/*----- Sección de Declaraciones --------------*/
-#line 11 "tokens.l"
 
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
@@ -578,11 +577,11 @@ char *yytext_ptr;
 char buffer[MAXLONBUFFER] ;
 
 int n_lines = 1;
-#line 582 "lex.yy.c"
+#line 581 "lex.yy.c"
 /** La siguiente declaración indica que no se va a escribir la función ’yywrap’
 *** evita que se tenga que enlazar con -lfl, o que se tenga que escribir ’yywrap’
 **/
-#line 586 "lex.yy.c"
+#line 585 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -799,11 +798,11 @@ YY_DECL
 		}
 
 	{
-#line 29 "tokens.l"
+#line 27 "tokens.l"
 
-#line 31 "tokens.l"
+#line 29 "tokens.l"
 	/*----- Sección de Reglas ----------------*/
-#line 807 "lex.yy.c"
+#line 806 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -872,326 +871,326 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 32 "tokens.l"
+#line 30 "tokens.l"
 return MAIN;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 33 "tokens.l"
+#line 31 "tokens.l"
 return LEFT_KEY;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 34 "tokens.l"
+#line 32 "tokens.l"
 return RIGHT_KEY;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 35 "tokens.l"
+#line 33 "tokens.l"
 return LEFT_BRACKET;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 36 "tokens.l"
+#line 34 "tokens.l"
 return RIGHT_BRACKET;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "tokens.l"
+#line 35 "tokens.l"
 return SEMICOLON;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 38 "tokens.l"
+#line 36 "tokens.l"
 return LEFT_PARENTHESIS;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 39 "tokens.l"
+#line 37 "tokens.l"
 return RIGHT_PARENTHESIS;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 40 "tokens.l"
+#line 38 "tokens.l"
 return COMA;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 41 "tokens.l"
+#line 39 "tokens.l"
 return ASSIGN;
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 42 "tokens.l"
+#line 40 "tokens.l"
 return IF;
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 43 "tokens.l"
+#line 41 "tokens.l"
 return THEN;
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 44 "tokens.l"
+#line 42 "tokens.l"
 return ELSE;
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 45 "tokens.l"
+#line 43 "tokens.l"
 return WHILE;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 46 "tokens.l"
+#line 44 "tokens.l"
 return RETURN;
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 47 "tokens.l"
+#line 45 "tokens.l"
 return FOR;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 48 "tokens.l"
+#line 46 "tokens.l"
 return ASSIGN_FOR;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 49 "tokens.l"
+#line 47 "tokens.l"
 return TO;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 50 "tokens.l"
+#line 48 "tokens.l"
 return DO;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 51 "tokens.l"
+#line 49 "tokens.l"
 return OUT;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 52 "tokens.l"
+#line 50 "tokens.l"
 return IN;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 53 "tokens.l"
+#line 51 "tokens.l"
 return INITVAR;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 54 "tokens.l"
+#line 52 "tokens.l"
 return ENDVAR;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 55 "tokens.l"
+#line 53 "tokens.l"
 return PLUSPLUS;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 56 "tokens.l"
+#line 54 "tokens.l"
 return AT;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 57 "tokens.l"
+#line 55 "tokens.l"
 return DOLLAR;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 58 "tokens.l"
-return NEG_COUNT_QUEST;
+#line 56 "tokens.l"
+{return NEG;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 59 "tokens.l"
-return NEG_COUNT_QUEST;
+#line 57 "tokens.l"
+return COUNT;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 60 "tokens.l"
-return NEG_COUNT_QUEST;
+#line 58 "tokens.l"
+return QUEST;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 61 "tokens.l"
-return SYMBOL_OP;
+#line 59 "tokens.l"
+{yylval.attr = 0; return SYMBOL_OP;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 62 "tokens.l"
-return SYMBOL_OP;
+#line 60 "tokens.l"
+{yylval.attr = 1; return SYMBOL_OP;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 63 "tokens.l"
+#line 61 "tokens.l"
 return MINUSMINUS;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 64 "tokens.l"
-return BINARY_OP;
+#line 62 "tokens.l"
+{yylval.attr = 0; return BINARY_OP;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 65 "tokens.l"
-return BINARY_OP;
+#line 63 "tokens.l"
+{yylval.attr = 1; return BINARY_OP;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 66 "tokens.l"
-return BINARY_OP;
+#line 64 "tokens.l"
+return BINARY_LIST_OP_I;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 67 "tokens.l"
-return BINARY_OP;
+#line 65 "tokens.l"
+return BINARY_LIST_OP_L;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 68 "tokens.l"
-return RELATION_OP;
+#line 66 "tokens.l"
+{yylval.attr = 0; return RELATION_OP;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 69 "tokens.l"
-return RELATION_OP;
+#line 67 "tokens.l"
+{yylval.attr = 1; return RELATION_OP;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 70 "tokens.l"
-return RELATION_OP;
+#line 68 "tokens.l"
+{yylval.attr = 2; return RELATION_OP;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 71 "tokens.l"
-return RELATION_OP;
+#line 69 "tokens.l"
+{yylval.attr = 3; return RELATION_OP;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 72 "tokens.l"
-return EQUALS_OP;
+#line 70 "tokens.l"
+{yylval.attr = 0; return EQUALS_OP;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 73 "tokens.l"
-return EQUALS_OP;
+#line 71 "tokens.l"
+{yylval.attr = 1; return EQUALS_OP;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 74 "tokens.l"
+#line 72 "tokens.l"
 return AND_OP;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 75 "tokens.l"
+#line 73 "tokens.l"
 return OR_OP;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 76 "tokens.l"
+#line 74 "tokens.l"
 return XOR_OP;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 77 "tokens.l"
+#line 75 "tokens.l"
 return LIST_OP;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 78 "tokens.l"
+#line 76 "tokens.l"
 return LIST_OP;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 79 "tokens.l"
+#line 77 "tokens.l"
 return LIST_OF;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 80 "tokens.l"
-return BASIC_TYPES;
+#line 78 "tokens.l"
+{yylval.type = INT; return BASIC_TYPES;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 81 "tokens.l"
-return BASIC_TYPES;
+#line 79 "tokens.l"
+{yylval.type = DOUBLE; return BASIC_TYPES;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 82 "tokens.l"
-return BASIC_TYPES;
+#line 80 "tokens.l"
+{yylval.type = BOOLEAN; return BASIC_TYPES;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 83 "tokens.l"
-return BASIC_TYPES;
+#line 81 "tokens.l"
+{yylval.type = CHAR; return BASIC_TYPES;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 84 "tokens.l"
-return CONST_INT;
+#line 82 "tokens.l"
+{yylval.attr = 0; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 85 "tokens.l"
-return CONST_DOUBLE;
+#line 83 "tokens.l"
+{yylval.attr = 1; yylval.lex = strdup(yytext) ;return CONST_BOOLEAN;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 86 "tokens.l"
-return CONST_BOOLEAN;
+#line 84 "tokens.l"
+{yylval.name = strdup(yytext); yylval.attr = 0; return CONST_INT;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 87 "tokens.l"
-return CONST_BOOLEAN;
+#line 85 "tokens.l"
+{yylval.name = strdup(yytext); yylval.attr = 1; return CONST_DOUBLE;}
 	YY_BREAK
 case 57:
 /* rule 57 can match eol */
 YY_RULE_SETUP
-#line 88 "tokens.l"
-return CONST_CHAR;
+#line 86 "tokens.l"
+{yylval.name = strdup(yytext); yylval.attr = 2; return CONST_CHAR;}
 	YY_BREAK
 case 58:
 /* rule 58 can match eol */
 YY_RULE_SETUP
-#line 89 "tokens.l"
-return CADENA;
+#line 87 "tokens.l"
+{yylval.name = strdup(yytext); yylval.attr = 3; return CADENA;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 90 "tokens.l"
+#line 88 "tokens.l"
 return ID;
 	YY_BREAK
 case 60:
 /* rule 60 can match eol */
 YY_RULE_SETUP
-#line 91 "tokens.l"
+#line 89 "tokens.l"
 { /** lleva la cuenta de las líneas **/
 						n_lines++; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 93 "tokens.l"
+#line 91 "tokens.l"
 { /** accion vacia: se ignoran los espacios y tabuladores **/ }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 94 "tokens.l"
+#line 92 "tokens.l"
 { /** token desconocido, se produce un mensaje de error **/
 						snprintf(buffer, MAXLONBUFFER, "el(los) caracter(es) ’%s’ no forma(n) ningun token conocido", yytext);
 						yyerror(buffer); }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 99 "tokens.l"
+#line 97 "tokens.l"
 ECHO;
 	YY_BREAK
-#line 1195 "lex.yy.c"
+#line 1194 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2208,7 +2207,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 99 "tokens.l"
+#line 97 "tokens.l"
 
 /*----- Sección de Procedimientos --------*/
 
