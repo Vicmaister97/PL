@@ -41,8 +41,8 @@ int yylex();
 %left RELATION_OP
 %left SYMBOL_OP
 %left BINARY_OP BINARY_LIST_OP_I BINARY_LIST_OP_L
-%right NEG 
-%right COUNT 
+%right NEG
+%right COUNT
 %right QUEST
 %right MINUSMINUS
 %right PLUSPLUS
@@ -85,9 +85,9 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY {TS_AddMark();} Declar_de_variables_locales										//////////
-					Declar_de_subprogs Sentencias RIGHT_KEY {TS_CleanBlock();}											//////////
-	     | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY ;
+bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY {TS_CleanBlock();};
+inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
+				 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
@@ -96,8 +96,9 @@ Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { d
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
-Cuerpo_declar_variables : tipo list_id SEMICOLON;
-Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}		//////////
+Cuerpo_declar_variables : tipo list_id SEMICOLON
+												| error;
+Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  											LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
 	        | argumento
@@ -147,7 +148,7 @@ sentencia_while : WHILE LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS Sentencia
 sentencia_entrada : IN CADENA list_id SEMICOLON
 		          | IN list_id SEMICOLON;
 sentencia_salida  : OUT list_expresiones_o_cadena SEMICOLON ;
-sentencia_return  : RETURN expresion {TS_CheckReturn($2,&$$);} SEMICOLON ;             //////////////////////
+sentencia_return  : RETURN expresion {TS_CheckReturn($2,&$$);} SEMICOLON ;
 sentencia_for 	: FOR ID ASSIGN_FOR constante TO constante DO bloque;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
@@ -284,10 +285,8 @@ constante                 : CONST_INT                       {$$.type = INT;}
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
-                          | LIST_OF tipo_elemental
-													| LIST_OF LIST_OF tipo_elemental ;
-tipo_elemental            : BASIC_TYPES
-			              			| error;
+                          | LIST_OF tipo_elemental;
+tipo_elemental            : BASIC_TYPES;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
