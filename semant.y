@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "semantica.h"
+#include "semant.h"
 
 /** La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
 *** fuente de lex (tokens.l)

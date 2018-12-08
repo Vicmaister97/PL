@@ -1,5 +1,6 @@
 # PL
 Procesadores de Lenguajes, 2018-19 UGR
++ 
 +   VER LINEA IMPR ERRORES
 + List_of List_of int matriz;
 - PONER CABECERAS PROGRAMAS CON AUTORES CORREOS ETC
@@ -8,3 +9,17 @@ Procesadores de Lenguajes, 2018-19 UGR
     +   http://nereida.deioc.ull.es/~pl/perlexamples/node160.html
     +   https://docs.oracle.com/cd/E19504-01/802-5880/6i9k05dh3/index.html
     +   http://webdiis.unizar.es/asignaturas/LGA/material_2003_2004/Intro_Flex_Bison.pdf
+
+
+MAKE
+semantica: semant.o main.o y.tab.o
+	gcc -o semantica semant.o main.o y.tab.o
+
+main.o: main.c
+	gcc -o -c main.c
+
+y.tab.o: y.tab.c
+	gcc -o -c y.tab.c
+
+y.tab.c: semant.y lex.yy.c
+	bison -v -d -o semant.y
