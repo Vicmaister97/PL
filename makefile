@@ -1,5 +1,5 @@
 semantica: main.o y.tab.o semant.o
-	gcc -o -c semantica main.o y.tab.o semant.o
+	gcc -o semantica main.o y.tab.o semant.o
 
 y.tab.o: y.tab.c
 	gcc -c y.tab.c
@@ -21,4 +21,4 @@ all:
 	make semantica
 
 clean:
-	rm -rf semantica y.tab.c y.tab.o lex.yy.c semant.o main.o 
+	rm -rf semantica y.tab.c y.tab.o lex.yy.c semant.o main.o
