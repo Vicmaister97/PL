@@ -17,7 +17,6 @@ long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente p
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
 						   		   o si se llaman desde una expresión (decVar=2)*/
 int decParam = 0;				// Indica si se están declarando parámetros formales en una función
-int decFunction = 0;
 int esFunc = 0;				/* Indica el comienzo de una función con 0 si es un bloque y 1 si
 						   	   es la cabecera de la función */
 tipoDato globalType = NO_ASSIG;	// Tipo de dato actual para asignarlo a las entradas de la TS
