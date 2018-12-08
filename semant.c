@@ -24,7 +24,7 @@ int nParams = 0;
 int currentFunction = -1;		// Indica el índice de la función actual
 
 /* Guarda el type o tipo de dato del atributo leido */
-int getType(atributos value){
+void getType(atributos value){
 
     globalType = value.type;
 
