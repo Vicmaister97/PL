@@ -84,7 +84,7 @@ int TS_CleanBlock(){
 
 	if (TOPE == 0)
 		return -1;
-	
+
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
 
     while(TOPE > 0){				 // Mientras que no llegue a la base de la pila
@@ -114,7 +114,7 @@ int TS_FindByID(atributos e){
 
 	if (TOPE == 0)
 		return -1;
-	
+
 	int i = TOPE - 1;
 	bool found = false;
 
@@ -295,8 +295,9 @@ void TS_FunctionCall(atributos id, atributos* res){
 	int index = TS_FindByName(id);
 	if(index == -1) {
 		currentFunction = -1;
+
 		printf("\nSEARCH ERR[line %d]: Function: Id not found %s.\n", line, id.name);
-  	} 
+  	}
 	else {
 		if (nParam != TS[index].nParam) {
 			printf("ARGS ERR[line %d]: Number of params not valid.\n", line);
@@ -311,7 +312,7 @@ void TS_FunctionCall(atributos id, atributos* res){
 
 // Realiza la comprobación de cada parámetro de una función
 void TS_CheckParam(atributos param, int checkParam){
-	
+
 	int posParam = (currentFunction + TS[currentFunction].nParam) - (checkParam - 1);
 	int error = TS[currentFunction].nParam - checkParam + 1;
 	if(param.type != TS[posParam].type) {

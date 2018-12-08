@@ -103,7 +103,7 @@ extern int esFunc;
 extern tipoDato globalType;
 
 // Cuenta el número de parámetros de una función
-extern int nParam;
+extern int nParams;
 
 // Índice de la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
