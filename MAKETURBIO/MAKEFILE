@@ -1,0 +1,20 @@
+.SUFFIXES:
+
+semantica: main.o semantica.o y.tab.o
+	gcc -o semantica sematica.o main.o y.tab.o
+y.tab.o: y.tab.c
+	gcc -c y.tab.c
+main.o: main.c
+	gcc -c main.c
+y.tab.c: semantica.y lex.yy.c
+	bison -v -o y.tab.c semantica.y
+semantica.o: semantica.c
+	gcc -c semantica.c
+lex.yy.c: tokens.l
+	lex -l tokens.l
+clean:
+	rm -f semantica semantica.o main.o y.tab.o y.tab.c lex.yy.c
+all:
+	make clean
+	make semantica
+

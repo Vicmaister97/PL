@@ -28,10 +28,14 @@ typedef enum {	// Enumeración para definir el tipo de dato de las entradas func
 	DOUBLE,			// Real
 	CHAR,			// Caracter
 	BOOLEAN,		// Booleano
-	LIST,			// Lista
-	MATRIX,			// Matriz???
+	LIST_INT,		// Lista
+	LIST_DOUBLE,
+	LIST_CHAR,
+	LIST_BOOLEAN,
 	SIZE,			// Tamanio o dimensión de una lista situada en la entrada anterior
 	NO_ASSIG		// Aun no se ha asignado el tipo, para inicialización
+
+	// Matriz???
 
 } tipoDato;
 
