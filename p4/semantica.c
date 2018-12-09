@@ -15,7 +15,7 @@ entradaTS TS[MAX_TS] ;			// Pila de la tabla de símbolos
 int line = 1;					// Línea actual del fichero que se está analizando
 long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
-						   		   o si se llaman desde una expresión (decVar=2)*/
+			   		            o si se llaman desde una expresión (decVar=2)*/
 int decParam = 0;				// Indica si se están declarando parámetros formales en una función
 int esFunc = 0;				/* Indica el comienzo de una función con 0 si es un bloque y 1 si
 						   	   es la cabecera de la función */
@@ -27,7 +27,6 @@ int currentFunction = -1;		// Indica el índice de la función actual
 void getType(atributos value){
 
     globalType = value.type;
-
 }
 
 /*************************************************************
@@ -209,7 +208,7 @@ void TS_AddVar(atributos e){
 			entradaTS newIn;
 			newIn.entry = VAR;
 			newIn.name = e.name;
-			newIn.type = e.type;
+			newIn.type = globalType;
 			newIn.nParams = 0;
 			TS_AddEntry(newIn);
 		}
@@ -316,4 +315,60 @@ void TS_CheckParam(atributos param, int checkParam){
 		printf("ARGS ERR[line %d]: Param type (%d) not valid.\n", line, error);
 		return;
 	}
+}
+
+void printTS(){
+
+    int j = 0;
+	char *t, *e;
+
+	printf("--------------------------------\n");
+	while(j <= TOPE-1) {
+		if(ts[j].entry == 0) { e = "MARK"; }
+		if(ts[j].entry == 1) { e = "FUNCTION"; }
+		if(ts[j].entry == 2) { e = "VAR"; }
+		if(ts[j].entry == 3) { e = "FORM_PARAM"; }
+
+		if(ts[j].type == 0) { t = "INT"; }
+		if(ts[j].type == 1) { t = "DOUBLE"; }
+		if(ts[j].type == 2) { t = "CHAR"; }
+		if(ts[j].type == 3) { t = "BOOLEAN"; }
+		if(ts[j].type == 4) { t = "LIST_INT"; }
+		if(ts[j].type == 5) { t = "LIST_DOUBLE"; }
+		if(ts[j].type == 6) { t = "LIST_CHAR"; }
+		if(ts[j].type == 7) { t = "LIST_BOOLEAN"; }
+    if(ts[j].type == 8) { t = "SIZE"; }
+    if(ts[j].type == 9) { t = "NO_ASSIG"; }
+		printf("----ELEMENTO %d-----------------\n", j);
+		printf("-Entrada: %-12s", e);
+		printf("-Lexema: %-12s", ts[j].name);
+		printf("-type: %-10s", t);
+		printf("-nParam: %-4d", ts[j].nParams);
+		j++;
+	}
+	printf("--------------------------------\n");
+
+}
+
+// Muestra un atributo recibido
+void printAttr(attrs e, char *msg){
+
+    char *t;
+
+    if(e.type == 0) { t = "INT"; }
+		if(e.type == 1) { t = "DOUBLE"; }
+		if(e.type == 2) { t = "CHAR"; }
+		if(e.type == 3) { t = "BOOLEAN"; }
+		if(e.type == 4) { t = "LIST_INT"; }
+		if(e.type == 5) { t = "LIST_DOUBLE"; }
+		if(e.type == 6) { t = "LIST_CHAR"; }
+		if(e.type == 7) { t = "LIST_BOOLEAN"; }
+    if(e.type == 8) { t = "SIZE"; }
+    if(e.type == 9) { t = "NO_ASSIG"; }
+	printf("------%s-------------------------\n", msg);
+	printf("-Atributos: %-4d", e.attr);
+	printf("-Lexema: %-12s", e.name);
+	printf("-type: %-10s", t);
+	printf("-------------------------------\n");
+
 }

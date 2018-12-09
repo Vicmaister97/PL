@@ -152,3 +152,8 @@ void TS_FunctionCall(atributos id, atributos* res);
 
 // Realiza la comprobación de cada parámetro de una función
 void TS_CheckParam(atributos param, int checkParam);
+
+void printTS();
+
+// Muestra un atributo recibido
+void printAttr(attrs e, char *msg);
