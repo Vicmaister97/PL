@@ -57,7 +57,8 @@ int yylex();
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY {TS_CleanBlock();};
+bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
+					{TS_CleanBlock(); printf("marca fuera\n");};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 	 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
@@ -69,13 +70,13 @@ Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
-			| error;
-Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
+												| error ;
+Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2); printf("Funcion\n");}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
 	    | argumento
 	    |;
-argumento : tipo ID;
+argumento : tipo ID {TS_AddParam($2); printf("Aniado\n");};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
 Sentencia   : bloque
@@ -238,7 +239,7 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
 	      | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS   {$$.type = $2.type;}
-	      | error;
+	      | error ;
 
 funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
 	  | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
@@ -253,7 +254,7 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_int                  {$$.type = LIST_INT;}
                           | const_list_double               {$$.type = LIST_DOUBLE;}
                           | const_list_boolean              {$$.type = LIST_BOOLEAN;}
-                          | const_list_char                {$$.type = LIST_CHAR;};
+                          | const_list_char                 {$$.type = LIST_CHAR;};
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
@@ -277,7 +278,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
           | ID									{TS_AddVar($1);}
-	  | error;
+	  | error ;
 
 %%
 

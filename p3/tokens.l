@@ -9,9 +9,6 @@
 /*----- Sección de Declaraciones --------------*/
 %{
 
-/*----- Sección de Declaraciones --------------*/
-%{
-
 /**
  Buffer usado para almacenamiento temporal de cadenas de texto
 **/
@@ -65,7 +62,7 @@ int n_lines = 1;
 "--"                                         return MINUSMINUS;
 \*                                           return BINARY_OP;
 \/                                           return BINARY_OP;
-%                                            return BINARY_LIST_OP_I;
+\%                                           return BINARY_LIST_OP_I;
 \*\*                                         return BINARY_LIST_OP_L;
 ">"                                          return RELATION_OP;
 "<="                                         return RELATION_OP;

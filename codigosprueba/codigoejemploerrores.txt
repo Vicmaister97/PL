@@ -1,6 +1,7 @@
 main(){
   initVar
   int ve ;
+  char ve;
   itn error1;
   int double error12;
   int error21 error22, error23, error24
@@ -92,5 +93,8 @@ main(){
       pe = pe2 - pe ++ (10 * (20/2000)) @@ #pe ;
     }
   }
+
+  vf = 2.0;
+  vt = 2;
 
 }

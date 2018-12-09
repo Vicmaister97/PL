@@ -40,7 +40,11 @@ int yylex();
 %left RELATION_OP
 %left SYMBOL_OP
 %left BINARY_OP
-%right NEG_COUNT_QUEST
+%left BINARY_LIST_OP_I
+%left BINARY_LIST_OP_L
+%right NEG 
+%right COUNT
+%right QUEST
 %right MINUSMINUS
 %right PLUSPLUS
 %right DOLLAR LIST_OP
@@ -82,9 +86,9 @@ PROBLEMA: DELCARAR PRECEDENCIA Y ASOC DE OPERADORES CUANDO ESTÁN TODOS EN UN MI
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY Declar_de_variables_locales
-					Declar_de_subprogs Sentencias RIGHT_KEY
-	     | LEFT_KEY Declar_de_variables_locales Declar_de_subprogs RIGHT_KEY ;
+bloque	 : LEFT_KEY inbloque RIGHT_KEY;
+inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
+	 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma  bloque ;
@@ -93,7 +97,8 @@ Declar_de_variables_locales : INITVAR Variables_locales ENDVAR ;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
-Cuerpo_declar_variables : tipo list_id SEMICOLON;
+Cuerpo_declar_variables : tipo list_id SEMICOLON
+			| error;
 Cabecera_subprograma : tipo ID
  											LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
@@ -129,10 +134,14 @@ sentencia_for 	: FOR ID ASSIGN_FOR constante TO constante DO bloque;
 sentencia_list  : expresion LIST_OP
                 | DOLLAR expresion ;
 
-expresion : NEG_COUNT QUEST expresion
-          | SYMBOL_OP expresion %prec NEG_COUNT_QUEST
+expresion : NEG expresion
+	  | COUNT expresion
+	  | QUEST expresion
+          | SYMBOL_OP expresion %prec NEG
           | expresion SYMBOL_OP expresion
           | expresion BINARY_OP expresion
+	  | expresion BINARY_LIST_OP_I expresion
+	  | expresion BINARY_LIST_OP_L expresion
           | expresion AND_OP expresion
           | expresion OR_OP expresion
           | expresion XOR_OP expresion
@@ -166,8 +175,7 @@ list_expresiones          : list_expresiones COMA expresion
 tipo                      : tipo_elemental
                           | LIST_OF tipo_elemental
 													| LIST_OF LIST_OF tipo_elemental;
-tipo_elemental            : BASIC_TYPES
-			              			| error;
+tipo_elemental            : BASIC_TYPES;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
