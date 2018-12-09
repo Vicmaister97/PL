@@ -44,7 +44,7 @@ int TS_AddEntry(entradaTS entrada){
 		TS[TOPE].type=entrada.type;
     TS[TOPE].nParams=entrada.nParams;
 
-		printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
+		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
         // Actualizamos el número de entradas
 		TOPE++;
@@ -87,6 +87,8 @@ int TS_CleanBlock(){
 
     while(TOPE > 0){				 // Mientras que no llegue a la base de la pila buscamos el inicio del bloque en el que estamos
 		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
+		printf("Del Entry: %s \n", TS[TOPE].name);
+
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
 			TOPE--;
 			ret = 1;
@@ -97,6 +99,7 @@ int TS_CleanBlock(){
 
     if (TS[TOPE].entry == FORM_PARAM) {					// Si encuentra un parámetro formal
         TOPE--;
+   		printf("Del Entry: %s \n", TS[TOPE].name);
         ret = -1;										// Ahora tiene que llegar a la entrada de la función
 		while(TOPE > 0){
     		if (TS[TOPE].entry == FUNCTION){				// Cuando encuentra la entrada de la función
