@@ -253,10 +253,10 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | CONST_DOUBLE                    {$$.type = DOUBLE;}
                           | CONST_CHAR                      {$$.type = CHAR;}
                           | CONST_BOOLEAN                   {$$.type = BOOLEAN;}
-                          | const_list_int                  {$$.type = LIST_INT;}
-                          | const_list_double               {$$.type = LIST_DOUBLE;}
-                          | const_list_boolean              {$$.type = LIST_BOOLEAN;}
-                          | const_list_char                 {$$.type = LIST_CHAR;};
+                          | const_list_int
+                          | const_list_double
+                          | const_list_boolean
+                          | const_list_char;
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : BASIC_TYPES
@@ -277,19 +277,21 @@ tipo                      : BASIC_TYPES
 															$$.type = LIST_CHAR;
 													else if ($2.type == BOOLEAN)
 															$$.type = LIST_BOOLEAN;};
-const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
+
+const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET {$$.type = LIST_INT;};
+
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
 
-const_list_double  : LEFT_BRACKET list_double RIGHT_BRACKET ;
+const_list_double  : LEFT_BRACKET list_double RIGHT_BRACKET {$$.type = LIST_DOUBLE;};
 list_double  : list_double COMA CONST_DOUBLE
              | CONST_DOUBLE ;
 
-const_list_boolean  : LEFT_BRACKET list_boolean RIGHT_BRACKET ;
+const_list_boolean  : LEFT_BRACKET list_boolean RIGHT_BRACKET {$$.type = LIST_BOOLEAN;};
 list_boolean  : list_boolean COMA CONST_BOOLEAN
               | CONST_BOOLEAN ;
 
-const_list_char  : LEFT_BRACKET list_char RIGHT_BRACKET ;
+const_list_char  : LEFT_BRACKET list_char RIGHT_BRACKET {$$.type = LIST_CHAR;};
 list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
