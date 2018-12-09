@@ -36,13 +36,13 @@ Gramática
    17 Cuerpo_declar_variables: tipo $@4 list_id SEMICOLON
    18                        | error
 
-   19 @5: %empty
+   19 $@5: %empty
 
    20 $@6: %empty
 
    21 $@7: %empty
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
    23 argumentos: argumentos COMA argumento
    24           | argumento
@@ -253,9 +253,15 @@ Cuerpo_declar_variables (63)
 $@4 (64)
     en la izquierda: 16, en la derecha: 17
 Cabecera_subprograma (65)
+<<<<<<< HEAD
     en la izquierda: 22, en la derecha: 9
 @5 (66)
     en la izquierda: 19, en la derecha: 22
+=======
+    on left: 22, on right: 9
+$@5 (66)
+    on left: 19, on right: 22
+>>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 $@6 (67)
     en la izquierda: 20, en la derecha: 22
 $@7 (68)
@@ -676,11 +682,15 @@ Estado 33
 
 Estado 34
 
-   22 Cabecera_subprograma: tipo . @5 ID $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo . ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
+<<<<<<< HEAD
     $default  reduce usando la regla 19 (@5)
 
     @5  ir al estado 79
+=======
+    ID  shift, and go to state 79
+>>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 
 
 Estado 35
@@ -1280,9 +1290,15 @@ Estado 78
 
 Estado 79
 
-   22 Cabecera_subprograma: tipo @5 . ID $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID . $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
+    $default  reduce using rule 19 ($@5)
+
+<<<<<<< HEAD
     ID  desplazar e ir al estado 127
+=======
+    $@5  go to state 127
+>>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 
 
 Estado 80
@@ -2159,7 +2175,7 @@ Estado 126
 
 Estado 127
 
-   22 Cabecera_subprograma: tipo @5 ID . $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 . $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
     $default  reduce usando la regla 20 ($@6)
 
@@ -2856,7 +2872,7 @@ Estado 168
 
 Estado 169
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 . $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 $@6 . $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
     $default  reduce usando la regla 21 ($@7)
 
@@ -3051,7 +3067,7 @@ Estado 184
 
 Estado 185
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 $@7 . LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 $@6 $@7 . LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
     LEFT_PARENTHESIS  desplazar e ir al estado 191
 
@@ -3188,7 +3204,7 @@ Estado 190
 
 Estado 191
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 $@7 LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 $@6 $@7 LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
 
     LIST_OF      desplazar e ir al estado 8
     BASIC_TYPES  desplazar e ir al estado 9
@@ -3241,7 +3257,7 @@ Estado 194
 
 Estado 195
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 $@7 LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
+   22 Cabecera_subprograma: tipo ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
    23 argumentos: argumentos . COMA argumento
 
     RIGHT_PARENTHESIS  desplazar e ir al estado 198
@@ -3306,7 +3322,7 @@ Estado 197
 
 Estado 198
 
-   22 Cabecera_subprograma: tipo @5 ID $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
+   22 Cabecera_subprograma: tipo ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
 
     $default  reduce usando la regla 22 (Cabecera_subprograma)
 
