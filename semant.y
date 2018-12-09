@@ -69,8 +69,13 @@ Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { d
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
+<<<<<<< HEAD
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
+=======
+Cuerpo_declar_variables : tipo list_id SEMICOLON
+						| error ;
+>>>>>>> 7f67312c73d3c8bf7859ce07700bf7ee6001b289
 Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
@@ -277,7 +282,9 @@ tipo                      : BASIC_TYPES
 															$$.type = LIST_CHAR;
 													else if ($2.type == BOOLEAN)
 															$$.type = LIST_BOOLEAN;};
+
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET {$$.type = LIST_INT;};
+
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
 
@@ -295,7 +302,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
           | ID						{TS_AddVar($1);}
-					| error;
+          | error;
 
 
 %%
