@@ -1,4 +1,3 @@
-State 25 conflicts: 1 shift/reduce
 State 190 conflicts: 1 shift/reduce
 
 
@@ -139,44 +138,44 @@ Grammar
 
    93 tipo: BASIC_TYPES
    94     | LIST_OF BASIC_TYPES
-   95     | error
 
-   96 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
+   95 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET
 
-   97 list_int: list_int COMA CONST_INT
-   98         | CONST_INT
+   96 list_int: list_int COMA CONST_INT
+   97         | CONST_INT
 
-   99 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
+   98 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET
 
-  100 list_double: list_double COMA CONST_DOUBLE
-  101            | CONST_DOUBLE
+   99 list_double: list_double COMA CONST_DOUBLE
+  100            | CONST_DOUBLE
 
-  102 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
+  101 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET
 
-  103 list_boolean: list_boolean COMA CONST_BOOLEAN
-  104             | CONST_BOOLEAN
+  102 list_boolean: list_boolean COMA CONST_BOOLEAN
+  103             | CONST_BOOLEAN
 
-  105 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
+  104 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET
 
-  106 list_char: list_char COMA CONST_CHAR
-  107          | CONST_CHAR
+  105 list_char: list_char COMA CONST_CHAR
+  106          | CONST_CHAR
 
-  108 list_id: list_id COMA ID
-  109        | ID
+  107 list_id: list_id COMA ID
+  108        | ID
+  109        | error
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-error (256) 17 76 95
+error (256) 17 76 109
 MAIN (258) 13
 RIGHT_PARENTHESIS (259) 13 21 45 46 47 75 77 78
 LEFT_KEY (260) 3
 RIGHT_KEY (261) 3
-LEFT_BRACKET (262) 96 99 102 105
-RIGHT_BRACKET (263) 96 99 102 105
+LEFT_BRACKET (262) 95 98 101 104
+RIGHT_BRACKET (263) 95 98 101 104
 SEMICOLON (264) 16 40 41 42 43 44 48 49 50 52
-COMA (265) 22 79 91 97 100 103 106 108
+COMA (265) 22 79 91 96 99 102 105 107
 ASSIGN (266) 44
 IF (267) 45 46
 THEN (268) 45 46
@@ -211,11 +210,11 @@ PLUSPLUS (296) 40 42 74
 DOLLAR (297) 55
 LIST_OP (298) 54
 AT (299) 69 74
-CONST_INT (300) 83 97 98
-CONST_DOUBLE (301) 84 100 101
-CONST_BOOLEAN (302) 86 103 104
-CONST_CHAR (303) 85 106 107
-ID (304) 21 25 44 53 71 77 78 108 109
+CONST_INT (300) 83 96 97
+CONST_DOUBLE (301) 84 99 100
+CONST_BOOLEAN (302) 86 102 103
+CONST_CHAR (303) 85 105 106
+ID (304) 21 25 44 53 71 77 78 107 108
 LEFT_PARENTHESIS (305) 13 21 45 46 47 75 77 78
 
 
@@ -302,25 +301,25 @@ constante (88)
 list_expresiones (89)
     on left: 91 92, on right: 77 91
 tipo (90)
-    on left: 93 94 95, on right: 16 21 25
+    on left: 93 94, on right: 16 21 25
 const_list_int (91)
-    on left: 96, on right: 87
+    on left: 95, on right: 87
 list_int (92)
-    on left: 97 98, on right: 96 97
+    on left: 96 97, on right: 95 96
 const_list_double (93)
-    on left: 99, on right: 88
+    on left: 98, on right: 88
 list_double (94)
-    on left: 100 101, on right: 99 100
+    on left: 99 100, on right: 98 99
 const_list_boolean (95)
-    on left: 102, on right: 89
+    on left: 101, on right: 89
 list_boolean (96)
-    on left: 103 104, on right: 102 103
+    on left: 102 103, on right: 101 102
 const_list_char (97)
-    on left: 105, on right: 90
+    on left: 104, on right: 90
 list_char (98)
-    on left: 106 107, on right: 105 106
+    on left: 105 106, on right: 104 105
 list_id (99)
-    on left: 108 109, on right: 16 48 49 108
+    on left: 107 108 109, on right: 16 48 49 107
 
 
 State 0
@@ -360,16 +359,14 @@ State 4
 
    13 Cabecera_programa: MAIN LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
 
-    error        shift, and go to state 8
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    RIGHT_PARENTHESIS  reduce using rule 24 (argumentos)
-    COMA               reduce using rule 24 (argumentos)
+    $default  reduce using rule 24 (argumentos)
 
-    argumentos  go to state 11
-    argumento   go to state 12
-    tipo        go to state 13
+    argumentos  go to state 10
+    argumento   go to state 11
+    tipo        go to state 12
 
 
 State 5
@@ -385,7 +382,7 @@ State 6
 
     $default  reduce using rule 2 ($@1)
 
-    $@1  go to state 14
+    $@1  go to state 13
 
 
 State 7
@@ -397,234 +394,203 @@ State 7
 
 State 8
 
-   95 tipo: error .
+   94 tipo: LIST_OF . BASIC_TYPES
 
-    $default  reduce using rule 95 (tipo)
+    BASIC_TYPES  shift, and go to state 14
 
 
 State 9
-
-   94 tipo: LIST_OF . BASIC_TYPES
-
-    BASIC_TYPES  shift, and go to state 15
-
-
-State 10
 
    93 tipo: BASIC_TYPES .
 
     $default  reduce using rule 93 (tipo)
 
 
-State 11
+State 10
 
    13 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos . RIGHT_PARENTHESIS
    22 argumentos: argumentos . COMA argumento
 
-    RIGHT_PARENTHESIS  shift, and go to state 16
-    COMA               shift, and go to state 17
+    RIGHT_PARENTHESIS  shift, and go to state 15
+    COMA               shift, and go to state 16
 
 
-State 12
+State 11
 
    23 argumentos: argumento .
 
     $default  reduce using rule 23 (argumentos)
 
 
-State 13
+State 12
 
    25 argumento: tipo . ID
 
-    ID  shift, and go to state 18
+    ID  shift, and go to state 17
 
 
-State 14
+State 13
 
     3 bloque: LEFT_KEY $@1 . inbloque RIGHT_KEY
 
-    INITVAR  shift, and go to state 19
+    INITVAR  shift, and go to state 18
 
     $default  reduce using rule 12 (Declar_de_variables_locales)
 
-    inbloque                     go to state 20
-    Declar_de_variables_locales  go to state 21
+    inbloque                     go to state 19
+    Declar_de_variables_locales  go to state 20
 
 
-State 15
+State 14
 
    94 tipo: LIST_OF BASIC_TYPES .
 
     $default  reduce using rule 94 (tipo)
 
 
-State 16
+State 15
 
    13 Cabecera_programa: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS .
 
     $default  reduce using rule 13 (Cabecera_programa)
 
 
-State 17
+State 16
 
    22 argumentos: argumentos COMA . argumento
 
-    error        shift, and go to state 8
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    argumento  go to state 22
-    tipo       go to state 13
+    argumento  go to state 21
+    tipo       go to state 12
 
 
-State 18
+State 17
 
    25 argumento: tipo ID .
 
     $default  reduce using rule 25 (argumento)
 
 
-State 19
+State 18
 
    11 Declar_de_variables_locales: INITVAR . $@3 Variables_locales ENDVAR
 
     $default  reduce using rule 10 ($@3)
 
-    $@3  go to state 23
+    $@3  go to state 22
 
 
-State 20
+State 19
 
     3 bloque: LEFT_KEY $@1 inbloque . RIGHT_KEY
 
-    RIGHT_KEY  shift, and go to state 24
+    RIGHT_KEY  shift, and go to state 23
 
 
-State 21
+State 20
 
     4 inbloque: Declar_de_variables_locales . Declar_de_subprogs Sentencias
     5         | Declar_de_variables_locales . Declar_de_subprogs
 
     $default  reduce using rule 7 (Declar_de_subprogs)
 
-    Declar_de_subprogs  go to state 25
+    Declar_de_subprogs  go to state 24
 
 
-State 22
+State 21
 
    22 argumentos: argumentos COMA argumento .
 
     $default  reduce using rule 22 (argumentos)
 
 
-State 23
+State 22
 
    11 Declar_de_variables_locales: INITVAR $@3 . Variables_locales ENDVAR
 
-    error        shift, and go to state 26
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    error        shift, and go to state 25
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    Variables_locales        go to state 27
-    Cuerpo_declar_variables  go to state 28
-    tipo                     go to state 29
+    Variables_locales        go to state 26
+    Cuerpo_declar_variables  go to state 27
+    tipo                     go to state 28
 
 
-State 24
+State 23
 
     3 bloque: LEFT_KEY $@1 inbloque RIGHT_KEY .
 
     $default  reduce using rule 3 (bloque)
 
 
-State 25
+State 24
 
     4 inbloque: Declar_de_variables_locales Declar_de_subprogs . Sentencias
     5         | Declar_de_variables_locales Declar_de_subprogs .
     6 Declar_de_subprogs: Declar_de_subprogs . Declar_subprog
 
-    error        shift, and go to state 8
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    error             [reduce using rule 28 ($@8)]
-    LEFT_KEY          reduce using rule 28 ($@8)
-    RIGHT_KEY         reduce using rule 5 (inbloque)
-    LEFT_BRACKET      reduce using rule 28 ($@8)
-    IF                reduce using rule 28 ($@8)
-    WHILE             reduce using rule 28 ($@8)
-    RETURN            reduce using rule 28 ($@8)
-    FOR               reduce using rule 28 ($@8)
-    OUT               reduce using rule 28 ($@8)
-    IN                reduce using rule 28 ($@8)
-    SYMBOL_OP         reduce using rule 28 ($@8)
-    NEG               reduce using rule 28 ($@8)
-    COUNT             reduce using rule 28 ($@8)
-    QUEST             reduce using rule 28 ($@8)
-    MINUSMINUS        reduce using rule 28 ($@8)
-    PLUSPLUS          reduce using rule 28 ($@8)
-    DOLLAR            reduce using rule 28 ($@8)
-    CONST_INT         reduce using rule 28 ($@8)
-    CONST_DOUBLE      reduce using rule 28 ($@8)
-    CONST_BOOLEAN     reduce using rule 28 ($@8)
-    CONST_CHAR        reduce using rule 28 ($@8)
-    ID                reduce using rule 28 ($@8)
-    LEFT_PARENTHESIS  reduce using rule 28 ($@8)
+    RIGHT_KEY  reduce using rule 5 (inbloque)
+    $default   reduce using rule 28 ($@8)
 
-    Declar_subprog        go to state 30
-    Cabecera_subprograma  go to state 31
-    Sentencias            go to state 32
-    $@8                   go to state 33
-    tipo                  go to state 34
+    Declar_subprog        go to state 29
+    Cabecera_subprograma  go to state 30
+    Sentencias            go to state 31
+    $@8                   go to state 32
+    tipo                  go to state 33
+
+
+State 25
+
+   17 Cuerpo_declar_variables: error .
+
+    $default  reduce using rule 17 (Cuerpo_declar_variables)
 
 
 State 26
 
-   17 Cuerpo_declar_variables: error .
-   95 tipo: error .
-
-    ID        reduce using rule 95 (tipo)
-    $default  reduce using rule 17 (Cuerpo_declar_variables)
-
-
-State 27
-
    11 Declar_de_variables_locales: INITVAR $@3 Variables_locales . ENDVAR
    14 Variables_locales: Variables_locales . Cuerpo_declar_variables
 
-    error        shift, and go to state 26
-    ENDVAR       shift, and go to state 35
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    error        shift, and go to state 25
+    ENDVAR       shift, and go to state 34
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    Cuerpo_declar_variables  go to state 36
-    tipo                     go to state 29
+    Cuerpo_declar_variables  go to state 35
+    tipo                     go to state 28
 
 
-State 28
+State 27
 
    15 Variables_locales: Cuerpo_declar_variables .
 
     $default  reduce using rule 15 (Variables_locales)
 
 
-State 29
+State 28
 
    16 Cuerpo_declar_variables: tipo . list_id SEMICOLON
 
-    ID  shift, and go to state 37
+    error  shift, and go to state 36
+    ID     shift, and go to state 37
 
     list_id  go to state 38
 
 
-State 30
+State 29
 
     6 Declar_de_subprogs: Declar_de_subprogs Declar_subprog .
 
     $default  reduce using rule 6 (Declar_de_subprogs)
 
 
-State 31
+State 30
 
     9 Declar_subprog: Cabecera_subprograma . $@2 bloque
 
@@ -633,7 +599,7 @@ State 31
     $@2  go to state 39
 
 
-State 32
+State 31
 
     4 inbloque: Declar_de_variables_locales Declar_de_subprogs Sentencias .
    27 Sentencias: Sentencias . $@7 Sentencia
@@ -644,7 +610,7 @@ State 32
     $@7  go to state 40
 
 
-State 33
+State 32
 
    29 Sentencias: $@8 . Sentencia
 
@@ -691,7 +657,7 @@ State 33
     const_list_char       go to state 79
 
 
-State 34
+State 33
 
    21 Cabecera_subprograma: tipo . @4 ID $@5 $@6 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
@@ -700,31 +666,38 @@ State 34
     @4  go to state 80
 
 
-State 35
+State 34
 
    11 Declar_de_variables_locales: INITVAR $@3 Variables_locales ENDVAR .
 
     $default  reduce using rule 11 (Declar_de_variables_locales)
 
 
-State 36
+State 35
 
    14 Variables_locales: Variables_locales Cuerpo_declar_variables .
 
     $default  reduce using rule 14 (Variables_locales)
 
 
-State 37
+State 36
 
-  109 list_id: ID .
+  109 list_id: error .
 
     $default  reduce using rule 109 (list_id)
+
+
+State 37
+
+  108 list_id: ID .
+
+    $default  reduce using rule 108 (list_id)
 
 
 State 38
 
    16 Cuerpo_declar_variables: tipo list_id . SEMICOLON
-  108 list_id: list_id . COMA ID
+  107 list_id: list_id . COMA ID
 
     SEMICOLON  shift, and go to state 81
     COMA       shift, and go to state 82
@@ -795,10 +768,10 @@ State 41
 
 State 42
 
-   96 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
-   99 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
-  102 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
-  105 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
+   95 const_list_int: LEFT_BRACKET . list_int RIGHT_BRACKET
+   98 const_list_double: LEFT_BRACKET . list_double RIGHT_BRACKET
+  101 const_list_boolean: LEFT_BRACKET . list_boolean RIGHT_BRACKET
+  104 const_list_char: LEFT_BRACKET . list_char RIGHT_BRACKET
 
     CONST_INT      shift, and go to state 85
     CONST_DOUBLE   shift, and go to state 86
@@ -893,6 +866,7 @@ State 48
    48 sentencia_entrada: IN . CADENA list_id SEMICOLON
    49                  | IN . list_id SEMICOLON
 
+    error   shift, and go to state 36
     CADENA  shift, and go to state 102
     ID      shift, and go to state 37
 
@@ -1316,7 +1290,7 @@ State 81
 
 State 82
 
-  108 list_id: list_id COMA . ID
+  107 list_id: list_id COMA . ID
 
     ID  shift, and go to state 128
 
@@ -1337,36 +1311,36 @@ State 84
 
 State 85
 
-   98 list_int: CONST_INT .
+   97 list_int: CONST_INT .
 
-    $default  reduce using rule 98 (list_int)
+    $default  reduce using rule 97 (list_int)
 
 
 State 86
 
-  101 list_double: CONST_DOUBLE .
+  100 list_double: CONST_DOUBLE .
 
-    $default  reduce using rule 101 (list_double)
+    $default  reduce using rule 100 (list_double)
 
 
 State 87
 
-  104 list_boolean: CONST_BOOLEAN .
+  103 list_boolean: CONST_BOOLEAN .
 
-    $default  reduce using rule 104 (list_boolean)
+    $default  reduce using rule 103 (list_boolean)
 
 
 State 88
 
-  107 list_char: CONST_CHAR .
+  106 list_char: CONST_CHAR .
 
-    $default  reduce using rule 107 (list_char)
+    $default  reduce using rule 106 (list_char)
 
 
 State 89
 
-   96 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
-   97 list_int: list_int . COMA CONST_INT
+   95 const_list_int: LEFT_BRACKET list_int . RIGHT_BRACKET
+   96 list_int: list_int . COMA CONST_INT
 
     RIGHT_BRACKET  shift, and go to state 129
     COMA           shift, and go to state 130
@@ -1374,8 +1348,8 @@ State 89
 
 State 90
 
-   99 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
-  100 list_double: list_double . COMA CONST_DOUBLE
+   98 const_list_double: LEFT_BRACKET list_double . RIGHT_BRACKET
+   99 list_double: list_double . COMA CONST_DOUBLE
 
     RIGHT_BRACKET  shift, and go to state 131
     COMA           shift, and go to state 132
@@ -1383,8 +1357,8 @@ State 90
 
 State 91
 
-  102 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
-  103 list_boolean: list_boolean . COMA CONST_BOOLEAN
+  101 const_list_boolean: LEFT_BRACKET list_boolean . RIGHT_BRACKET
+  102 list_boolean: list_boolean . COMA CONST_BOOLEAN
 
     RIGHT_BRACKET  shift, and go to state 133
     COMA           shift, and go to state 134
@@ -1392,8 +1366,8 @@ State 91
 
 State 92
 
-  105 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
-  106 list_char: list_char . COMA CONST_CHAR
+  104 const_list_char: LEFT_BRACKET list_char . RIGHT_BRACKET
+  105 list_char: list_char . COMA CONST_CHAR
 
     RIGHT_BRACKET  shift, and go to state 135
     COMA           shift, and go to state 136
@@ -1563,7 +1537,8 @@ State 102
 
    48 sentencia_entrada: IN CADENA . list_id SEMICOLON
 
-    ID  shift, and go to state 37
+    error  shift, and go to state 36
+    ID     shift, and go to state 37
 
     list_id  go to state 145
 
@@ -1571,7 +1546,7 @@ State 102
 State 103
 
    49 sentencia_entrada: IN list_id . SEMICOLON
-  108 list_id: list_id . COMA ID
+  107 list_id: list_id . COMA ID
 
     SEMICOLON  shift, and go to state 146
     COMA       shift, and go to state 82
@@ -2180,63 +2155,63 @@ State 127
 
 State 128
 
-  108 list_id: list_id COMA ID .
+  107 list_id: list_id COMA ID .
 
-    $default  reduce using rule 108 (list_id)
+    $default  reduce using rule 107 (list_id)
 
 
 State 129
 
-   96 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
+   95 const_list_int: LEFT_BRACKET list_int RIGHT_BRACKET .
 
-    $default  reduce using rule 96 (const_list_int)
+    $default  reduce using rule 95 (const_list_int)
 
 
 State 130
 
-   97 list_int: list_int COMA . CONST_INT
+   96 list_int: list_int COMA . CONST_INT
 
     CONST_INT  shift, and go to state 169
 
 
 State 131
 
-   99 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
+   98 const_list_double: LEFT_BRACKET list_double RIGHT_BRACKET .
 
-    $default  reduce using rule 99 (const_list_double)
+    $default  reduce using rule 98 (const_list_double)
 
 
 State 132
 
-  100 list_double: list_double COMA . CONST_DOUBLE
+   99 list_double: list_double COMA . CONST_DOUBLE
 
     CONST_DOUBLE  shift, and go to state 170
 
 
 State 133
 
-  102 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
+  101 const_list_boolean: LEFT_BRACKET list_boolean RIGHT_BRACKET .
 
-    $default  reduce using rule 102 (const_list_boolean)
+    $default  reduce using rule 101 (const_list_boolean)
 
 
 State 134
 
-  103 list_boolean: list_boolean COMA . CONST_BOOLEAN
+  102 list_boolean: list_boolean COMA . CONST_BOOLEAN
 
     CONST_BOOLEAN  shift, and go to state 171
 
 
 State 135
 
-  105 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
+  104 const_list_char: LEFT_BRACKET list_char RIGHT_BRACKET .
 
-    $default  reduce using rule 105 (const_list_char)
+    $default  reduce using rule 104 (const_list_char)
 
 
 State 136
 
-  106 list_char: list_char COMA . CONST_CHAR
+  105 list_char: list_char COMA . CONST_CHAR
 
     CONST_CHAR  shift, and go to state 172
 
@@ -2418,7 +2393,7 @@ State 144
 State 145
 
    48 sentencia_entrada: IN CADENA list_id . SEMICOLON
-  108 list_id: list_id . COMA ID
+  107 list_id: list_id . COMA ID
 
     SEMICOLON  shift, and go to state 178
     COMA       shift, and go to state 82
@@ -2870,30 +2845,30 @@ State 168
 
 State 169
 
-   97 list_int: list_int COMA CONST_INT .
+   96 list_int: list_int COMA CONST_INT .
 
-    $default  reduce using rule 97 (list_int)
+    $default  reduce using rule 96 (list_int)
 
 
 State 170
 
-  100 list_double: list_double COMA CONST_DOUBLE .
+   99 list_double: list_double COMA CONST_DOUBLE .
 
-    $default  reduce using rule 100 (list_double)
+    $default  reduce using rule 99 (list_double)
 
 
 State 171
 
-  103 list_boolean: list_boolean COMA CONST_BOOLEAN .
+  102 list_boolean: list_boolean COMA CONST_BOOLEAN .
 
-    $default  reduce using rule 103 (list_boolean)
+    $default  reduce using rule 102 (list_boolean)
 
 
 State 172
 
-  106 list_char: list_char COMA CONST_CHAR .
+  105 list_char: list_char COMA CONST_CHAR .
 
-    $default  reduce using rule 106 (list_char)
+    $default  reduce using rule 105 (list_char)
 
 
 State 173
@@ -3188,16 +3163,14 @@ State 189
 
    21 Cabecera_subprograma: tipo @4 ID $@5 $@6 LEFT_PARENTHESIS . argumentos RIGHT_PARENTHESIS
 
-    error        shift, and go to state 8
-    LIST_OF      shift, and go to state 9
-    BASIC_TYPES  shift, and go to state 10
+    LIST_OF      shift, and go to state 8
+    BASIC_TYPES  shift, and go to state 9
 
-    RIGHT_PARENTHESIS  reduce using rule 24 (argumentos)
-    COMA               reduce using rule 24 (argumentos)
+    $default  reduce using rule 24 (argumentos)
 
     argumentos  go to state 193
-    argumento   go to state 12
-    tipo        go to state 13
+    argumento   go to state 11
+    tipo        go to state 12
 
 
 State 190
@@ -3245,7 +3218,7 @@ State 193
    22 argumentos: argumentos . COMA argumento
 
     RIGHT_PARENTHESIS  shift, and go to state 196
-    COMA               shift, and go to state 17
+    COMA               shift, and go to state 16
 
 
 State 194
