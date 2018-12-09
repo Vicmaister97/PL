@@ -69,13 +69,8 @@ Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { d
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
-<<<<<<< HEAD
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
-=======
-Cuerpo_declar_variables : tipo list_id SEMICOLON
-						| error ;
->>>>>>> 7f67312c73d3c8bf7859ce07700bf7ee6001b289
 Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
