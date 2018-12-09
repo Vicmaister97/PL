@@ -18,7 +18,7 @@ main(){
   error29;
   endVar
 
-  int functionA (int a1 double a2, boolean a3 error3){
+  int functionA (int a1, double a2, boolean a3){
     initVar
     int x1, x2 ;
     endVar
