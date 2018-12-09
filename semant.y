@@ -276,8 +276,7 @@ tipo                      : BASIC_TYPES
 													else if ($2.type == CHAR)
 															$$.type = LIST_CHAR;
 													else if ($2.type == BOOLEAN)
-															$$.type = LIST_BOOLEAN;}
-                          | error;
+															$$.type = LIST_BOOLEAN;};
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
@@ -295,7 +294,8 @@ list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
-          | ID						{TS_AddVar($1);};
+          | ID									{TS_AddVar($1);}
+					| error;
 
 
 %%
