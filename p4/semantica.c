@@ -324,26 +324,26 @@ void printTS(){
 
 	printf("--------------------------------\n");
 	while(j <= TOPE-1) {
-		if(ts[j].entry == 0) { e = "MARK"; }
-		if(ts[j].entry == 1) { e = "FUNCTION"; }
-		if(ts[j].entry == 2) { e = "VAR"; }
-		if(ts[j].entry == 3) { e = "FORM_PARAM"; }
+		if(TS[j].entry == 0) { e = "MARK"; }
+		if(TS[j].entry == 1) { e = "FUNCTION"; }
+		if(TS[j].entry == 2) { e = "VAR"; }
+		if(TS[j].entry == 3) { e = "FORM_PARAM"; }
 
-		if(ts[j].type == 0) { t = "INT"; }
-		if(ts[j].type == 1) { t = "DOUBLE"; }
-		if(ts[j].type == 2) { t = "CHAR"; }
-		if(ts[j].type == 3) { t = "BOOLEAN"; }
-		if(ts[j].type == 4) { t = "LIST_INT"; }
-		if(ts[j].type == 5) { t = "LIST_DOUBLE"; }
-		if(ts[j].type == 6) { t = "LIST_CHAR"; }
-		if(ts[j].type == 7) { t = "LIST_BOOLEAN"; }
-    if(ts[j].type == 8) { t = "SIZE"; }
-    if(ts[j].type == 9) { t = "NO_ASSIG"; }
+		if(TS[j].type == 0) { t = "INT"; }
+		if(TS[j].type == 1) { t = "DOUBLE"; }
+		if(TS[j].type == 2) { t = "CHAR"; }
+		if(TS[j].type == 3) { t = "BOOLEAN"; }
+		if(TS[j].type == 4) { t = "LIST_INT"; }
+		if(TS[j].type == 5) { t = "LIST_DOUBLE"; }
+		if(TS[j].type == 6) { t = "LIST_CHAR"; }
+		if(TS[j].type == 7) { t = "LIST_BOOLEAN"; }
+    if(TS[j].type == 8) { t = "SIZE"; }
+    if(TS[j].type == 9) { t = "NO_ASSIG"; }
 		printf("----ELEMENTO %d-----------------\n", j);
 		printf("-Entrada: %-12s", e);
-		printf("-Lexema: %-12s", ts[j].name);
+		printf("-Lexema: %-12s", TS[j].name);
 		printf("-type: %-10s", t);
-		printf("-nParam: %-4d", ts[j].nParams);
+		printf("-nParam: %-4d", TS[j].nParams);
 		j++;
 	}
 	printf("--------------------------------\n");
@@ -351,7 +351,7 @@ void printTS(){
 }
 
 // Muestra un atributo recibido
-void printAttr(attrs e, char *msg){
+void printAttr(atributos e, char *msg){
 
     char *t;
 

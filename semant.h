@@ -156,4 +156,4 @@ void TS_CheckParam(atributos param, int checkParam);
 void printTS();
 
 // Muestra un atributo recibido
-void printAttr(attrs e, char *msg);
+void printAttr(atributos e, char *msg);
