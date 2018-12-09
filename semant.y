@@ -69,7 +69,7 @@ Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { d
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
-Cuerpo_declar_variables : tipo list_id SEMICOLON
+Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
 Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
@@ -123,7 +123,7 @@ sentencia_entrada : IN CADENA list_id SEMICOLON
 sentencia_salida  : OUT list_expresiones_o_cadena SEMICOLON ;
 sentencia_return  : RETURN expresion {TS_CheckReturn($2,&$$);} SEMICOLON ;
 sentencia_for 	: FOR ID ASSIGN_FOR constante TO constante DO bloque;
-sentencia_list  : expresion LIST_OP
+sentencia_list  : expresion LIST_OP {$1.type = $$.type}
                 | DOLLAR expresion ;
 
 expresion : NEG expresion
@@ -211,7 +211,8 @@ expresion : NEG expresion
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
           {if ($1.type != $3.type)
-              if ($1.type == INT || $3.type == INT || $1.type == DOUBLE || $3.type == DOUBLE){
+              if ($1.type == INT || $3.type == INT || $1.type == DOUBLE || $3.type == DOUBLE
+									|| $1.type == CHAR || $3.type == CHAR || $1.type == BOOLEAN || $3.type == BOOLEAN){
               } else
                   printf("Semantic Error(%d): Types not comparable.\n", line);
           $$.type = BOOLEAN;}
@@ -277,11 +278,10 @@ tipo                      : BASIC_TYPES
 															$$.type = LIST_CHAR;
 													else if ($2.type == BOOLEAN)
 															$$.type = LIST_BOOLEAN;};
-<<<<<<< HEAD
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
-=======
+
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET {$$.type = LIST_INT;};
->>>>>>> bc36c5c36f34a3a31b0c2b29ba37e351ebd51704
+
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
 
@@ -298,11 +298,7 @@ list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
-<<<<<<< HEAD
           | ID									{TS_AddVar($1);}
-=======
-          | ID						{TS_AddVar($1);}
->>>>>>> bc36c5c36f34a3a31b0c2b29ba37e351ebd51704
 					| error;
 
 
