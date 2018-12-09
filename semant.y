@@ -58,9 +58,9 @@ int yylex();
 
 Programa : Cabecera_programa bloque ;
 bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
-					{TS_CleanBlock(); printf("marca fuera\n");};
+					{TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
-	 | Declar_de_variables_locales Declar_de_subprogs;
+	 			 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
@@ -71,12 +71,12 @@ Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
 												| error ;
-Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2); printf("Funcion\n");}
+Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
 	    | argumento
 	    |;
-argumento : tipo ID {TS_AddParam($2); printf("Aniado\n");};
+argumento : tipo ID {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
 Sentencia   : bloque
@@ -182,8 +182,10 @@ expresion : NEG expresion
           $$.type = $1.type;}
           | expresion BINARY_LIST_OP_L expresion
           {if ($1.type == $3.type){
-              if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
+							//printf("%d\n", $1.type);
+              if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR) {
                 $$.type = $1.type;
+								}
               else
                 printf("Semantic Error(%d): Types not operable.\n", line);
                 }
@@ -257,9 +259,25 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_char                 {$$.type = LIST_CHAR;};
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
-tipo                      : tipo_elemental
-                          | LIST_OF tipo_elemental;
-tipo_elemental            : BASIC_TYPES;
+tipo                      : BASIC_TYPES
+													{if ($1.type == INT)
+															$$.type = INT;
+													else if ($1.type == DOUBLE)
+															$$.type = DOUBLE;
+													else if ($1.type == CHAR)
+															$$.type = CHAR;
+													else if ($1.type == BOOLEAN)
+															$$.type = BOOLEAN;}
+                          | LIST_OF BASIC_TYPES
+													{if ($2.type == INT)
+															$$.type = LIST_INT;
+													else if ($2.type == DOUBLE)
+															$$.type = LIST_DOUBLE;
+													else if ($2.type == CHAR)
+															$$.type = LIST_CHAR;
+													else if ($2.type == BOOLEAN)
+															$$.type = LIST_BOOLEAN;}
+													| error ;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
           | CONST_INT ;
@@ -278,7 +296,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
           | ID									{TS_AddVar($1);}
-	  | error ;
+					| list_id error ID;
 
 %%
 

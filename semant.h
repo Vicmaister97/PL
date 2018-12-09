@@ -100,7 +100,7 @@ extern int decParam;
 extern int esFunc;
 
 // Variable global que almacena el tipo en las declaraciones
-extern tipoDato globalType;
+extern tipoDato globalType[20];
 
 // Cuenta el número de parámetros de una función
 extern int nParams;
