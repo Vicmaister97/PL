@@ -74,7 +74,7 @@ Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
-	    | argumento
+	    | argumento	{TS_UpdateNParams();}
 	    |;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
