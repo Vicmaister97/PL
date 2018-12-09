@@ -19,16 +19,14 @@ int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), 
 int decParam = 0;				// Indica si se están declarando parámetros formales en una función
 int esFunc = 0;				/* Indica el comienzo de una función con 0 si es un bloque y 1 si
 						   	   es la cabecera de la función */
-tipoDato globalType[20];	// Tipo de dato actual para asignarlo a las entradas de la TS
-int posGlobalType = 0;
+tipoDato globalType;	// Tipo de dato actual para asignarlo a las entradas de la TS
 int nParams = 0;
 int currentFunction = -1;		// Indica el índice de la función actual
 
 /* Guarda el type o tipo de dato del atributo leido */
 void getType(atributos value){
 
-    globalType[posGlobalType] = value.type;
-    posGlobalType++;
+    globalType = value.type;
 
 }
 
@@ -211,7 +209,7 @@ void TS_AddVar(atributos e){
 			entradaTS newIn;
 			newIn.entry = VAR;
 			newIn.name = e.name;
-			newIn.type = globalType[posGlobalType];
+			newIn.type = e.type;
 			newIn.nParams = 0;
 			TS_AddEntry(newIn);
 		}
@@ -225,7 +223,7 @@ void TS_AddFunction(atributos e){
 	inFunct.entry = FUNCTION;
 	inFunct.name = e.name;
 	inFunct.nParams = 0;		// Luego se actualizarán el número de parámetros
-	inFunct.type = globalType[posGlobalType - 1];
+	inFunct.type = e.type;
 
 	currentFunction = TOPE;		// Actualizamos la función actual
 	TS_AddEntry(inFunct);
@@ -248,7 +246,7 @@ void TS_AddParam(atributos e){
 		entradaTS newIn;
 		newIn.entry = FORM_PARAM;
 		newIn.name = e.name;
-		newIn.type = globalType[posGlobalType];
+		newIn.type = e.type;
 		newIn.nParams = 0;
 		TS_AddEntry(newIn);
 	}
@@ -261,8 +259,7 @@ void TS_AddParam(atributos e){
 // Comprueba si el type de la expresión coincide con lo que devuelve la función
 void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
-  posGlobalType--;
-  printf("expresion: %d, funcion: %d, pos: %i\n", expr.type, globalType[posGlobalType], posGlobalType);
+  printf("expresion: %d, funcion: %d\n", expr.type, globalType);
 	if (index > -1) {
 		if (expr.type != TS[index].type) {
 			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
