@@ -71,8 +71,8 @@ Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
-Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
- 		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
+Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
+ 		                 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
 	    | argumento
 	    |;

@@ -42,9 +42,9 @@ int TS_AddEntry(entradaTS entrada){
 		TS[TOPE].entry=entrada.entry;
 		TS[TOPE].name=entrada.name;
 		TS[TOPE].type=entrada.type;
-    TS[TOPE].nParams=entrada.nParams;
+    	TS[TOPE].nParams=entrada.nParams;
 
-		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
+		printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
         // Actualizamos el número de entradas
 		TOPE++;
@@ -228,6 +228,7 @@ void TS_AddVar(atributos e){
 // Inserta una entrada en la tabla de símbolos de una función
 void TS_AddFunction(atributos e){
 
+	printf("HOLAAAFUNCTTTT");
 	entradaTS inFunct;
 	inFunct.entry = FUNCTION;
 	inFunct.name = e.name;
