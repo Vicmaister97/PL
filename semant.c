@@ -12,7 +12,7 @@
 #include "semant.h"
 
 entradaTS TS[MAX_TS] ;			// Pila de la tabla de símbolos
-int line = 1;					// Línea actual del fichero que se está analizando
+int line = 1;					// Línea del fichero que se está analizando
 long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
 						   		   o si se llaman desde una expresión (decVar=2)*/
@@ -49,11 +49,11 @@ int TS_AddEntry(entradaTS entrada){
 		TOPE++;
 
 		return 1;
-
 	}
+
 	else{	// Si está completa
 
-		printf("ERR[line %d]: SYMBOL TABLE (TS) OVERFLOW", line);
+		printf("MAX_ENTRIES ERR[line %d]: SYMBOL TABLE (TS) OVERFLOW", line);
 		return -1;
 
 	}
@@ -67,29 +67,28 @@ int TS_DelEntry(){
 
 		TOPE--;
 		return 1;
-
 	}
+
 	else{
 
-		printf("ERR[line %d]: SYMBOL TABLE (TS) EMPTY", line);
+		printf("NO_ENTRIES ERR[line %d]: EMPTY SYMBOL TABLE (TS)", line);
 		return -1;
-
 	}
 }
 
 /* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_CleanBlock(){
 
-	if (TOPE == 0)
-		return -1;
-
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
 
+	if (TOPE == 0)			// Si la TS está vacía
+		return ret;
+
     while(TOPE > 0){				 // Mientras que no llegue a la base de la pila
-		TOPE--;						 // Nos desplazamos para leer los símbolos ya escritos
+		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
 			TOPE--;
-			ret = 0;
+			ret = 1;
 			break;
 		}
 		//if (TOPE == 0)

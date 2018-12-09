@@ -39,10 +39,8 @@ typedef enum {	// Enumeración para definir el tipo de dato de las entradas func
 
 } tipoDato;
 
-
-
-
 #define YYSTYPE atributos	// A partir de ahora, cada símbolo tiene una estructura de tipo atributos
+
 typedef struct {	// Los atributos usados son el tipo de los elementos y el lexema
 
 	int attr;				// Atributo del símbolo (si tiene)

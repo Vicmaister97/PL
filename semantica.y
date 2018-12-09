@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "semant.h"
+#include "semantica.h"
 
 /** La siguiente declaracion permite que ’yyerror’ se pueda invocar desde el
 *** fuente de lex (tokens.l)
@@ -57,8 +57,7 @@ int yylex();
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
-					{TS_CleanBlock(); printf("marca fuera\n");};
+bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY {TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 	 | Declar_de_variables_locales Declar_de_subprogs;
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
@@ -70,13 +69,13 @@ Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
-						| error ;
-Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2); printf("Funcion\n");}
+			| error;
+Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
 	    | argumento
 	    |;
-argumento : tipo ID {TS_AddParam($2); printf("Aniado\n");};
+argumento : tipo ID;
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
 Sentencia   : bloque
@@ -91,24 +90,24 @@ Sentencia   : bloque
             | sentencia_list;
 
 sentencia_contador	: PLUSPLUS expresion SEMICOLON
-                    {if ($2.type == BOOLEAN || $2.type == CHAR  || $2.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
+                    {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST)
                         printf("Semantic Error(%d): Type not increaseable.\n", line);
-                    $$.type = $2.type;}
+                    &&.type = $2.type;}
 			              | MINUSMINUS expresion SEMICOLON
-                    {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
+                    {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST)
                         printf("Semantic Error(%d): Type not decrementacle.\n", line);
-                    $$.type = $2.type;}
+                    &&.type = $2.type;}
 			              | expresion PLUSPLUS SEMICOLON
-                    {if ($1.type == BOOLEAN || $1.type == CHAR || $1.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
+                    {if ($1.type == BOOLEAN || $1.type == CHAR || $1.type == LIST)
                         printf("Semantic Error(%d): Type not increaseable.\n", line);
-                    $$.type = $1.type;}
+                    &&.type = $2.type;}
 			              | expresion MINUSMINUS SEMICOLON
-                    {if ($1.type == BOOLEAN || $1.type == CHAR || $1.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
+                    {if ($1.type == BOOLEAN || $1.type == CHAR || $1.type == LIST)
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
-                    $$.type = $1.type;};
+                    &&.type = $2.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
                       {if ($1.type != $3.type)
-		      printf("Semantic Error(%d): Types are not equal.\n",line);};
+		      printf("Semantic Error(%d): Types are not equal.\n",line, $1.type, $3.type);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
                   printf("Semantic Error(%d): Expression are not logic.\n", line);}
@@ -129,11 +128,11 @@ sentencia_list  : expresion LIST_OP
 expresion : NEG expresion
           {if ($2.type != BOOLEAN)
               printf("Semantic Error(%d): Expression are not logic.\n", line);
-          $$.type = $2.type;}
+          &&.type = $2.type;}
           | COUNT expresion
           {if ($2.type != LIST_INT || $2.type != LIST_DOUBLE || $2.type != LIST_BOOLEAN || $2.type != LIST_CHAR)
               printf("Semantic Error(%d): Expression are not logic.\n", line);
-          $$.type = INT;}
+          &&.type = INT;}
           | QUEST expresion
           {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
@@ -146,9 +145,9 @@ expresion : NEG expresion
           else if ($1.type == CHAR)
               $$.type = CHAR;}
           | SYMBOL_OP expresion %prec NEG
-          {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
+          {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST)
               printf("Semantic Error(%d): Type not signable.\n", line);
-          $$.type = $2.type;}
+          &&.type = $2.type;}
           | expresion SYMBOL_OP expresion
           {if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
@@ -239,12 +238,12 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
 	      | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS   {$$.type = $2.type;}
-	      | error ;
+	      | error;
 
 funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
 	  | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
-list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParams++; TS_CheckParam($1, nParams);}
-                          | exp_cad {nParams = 1; TS_CheckParam($1, nParams);};
+list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParam++; TS_CheckParam($1, nParam);}
+                          | exp_cad {nParam = 1; TS_CheckParam($1, nParam);};
 exp_cad                   : expresion
                           | CADENA ;
 constante                 : CONST_INT                       {$$.type = INT;}
@@ -254,7 +253,7 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_int                  {$$.type = LIST_INT;}
                           | const_list_double               {$$.type = LIST_DOUBLE;}
                           | const_list_boolean              {$$.type = LIST_BOOLEAN;}
-                          | const_list_char                 {$$.type = LIST_CHAR;};
+                          | const_list_char                {$$.type = LIST_CHAR;};
 list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
@@ -278,7 +277,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID			{TS_AddVar($3);}
           | ID									{TS_AddVar($1);}
-	      | error ;
+	  | error;
 
 %%
 
