@@ -98,7 +98,7 @@ extern int decParam;
 extern int esFunc;
 
 // Variable global que almacena el tipo en las declaraciones
-extern tipoDato globalType;
+extern tipoDato TipoTmp;
 
 // Cuenta el número de parámetros de una función
 extern int nParams;
@@ -109,8 +109,13 @@ extern int currentFunction;
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
 **************************************************************/
+
 /* Guarda el type o tipo de dato del atributo leido */
 void getType(atributos value);
+
+/*************************************************************
+** METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) **
+**************************************************************/
 
 /* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_AddEntry(entradaTS entrada);
@@ -138,6 +143,13 @@ void TS_AddFunction(atributos e);
 
 // Inserta una entrada en la tabla de símbolos de un parámetro formal
 void TS_AddParam(atributos e);
+
+// Actualiza el número de parámetros de la función
+void TS_UpdateNParams(attrs e);
+
+/*************************************************************
+** METODOS PARA EN ANALIZADOR SINTÁCTICO **
+**************************************************************/
 
 // Comprueba si el type de la expresión coincide con lo que devuelve la función
 void TS_CheckReturn(atributos expr, atributos* res);

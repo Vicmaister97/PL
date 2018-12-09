@@ -34,6 +34,7 @@ main(){
         double x1 ;
         endVar
         x1 = 1.3 ;
+        c1 = c2;
         if(c2>10) then {
           c2= c2-1 ;
         }
