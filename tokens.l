@@ -1,7 +1,7 @@
 /*********************************************************
 **
 ** Fichero: TOKENS.L
-** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera. 
+** Autores: Manuel Orantes Taboada, Víctor Bricio Blázquez, Víctor García Carrera.
 ** Función: Implementar el analizador léxico para el compilador
 **	    a realizar en las prácticas de Procesadores de Lenguajes
 **
@@ -17,7 +17,7 @@
 #define MAXLONBUFFER 200
 char buffer[MAXLONBUFFER] ;
 
-int n_lines = 1;
+/*int line = 1;*/
 %}
 
 /** La siguiente declaración indica que no se va a escribir la función ’yywrap’
@@ -87,9 +87,9 @@ int n_lines = 1;
 [0-9]*\.[0-9]+                               {yylval.name = strdup(yytext); yylval.attr = 1; return CONST_DOUBLE;}
 \"[^\"]\"                                    {yylval.name = strdup(yytext); yylval.attr = 2; return CONST_CHAR;}
 \"[^\"]*\"                                   {yylval.name = strdup(yytext); yylval.attr = 3; return CADENA;}
-[_a-zA-Z][_a-zA-Z0-9]*                       return ID;
+[_a-zA-Z][_a-zA-Z0-9]*                       {yylval.name = strdup(yytext); yylval.attr = 4; return ID;}
 \n                                           { /** lleva la cuenta de las líneas **/
-						n_lines++; }
+						line++; }
 [ \t]+	                                     { /** accion vacia: se ignoran los espacios y tabuladores **/ }
 .                                            { /** token desconocido, se produce un mensaje de error **/
 						snprintf(buffer, MAXLONBUFFER, "el(los) caracter(es) ’%s’ no forma(n) ningun token conocido", yytext);

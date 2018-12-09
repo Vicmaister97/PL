@@ -163,7 +163,6 @@ int TS_FindByName(atributos e){
 void TS_AddMark(){
 
 	entradaTS initBlock;
-
 	initBlock.entry = MARK;
 	initBlock.name = "{";
 	initBlock.type = NO_ASSIG;
