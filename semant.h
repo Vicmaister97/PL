@@ -145,7 +145,7 @@ void TS_AddFunction(atributos e);
 void TS_AddParam(atributos e);
 
 // Actualiza el número de parámetros de la función
-void TS_UpdateNParams(attrs e);
+void TS_UpdateNParams(atributos e);
 
 /*************************************************************
 ** METODOS PARA EN ANALIZADOR SINTÁCTICO **
