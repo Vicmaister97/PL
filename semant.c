@@ -44,7 +44,7 @@ int TS_AddEntry(entradaTS entrada){
 		TS[TOPE].type=entrada.type;
     TS[TOPE].nParams=entrada.nParams;
 
-		printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
+		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
         // Actualizamos el número de entradas
 		TOPE++;

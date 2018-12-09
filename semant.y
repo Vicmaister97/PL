@@ -76,7 +76,7 @@ Cabecera_subprograma : tipo {getType($1);} ID {decParam = 1;} {TS_AddFunction($2
 argumentos  : argumentos COMA argumento
 	    | argumento
 	    |;
-argumento : tipo ID {TS_AddParam($2);};
+argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
 Sentencia   : bloque
