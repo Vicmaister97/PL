@@ -263,10 +263,10 @@ void TS_AddParam(atributos e){
 }
 
 // Actualiza el número de parámetros de la función
-void TS_UpdateNParams(atributos e){
+void TS_UpdateNParams(){
 
     TS[currentFunction].nParams += 1;
-
+    
 }
 
 /*************************************************************
