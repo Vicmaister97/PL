@@ -64,6 +64,7 @@ inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
+
 Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { decVar = 0; printTS();} 
 			                | ;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
@@ -74,8 +75,8 @@ Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
  		                 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
-	    | argumento {TS_UpdateNParams();}
-	    |;
+	        | argumento {TS_UpdateNParams();}
+	        |;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
@@ -107,7 +108,9 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
-                      {if ($1.type != $3.type)
+                      {if (line == 64)
+												printf("Linea %d izquierda: %d %s, derecha: %d\n",line, $1.type, $1.name, $3.type);
+											if (TSGetId($1) != $3.type)
 		      printf("Semantic Error(%d): Types are not equal.\n",line);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
@@ -150,31 +153,33 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Type not signable.\n", line);
           $$.type = $2.type;}
           | expresion SYMBOL_OP expresion
-          {if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
+          {int res = INT;
+					if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
            if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
               && ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR))
               printf("Semantic Error(%d): Types not operable.\n", line);
-          $$.type = INT;
           if ($1.type == DOUBLE || $3.type == DOUBLE)
-            $$.type = DOUBLE;
+            res = DOUBLE;
           if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
-            $$.type == $1.type;
+            res == $1.type;
           if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-            $$.type == $3.type;}
+            res == $3.type;
+					$$.type = res;}
           | expresion BINARY_OP expresion
-          {if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
+					{int res = INT;
+					if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
            if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
               && ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR))
               printf("Semantic Error(%d): Types not operable.\n", line);
-          $$.type = INT;
           if ($1.type == DOUBLE || $3.type == DOUBLE)
-            $$.type = DOUBLE;
+            res = DOUBLE;
           if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
-            $$.type == $1.type;
+            res == $1.type;
           if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-            $$.type == $3.type;}
+            res == $3.type;
+					$$.type = res;}
           | expresion BINARY_LIST_OP_I expresion
           {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
               || $3.type != INT)
@@ -205,8 +210,8 @@ expresion : NEG expresion
           $$.type = BOOLEAN;}
           | expresion RELATION_OP expresion
           {if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
-              || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR
-              || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
+              || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type== LIST_CHAR
+              || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type== LIST_CHAR)
               printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
@@ -232,7 +237,7 @@ expresion : NEG expresion
               || $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
-          | ID                {$$.type = $1.type;}
+          | ID                {$$.type = TSGetId($1);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion
@@ -295,8 +300,18 @@ const_list_char  : LEFT_BRACKET list_char RIGHT_BRACKET {$$.type = LIST_CHAR;};
 list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
-list_id   : list_id COMA ID			{TS_AddVar($3);}
-          | ID						{TS_AddVar($1);}
+list_id   : list_id COMA ID
+					{if (decVar == 1)
+						TS_AddVar($3);
+					else
+						if (decParam == 0)
+							TS_GetId($3, &$$);}
+          | ID
+					{if (decVar == 1)
+						TS_AddVar($1);
+					else
+						if (decParam == 0)
+							TS_GetId($1, &$$);}
           | error;
 
 
