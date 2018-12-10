@@ -81,6 +81,8 @@ int TS_DelEntry(){
 int TS_CleanBlock(){
 
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
+	int finalTope = 0;
+	int func = 0;
 
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
@@ -100,8 +102,19 @@ int TS_CleanBlock(){
     while (TS[TOPE].entry == FORM_PARAM) {					// Mientras que encuentre parámetros formales
   		//printf("Del Entry FORM_PARAMS: %s TipoDato %d\n", TS[TOPE].name, TS[TOPE].type);
         TOPE--;
+        func = 1;
 	}
-	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
+
+	finalTope = TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
+	if (func = 1){
+		while (TS[TOPE].entry != FUNCTION){
+			TOPE--;
+		}
+		currentFunction = TOPE;
+	}
+
+	TOPE = finalTope;
+	
 
 	return ret;
 
