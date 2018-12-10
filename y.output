@@ -253,15 +253,9 @@ Cuerpo_declar_variables (63)
 $@4 (64)
     en la izquierda: 16, en la derecha: 17
 Cabecera_subprograma (65)
-<<<<<<< HEAD
     en la izquierda: 22, en la derecha: 9
 $@5 (66)
     en la izquierda: 19, en la derecha: 22
-=======
-    on left: 22, on right: 9
-$@5 (66)
-    on left: 19, on right: 22
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 $@6 (67)
     en la izquierda: 20, en la derecha: 22
 $@7 (68)
@@ -637,7 +631,6 @@ Estado 33
 
    31 Sentencias: $@10 . Sentencia
 
-<<<<<<< HEAD
     error             desplazar e ir al estado 40
     LEFT_KEY          desplazar e ir al estado 6
     LEFT_BRACKET      desplazar e ir al estado 41
@@ -689,59 +682,6 @@ Estado 34
 
 
 Estado 35
-=======
-    error             shift, and go to state 40
-    LEFT_KEY          shift, and go to state 6
-    LEFT_BRACKET      shift, and go to state 41
-    IF                shift, and go to state 42
-    WHILE             shift, and go to state 43
-    RETURN            shift, and go to state 44
-    FOR               shift, and go to state 45
-    OUT               shift, and go to state 46
-    IN                shift, and go to state 47
-    SYMBOL_OP         shift, and go to state 48
-    NEG               shift, and go to state 49
-    COUNT             shift, and go to state 50
-    QUEST             shift, and go to state 51
-    MINUSMINUS        shift, and go to state 52
-    PLUSPLUS          shift, and go to state 53
-    DOLLAR            shift, and go to state 54
-    CONST_INT         shift, and go to state 55
-    CONST_DOUBLE      shift, and go to state 56
-    CONST_BOOLEAN     shift, and go to state 57
-    CONST_CHAR        shift, and go to state 58
-    ID                shift, and go to state 59
-    LEFT_PARENTHESIS  shift, and go to state 60
-
-    bloque                go to state 61
-    Sentencia             go to state 62
-    sentencia_contador    go to state 63
-    sentencia_asignacion  go to state 64
-    sentencia_if          go to state 65
-    sentencia_while       go to state 66
-    sentencia_entrada     go to state 67
-    sentencia_salida      go to state 68
-    sentencia_return      go to state 69
-    sentencia_for         go to state 70
-    sentencia_list        go to state 71
-    expresion             go to state 72
-    funcion               go to state 73
-    constante             go to state 74
-    const_list_int        go to state 75
-    const_list_double     go to state 76
-    const_list_boolean    go to state 77
-    const_list_char       go to state 78
-
-
-State 34
-
-   22 Cabecera_subprograma: tipo . ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
-
-    ID  shift, and go to state 79
-
-
-State 35
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 
    11 Declar_de_variables_locales: INITVAR $@3 Variables_locales ENDVAR .
 
@@ -1339,15 +1279,8 @@ Estado 78
 Estado 79
 
    22 Cabecera_subprograma: tipo ID . $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
-<<<<<<< HEAD
 
     $default  reduce usando la regla 19 ($@5)
-=======
-
-    $default  reduce using rule 19 ($@5)
-
-    $@5  go to state 127
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
 
     $@5  ir al estado 127
 
