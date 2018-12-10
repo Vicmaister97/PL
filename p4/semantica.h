@@ -39,10 +39,8 @@ typedef enum {	// Enumeración para definir el tipo de dato de las entradas func
 
 } tipoDato;
 
-
-
-
 #define YYSTYPE atributos	// A partir de ahora, cada símbolo tiene una estructura de tipo atributos
+
 typedef struct {	// Los atributos usados son el tipo de los elementos y el lexema
 
 	int attr;				// Atributo del símbolo (si tiene)
@@ -78,11 +76,8 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 
 }entradaTS;
 
-/* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
-int TS_AddEntry(entradaTS entrada)
 
-/**
-extern long int TOPE = 0 ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
+extern long int TOPE ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 
@@ -100,35 +95,75 @@ extern int subProg;
 // Indica si se están declarando parámetros formales en una función
 extern int decParam;
 
-extern int decFunction;
+extern int esFunc;
 
 // Variable global que almacena el tipo en las declaraciones
-extern tData globalType;
+extern tipoDato TipoTmp;
 
 // Cuenta el número de parámetros de una función
-extern int nParam;
+extern int nParams;
 
 // Índice de la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
-extern int aux;
-
-// Devuelve si el atributo es array o no
-int isArray(attrs e);
-
-// Devuelve si los dos posibles arrays que recibe tienen el mismo tamaño
-int equalSize(attrs e1, attrs e2);
-
-// Guarda el tipo de la variable
-int setType(attrs value); **/
 
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
 **************************************************************/
 
-///////////////////////////////////////////////////////////////////////////////
-// Tabla de Símbolos
-//
+/* Guarda el type o tipo de dato del atributo leido */
+void getType(atributos value);
 
-// Inserta una entrada en la tabla de símbolos
+/*************************************************************
+** METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) **
+**************************************************************/
 
-/* Fin de funciones y procedimientos para manejo de la TS */
+/* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
+int TS_AddEntry(entradaTS entrada);
+
+/* Elimina una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
+int TS_DelEntry();
+
+/* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
+int TS_CleanBlock();
+
+// Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+int TS_FindByID(atributos e);
+
+// Busca una entrada en la TS de una función por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+int TS_FindByName(atributos e);
+
+// Inserta una entrada en la tabla de símbolos de una función o un bloque
+void TS_AddMark();
+
+// Añade una entrada en la tabla de símbolos de una variable local
+void TS_AddVar(atributos e);
+
+// Inserta una entrada en la tabla de símbolos de una función
+void TS_AddFunction(atributos e);
+
+// Inserta una entrada en la tabla de símbolos de un parámetro formal
+void TS_AddParam(atributos e);
+
+// Actualiza el número de parámetros de la función
+void TS_UpdateNParams();
+
+/*************************************************************
+** METODOS PARA EN ANALIZADOR SINTÁCTICO **
+**************************************************************/
+
+// Comprueba si el type de la expresión coincide con lo que devuelve la función
+void TS_CheckReturn(atributos expr, atributos* res);
+
+// Devuelve el identificador
+void TS_GetId(atributos id, atributos* res);
+
+// Realiza la comprobación de la llamada a una función
+void TS_FunctionCall(atributos id, atributos* res);
+
+// Realiza la comprobación de cada parámetro de una función
+void TS_CheckParam(atributos param, int checkParam);
+
+void printTS();
+
+// Muestra un atributo recibido
+void printAttr(atributos e, char *msg);

@@ -44,7 +44,7 @@ int TS_AddEntry(entradaTS entrada){
 		TS[TOPE].type=entrada.type;
     	TS[TOPE].nParams=entrada.nParams;
 
-		printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
+		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
         // Actualizamos el número de entradas
 		TOPE++;
@@ -85,9 +85,9 @@ int TS_CleanBlock(){
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
 
-    while(TOPE > 0){				 // Mientras que no llegue a la base de la pila buscamos el inicio del bloque en el que estamos
+  while(TOPE > 0){				 // Mientras que no llegue a la base de la pila buscamos el inicio del bloque en el que estamos
 		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
-		printf("Del Entry: %s \n", TS[TOPE].name);
+		//printf("Del Entry: %s \n", TS[TOPE].name);
 
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
 			TOPE--;
@@ -97,18 +97,9 @@ int TS_CleanBlock(){
 		//if (TOPE == 0)
 	}
 
-    if (TS[TOPE].entry == FORM_PARAM) {					// Si encuentra un parámetro formal
-        TOPE--;
-   		printf("Del Entry: %s \n", TS[TOPE].name);
-        ret = -1;										// Ahora tiene que llegar a la entrada de la función
-		while(TOPE > 0){
-    		if (TS[TOPE].entry == FUNCTION){				// Cuando encuentra la entrada de la función
-    			ret = 1;
-    			break;
-    		}
-
-    		TOPE--;
-    	}
+  while (TS[TOPE].entry == FORM_PARAM) {					// Mientras que encuentre parámetros formales
+  		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
+      TOPE--;
 	}
 	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
@@ -228,7 +219,6 @@ void TS_AddVar(atributos e){
 // Inserta una entrada en la tabla de símbolos de una función
 void TS_AddFunction(atributos e){
 
-	printf("HOLAAAFUNCTTTT");
 	entradaTS inFunct;
 	inFunct.entry = FUNCTION;
 	inFunct.name = e.name;
@@ -266,7 +256,7 @@ void TS_AddParam(atributos e){
 void TS_UpdateNParams(){
 
     TS[currentFunction].nParams += 1;
-    
+
 }
 
 /*************************************************************

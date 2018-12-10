@@ -132,7 +132,7 @@ expresion : NEG expresion
           $$.type = $2.type;}
           | COUNT expresion
           {if ($2.type != LIST_INT || $2.type != LIST_DOUBLE || $2.type != LIST_BOOLEAN || $2.type != LIST_CHAR)
-              printf("Semantic Error(%d): Expression are not logic.\n", line);
+              printf("Semantic Error(%d): Expression is not a list.\n", line);
           $$.type = INT;}
           | QUEST expresion
           {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR)
@@ -207,7 +207,7 @@ expresion : NEG expresion
           {if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
               || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR
               || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-              printf("Semantic Error(%d): Types not comparable.\n", line);
+              printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
           {if ($1.type != $3.type)

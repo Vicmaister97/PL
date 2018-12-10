@@ -253,15 +253,9 @@ Cuerpo_declar_variables (63)
 $@4 (64)
     en la izquierda: 16, en la derecha: 17
 Cabecera_subprograma (65)
-<<<<<<< HEAD
     en la izquierda: 22, en la derecha: 9
-@5 (66)
-    en la izquierda: 19, en la derecha: 22
-=======
-    on left: 22, on right: 9
 $@5 (66)
-    on left: 19, on right: 22
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
+    en la izquierda: 19, en la derecha: 22
 $@6 (67)
     en la izquierda: 20, en la derecha: 22
 $@7 (68)
@@ -684,13 +678,7 @@ Estado 34
 
    22 Cabecera_subprograma: tipo . ID $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
-<<<<<<< HEAD
-    $default  reduce usando la regla 19 (@5)
-
-    @5  ir al estado 79
-=======
-    ID  shift, and go to state 79
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
+    ID  desplazar e ir al estado 79
 
 
 Estado 35
@@ -1292,13 +1280,9 @@ Estado 79
 
    22 Cabecera_subprograma: tipo ID . $@5 $@6 $@7 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
 
-    $default  reduce using rule 19 ($@5)
+    $default  reduce usando la regla 19 ($@5)
 
-<<<<<<< HEAD
-    ID  desplazar e ir al estado 127
-=======
-    $@5  go to state 127
->>>>>>> ed3a50ce729e7955709bb82d7a5fb6a3b89d3737
+    $@5  ir al estado 127
 
 
 Estado 80
