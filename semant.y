@@ -64,8 +64,8 @@ inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
-Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { decVar = 0;};
-			                      | ;
+Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { decVar = 0; printTS();} 
+			                | ;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
@@ -73,8 +73,8 @@ Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
 Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
  		                 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
-argumentos  : argumentos COMA argumento
-	    | argumento	{TS_UpdateNParams();}
+argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
+	    | argumento {TS_UpdateNParams();}
 	    |;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
@@ -132,7 +132,7 @@ expresion : NEG expresion
           $$.type = $2.type;}
           | COUNT expresion
           {if ($2.type != LIST_INT || $2.type != LIST_DOUBLE || $2.type != LIST_BOOLEAN || $2.type != LIST_CHAR)
-              printf("Semantic Error(%d): Expression are not logic.\n", line);
+              printf("Semantic Error(%d): Expression is not a list.\n", line);
           $$.type = INT;}
           | QUEST expresion
           {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR)
@@ -207,7 +207,7 @@ expresion : NEG expresion
           {if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
               || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR
               || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-              printf("Semantic Error(%d): Types not comparable.\n", line);
+              printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
           {if ($1.type != $3.type)

@@ -42,6 +42,7 @@ main(){
       char dato ;
       int valor ;
       endVar
+        
       char funcionE (char e1, char e2){
         in "introduzca dos caracteres: " e1, e2 ;
         if (e1=="a") then
@@ -50,7 +51,7 @@ main(){
           return e2 ;
         else
           return " ";
-      }
+        }
       in "introduzca un valor entero: " valor ;
       if (d1>0.0) then{
         initVar
