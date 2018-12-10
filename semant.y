@@ -108,8 +108,8 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
                       {if (line == 64)
-												printf("izquierda: %d %s, derecha: %d\n", $1.type, $1.name, $3.type);
-											if ($1.type != $3.type)
+												printf("Linea %d izquierda: %d %s, derecha: %d\n",line, $1.type, $1.name, $3.type);
+											if (TSGetId($1) != $3.type)
 		      printf("Semantic Error(%d): Types are not equal.\n",line);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
@@ -208,9 +208,9 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion RELATION_OP expresion
-          {if (TSGetID($1) == BOOLEAN || TSGetID($3) == BOOLEAN || TSGetID($1) == CHAR || TSGetID($3) == CHAR
-              || TSGetID($1) == LIST_INT || TSGetID($1) == LIST_DOUBLE || TSGetID($1) == LIST_BOOLEAN || TSGetID($1)== LIST_CHAR
-              || TSGetID($3) == LIST_INT || TSGetID($3) == LIST_DOUBLE || TSGetID($3) == LIST_BOOLEAN || TSGetID($3)== LIST_CHAR)
+          {if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
+              || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type== LIST_CHAR
+              || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type== LIST_CHAR)
               printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
@@ -236,7 +236,7 @@ expresion : NEG expresion
               || $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
-          | ID                {$$.type = $1.type;}
+          | ID                {$$.type = TSGetId($1);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion
