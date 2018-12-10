@@ -156,6 +156,7 @@ void TS_CheckReturn(atributos expr, atributos* res);
 
 // Devuelve el identificador
 void TS_GetId(atributos id, atributos* res);
+ind TSGetId(atributos id);
 
 // Realiza la comprobación de la llamada a una función
 void TS_FunctionCall(atributos id, atributos* res);
