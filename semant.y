@@ -301,8 +301,18 @@ const_list_char  : LEFT_BRACKET list_char RIGHT_BRACKET {$$.type = LIST_CHAR;};
 list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
-list_id   : list_id COMA ID			{TS_AddVar($3);}
-          | ID									{TS_AddVar($1);}
+list_id   : list_id COMA ID
+					{if (decVar == 1)
+						TS_AddVar($3);
+					else
+						if (decParam == 0)
+							TS_GetId($3, &$$);}
+          | ID
+					{if (decVar == 1)
+						TS_AddVar($1);
+					else
+						if (decParam == 0)
+							TS_GetId($1, &$$);}
           | error;
 
 
