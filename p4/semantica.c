@@ -1,4 +1,4 @@
-/*********************************************************
+/*******************
 **
 ** Procesadores de Lenguajes, 2018-2019
 ** Fichero: SEMANTICA.C
@@ -7,7 +7,7 @@
 ** 	    tabla de símbolos (TS) para las comprobaciones semánticas del traductor.
 **
 **
-*********************************************************/
+*******************/
 
 #include "semant.h"
 
@@ -29,9 +29,9 @@ void getType(atributos value){
     TipoTmp = value.type;
 }
 
-/*************************************************************
-** METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) **
-**************************************************************/
+/*********************
+* METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) *
+**********************/
 
 /* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_AddEntry(entradaTS entrada){
@@ -259,9 +259,9 @@ void TS_UpdateNParams(){
 
 }
 
-/*************************************************************
-** METODOS PARA EN ANALIZADOR SINTÁCTICO **
-**************************************************************/
+/*********************
+* METODOS PARA EN ANALIZADOR SINTÁCTICO *
+**********************/
 
 // Comprueba si el type de la expresión coincide con lo que devuelve la función
 void TS_CheckReturn(atributos expr, atributos* res){

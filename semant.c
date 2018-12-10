@@ -1,4 +1,4 @@
-/*********************************************************
+/*******************
 **
 ** Procesadores de Lenguajes, 2018-2019
 ** Fichero: SEMANTICA.C
@@ -7,7 +7,7 @@
 ** 	    tabla de símbolos (TS) para las comprobaciones semánticas del traductor.
 **
 **
-*********************************************************/
+*******************/
 
 #include "semant.h"
 
@@ -29,9 +29,9 @@ void getType(atributos value){
     TipoTmp = value.type;
 }
 
-/*************************************************************
-** METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) **
-**************************************************************/
+/*********************
+* METODOS DE MODIFICACIÓN DE LA TABLA DE SÍMBOLOS (TS) *
+**********************/
 
 /* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_AddEntry(entradaTS entrada){
@@ -42,7 +42,7 @@ int TS_AddEntry(entradaTS entrada){
 		TS[TOPE].entry=entrada.entry;
 		TS[TOPE].name=entrada.name;
 		TS[TOPE].type=entrada.type;
-    	TS[TOPE].nParams=entrada.nParams;
+    TS[TOPE].nParams=entrada.nParams;
 
 		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
@@ -253,15 +253,15 @@ void TS_AddParam(atributos e){
 }
 
 // Actualiza el número de parámetros de la función
-void TS_UpdateNParams(){
+void TS_UpdateNParams(atributos e){
 
     TS[currentFunction].nParams += 1;
 
 }
 
-/*************************************************************
-** METODOS PARA EN ANALIZADOR SINTÁCTICO **
-**************************************************************/
+/*********************
+* METODOS PARA EN ANALIZADOR SINTÁCTICO *
+**********************/
 
 // Comprueba si el type de la expresión coincide con lo que devuelve la función
 void TS_CheckReturn(atributos expr, atributos* res){
