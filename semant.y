@@ -74,7 +74,7 @@ Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
  		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento
-	    | argumento	{TS_UpdateNParams();}
+	    | argumento
 	    |;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
@@ -210,11 +210,9 @@ expresion : NEG expresion
           | expresion RELATION_OP expresion
           {if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
               || $1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR
-              || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR){
-							printf("%s, %d\n", $1.name, $1.type);
-							printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
-					}
-					$$.type = BOOLEAN;}
+              || $3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
+              printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
+          $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
           {if ($1.type != $3.type)
               if ($1.type == INT || $3.type == INT || $1.type == DOUBLE || $3.type == DOUBLE){
