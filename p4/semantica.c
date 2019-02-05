@@ -267,12 +267,12 @@ void TS_UpdateNParams(){
 void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
 	if (index > -1) {
-		if (expr.type != TS[index].type) {
+		if (expr.type != TS[index].type){
 			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
-		//res->type = expr.type;	//REALLY??????????????????????????????
-		//return; //ANIADIDO POR MANUEL--GRANDEEEE
+		res->type = expr.type;	//REALLY??????????????????????????????
+		return; //ANIADIDO POR MANUEL--GRANDEEEE
 	}
 	else {
 		printf("RETURN ERR[line %d]: Result not declared into function.\n", line);
