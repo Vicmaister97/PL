@@ -271,7 +271,7 @@ void TS_CheckReturn(atributos expr, atributos* res){
 			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
-		res->type = expr.type;	//REALLY??????????????????????????????
+		//res->type = expr.type;	//REALLY??????????????????????????????
 		//return; //ANIADIDO POR MANUEL--GRANDEEEE
 	}
 	else {
@@ -291,6 +291,17 @@ void TS_GetId(atributos id, atributos* res){
 	else {
 		res->name = strdup(TS[index].name);
 		res->type = TS[index].type;
+	}
+}
+
+int TSGetId(atributos id){
+	int index = TS_FindByID(id);
+	if(index == -1) {
+        if(TS[index].entry != FUNCTION)
+		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
+	}
+	else {
+    return TS[index].type;
 	}
 }
 

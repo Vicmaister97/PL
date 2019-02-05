@@ -64,18 +64,20 @@ inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 Declar_de_subprogs  : Declar_de_subprogs Declar_subprog
                     | ;
 Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
-Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR {decVar = 0;};
-			                      | ;
+
+Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { decVar = 0; printTS();}
+			                | ;
 Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 												| error ;
 Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
- 		       LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
-argumentos  : argumentos COMA argumento
-	    | argumento
-	    |;
+ 		                 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
+argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
+	        | argumento {TS_UpdateNParams();}
+	        |
+					| error ;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
@@ -108,8 +110,8 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
                       {if (line == 64)
-												printf("izquierda: %d %s, derecha: %d\n", $1.type, $1.name, $3.type);
-											if ($1.type != $3.type)
+												printf("Linea %d izquierda: %d %s, derecha: %d\n",line, $1.type, $1.name, $3.type);
+											if (TSGetId($1) != $3.type)
 		      printf("Semantic Error(%d): Types are not equal.\n",line);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
@@ -236,7 +238,7 @@ expresion : NEG expresion
               || $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
-          | ID                {$$.type = $1.type;}
+          | ID                {$$.type = TSGetId($1);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion

@@ -115,7 +115,6 @@ int TS_CleanBlock(){
 
 	TOPE = finalTope;
 
-
 	return ret;
 
 }
