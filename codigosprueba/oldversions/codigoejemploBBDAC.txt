@@ -1,16 +1,16 @@
 main(){
   initVar
-  int ve ;
-  double vf ;
+  int ve v,vv,b
+  double vf,c vvv ;
   char vc ;
-  boolean vl ;
+  boo··lean vl ;
   list_of int pe, pe2 ;
   list_of double pf, pf2 ;
   list_of char pc, pc2 ;
   list_of boolean pl ;
   endVar
 
-  int funcionA (int a1, double a2, char a3){
+  int funcionA (int a a1, double a2, char a3){
     initVar
     int x1, x2 ;
     endVar
@@ -24,8 +24,8 @@ main(){
         double x1 ;
         endVar
         x1 = 1.3 ;
-        if(c2>10) then {
-          c2= c2-1 ;
+        if(c2>10+) then {
+          c2= c2-1+;
         }
         else{
           x1= 3.1 ;
@@ -70,7 +70,6 @@ main(){
     pc = pc ++ "#" @ @ #pc;
     if (?pe == 20) then {
       pe = pe ++ 10 @ @ #pe;
-      ve = l@#pe;
     }
     else{
       pe = pe ** pe2 ;
