@@ -105,8 +105,9 @@ int TS_CleanBlock(){
         func = 1;
 	}
 
-	finalTope = TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
+	finalTope = TOPE+1;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 	if (func = 1){
+		TOPE--;
 		while (TS[TOPE].entry != FUNCTION){
 			TOPE--;
 		}
@@ -143,7 +144,7 @@ int TS_FindByID(atributos e){
 		//printf("Semantic Error(%d): Ident not declared: %s\n", line, e.name);
 		return -1;
 	} else {
-		printf("ENCONTRADO %s en %d \n", e.name, i);
+		//printf("ENCONTRADO %s en %d \n", e.name, i);
 		return i;
 	}
 
