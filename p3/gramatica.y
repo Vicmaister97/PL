@@ -42,7 +42,7 @@ int yylex();
 %left BINARY_OP
 %left BINARY_LIST_OP_I
 %left BINARY_LIST_OP_L
-%right NEG 
+%right NEG
 %right COUNT
 %right QUEST
 %right MINUSMINUS
@@ -99,11 +99,11 @@ Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
 			| error;
-Cabecera_subprograma : tipo ID
- 											LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
+Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
 	        | argumento
-	        |;
+	        |
+					| error;
 argumento : tipo ID;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
@@ -194,7 +194,7 @@ list_char  : list_char COMA CONST_CHAR
 
 list_id   : list_id COMA ID
           | ID
-	      | error;
+					| error ;
 
 %%
 
