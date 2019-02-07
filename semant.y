@@ -109,10 +109,8 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
-                      {if (line == 64)
-												printf("Linea %d izquierda: %d %s, derecha: %d\n",line, $1.type, $1.name, $3.type);
-											if (TSGetId($1) != $3.type)
-		      printf("Semantic Error(%d): Types are not equal.\n",line);};
+                      {if (TSGetId($1) != $3.type)
+		      						printf("Semantic Error(%d): Types are not equal.\n",line);};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
                   printf("Semantic Error(%d): Expression are not logic.\n", line);}
@@ -135,19 +133,19 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = $2.type;}
           | COUNT expresion
-          {if ($2.type != LIST_INT || $2.type != LIST_DOUBLE || $2.type != LIST_BOOLEAN || $2.type != LIST_CHAR)
+          {if ($2.type != LIST_INT && $2.type != LIST_DOUBLE && $2.type != LIST_BOOLEAN && $2.type != LIST_CHAR)
               printf("Semantic Error(%d): Expression is not a list.\n", line);
           $$.type = INT;}
           | QUEST expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR)
+          {if ($2.type != LIST_INT && $2.type != LIST_DOUBLE && $2.type != LIST_BOOLEAN && $2.type != LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
-          if ($1.type == INT)
+          if ($2.type == LIST_INT)
               $$.type = INT;
-          else if ($1.type == DOUBLE)
+          else if ($2.type == LIST_DOUBLE)
               $$.type = DOUBLE;
-          else if ($1.type == BOOLEAN)
+          else if ($2.type == LIST_BOOLEAN)
               $$.type = BOOLEAN;
-          else if ($1.type == CHAR)
+          else if ($2.type == LIST_CHAR)
               $$.type = CHAR;}
           | SYMBOL_OP expresion %prec NEG
           {if ($2.type == BOOLEAN || $2.type == CHAR || $2.type == LIST_INT || $2.type == LIST_DOUBLE || $2.type == LIST_CHAR || $2.type == LIST_BOOLEAN)
@@ -157,15 +155,13 @@ expresion : NEG expresion
           {int res = INT;
 					if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
-           if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
-              && ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR))
+          if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
           if ($1.type == DOUBLE || $3.type == DOUBLE)
             res = DOUBLE;
-          if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
-            res == $1.type;
-          if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-            res == $3.type;
+          if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR) &&
+					($3.type != LIST_INT && $3.type != LIST_DOUBLE && $3.type != LIST_BOOLEAN && $3.type != LIST_CHAR))
+            res = $1.type;
 					$$.type = res;}
           | expresion BINARY_OP expresion
 					{int res = INT;
@@ -182,7 +178,7 @@ expresion : NEG expresion
             res == $3.type;
 					$$.type = res;}
           | expresion BINARY_LIST_OP_I expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
+          {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
               || $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
@@ -198,15 +194,15 @@ expresion : NEG expresion
           else
             printf("Semantic Error(%d): Types not operable.\n", line);}
           | expresion AND_OP expresion
-          {if ($1.type != BOOLEAN || $3.type != BOOLEAN)
+          {if ($1.type != BOOLEAN && $3.type != BOOLEAN)
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion OR_OP expresion
-          {if ($1.type != BOOLEAN || $3.type != BOOLEAN)
+          {if ($1.type != BOOLEAN && $3.type != BOOLEAN)
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion XOR_OP expresion
-          {if ($1.type != BOOLEAN || $3.type != BOOLEAN)
+          {if ($1.type != BOOLEAN && $3.type != BOOLEAN)
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion RELATION_OP expresion
@@ -222,8 +218,8 @@ expresion : NEG expresion
                   printf("Semantic Error(%d): Types not comparable.\n", line);
           $$.type = BOOLEAN;}
           | expresion AT expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
-              || $3.type != INT)
+          {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
+              && $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           if ($1.type == INT)
               $$.type = INT;
@@ -234,16 +230,16 @@ expresion : NEG expresion
           else if ($1.type == CHAR)
               $$.type = CHAR;}
           | expresion MINUSMINUS expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
-              || $3.type != INT)
+          {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
+              && $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
           | ID                {$$.type = TSGetId($1);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion
-          {if ($1.type != LIST_INT || $1.type != LIST_DOUBLE || $1.type != LIST_BOOLEAN || $1.type != LIST_CHAR
-                || $3.type != INT || $6.type != INT)
+          {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
+                && $3.type != INT && $6.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
 	      | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS   {$$.type = $2.type;}

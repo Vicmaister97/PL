@@ -13,7 +13,6 @@ y.tab.c: semant.y lex.yy.c
 lex.yy.c: tokens.l
 	lex -l tokens.l
 
-
 all:
 	make semantica
 
