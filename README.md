@@ -1,6 +1,11 @@
 # PL
 Procesadores de Lenguajes, 2018-19 UGR
 
++   MODIFICAR TOPE PARA QUE INDICE ULTIMA POS OCUPADA
++   No necesario no-asignado P4
++   CORREGIR EL MAKE !!!
++   Un solo semantica.c !!!
+
 +   VER PARAMETROS Y ARGUMENTOS HERRAMIENTA BISON **********
 
 +   PROBAR REDECLARAR una variable EN OTRO BLOQUE, DEBERIA DEJAR

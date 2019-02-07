@@ -45,7 +45,7 @@ main(){
         
       char funcionE (char e1, char e2){
         in "introduzca dos caracteres: " e1, e2 ;
-        if (e1=="a") then
+        if (e1=="a" and e2=="c") then
           return e1 ;
         else if (e1=="b") then
           return e2 ;

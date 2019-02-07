@@ -81,15 +81,13 @@ int TS_DelEntry(){
 int TS_CleanBlock(){
 
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
-	int finalTope = 0;
-	int func = 0;
 
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
 
     while(TOPE > 0){				 // Mientras que no llegue a la base de la pila buscamos el inicio del bloque en el que estamos
 		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
-  		//printf("Del Entry: %s TipoDato %d\n", TS[TOPE].name, TS[TOPE].type);
+		//printf("Del Entry: %s \n", TS[TOPE].name);
 
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
 			TOPE--;
@@ -100,27 +98,14 @@ int TS_CleanBlock(){
 	}
 
     while (TS[TOPE].entry == FORM_PARAM) {					// Mientras que encuentre parámetros formales
-  		//printf("Del Entry FORM_PARAMS: %s TipoDato %d\n", TS[TOPE].name, TS[TOPE].type);
+  		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
         TOPE--;
-        func = 1;
 	}
-
-	finalTope = TOPE+1;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
-	if (func = 1){
-		TOPE--;
-		while (TS[TOPE].entry != FUNCTION){
-			TOPE--;
-		}
-		currentFunction = TOPE;
-	}
-
-	TOPE = finalTope;
+	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
 	return ret;
 
 }
-
-// -*-*-*-*-*-*-*-*-*-*-*-* MAYBE SOBRAN -*-*-*-*-*-*-*-*-*-*-*-*
 
 // Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByID(atributos e){
@@ -143,7 +128,6 @@ int TS_FindByID(atributos e){
 		//printf("Semantic Error(%d): Ident not declared: %s\n", line, e.name);
 		return -1;
 	} else {
-		//printf("ENCONTRADO %s en %d \n", e.name, i);
 		return i;
 	}
 
@@ -282,10 +266,9 @@ void TS_UpdateNParams(){
 // Comprueba si el type de la expresión coincide con lo que devuelve la función
 void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
-
 	if (index > -1) {
-		if ( expr.type != TS[index].type) {
-			printf("RETURN ERR[line %d]: Return type %d not equal to function type %d.\n", line, expr.type, TS[index].type);
+		if (expr.type != TS[index].type) {
+			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
 		//res->type = expr.type;	//REALLY??????????????????????????????

@@ -77,7 +77,7 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 }entradaTS;
 
 
-extern long int TOPE ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
+extern long int TOPE ;			    // Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 
