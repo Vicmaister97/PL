@@ -57,7 +57,7 @@ int yylex();
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
+bloque	 : LEFT_KEY {TS_AddMark(); printTS();} inbloque RIGHT_KEY
 					{TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 	 			 | Declar_de_variables_locales Declar_de_subprogs;
@@ -71,9 +71,8 @@ Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
-												| error ;
-Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);}
- 		                 LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
+						| error ;
+Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);} LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
 argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
 	        | argumento {TS_UpdateNParams();}
 	        |
@@ -308,7 +307,8 @@ list_id   : list_id COMA ID
 						TS_AddVar($1);
 					else
 						if (decParam == 0)
-							TS_GetId($1, &$$);};
+							TS_GetId($1, &$$);}
+          | list_id error ID;
 
 
 %%

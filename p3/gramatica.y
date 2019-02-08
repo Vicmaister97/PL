@@ -99,8 +99,7 @@ Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
 			|   error;
-Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
-                     | error;
+Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
 	        | argumento
 	        |

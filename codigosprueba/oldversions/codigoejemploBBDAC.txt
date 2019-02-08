@@ -4,7 +4,7 @@ main(){
   double vf v3, v5
   char vc vc2, vc3;
   boolean vl ;
-  list_of int pe pe2, pe3 
+  list_of int pe, pe2, pe3;
   list_of double pf, pf2 ;
   list_of char pc, pc2 ;
   list_of boolean pl ;
@@ -13,6 +13,7 @@ main(){
   int funcionA (int a1 double a2, char a3 ins){
     initVar
     int x1, x2 ;
+    error
     endVar
 
     char funcionB (char b1, boolean b2){
