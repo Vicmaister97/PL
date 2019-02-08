@@ -57,7 +57,7 @@ int yylex();
 **/
 
 Programa : Cabecera_programa bloque ;
-bloque	 : LEFT_KEY {TS_AddMark(); printTS();} inbloque RIGHT_KEY
+bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
 					{TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 	 			 | Declar_de_variables_locales Declar_de_subprogs;

@@ -81,6 +81,7 @@ int TS_DelEntry(){
 int TS_CleanBlock(){
 
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
+    int actualTOPE = -1;    // para almacenar el valor del TOPE antes de actualizar la función actual
 
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
@@ -97,10 +98,25 @@ int TS_CleanBlock(){
 		//if (TOPE == 0)
 	}
 
-    while (TS[TOPE].entry == FORM_PARAM) {					// Mientras que encuentre parámetros formales
+    while (TS[TOPE].entry == FORM_PARAM) {					// Si el bloque es una función, mientras que encuentre parámetros formales los saca de la TS
   		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
         TOPE--;
 	}
+    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual 
+        actualTOPE = TOPE;
+        TOPE--;
+        while (TS[TOPE].entry != FUNCTION && TOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
+            TOPE--;
+        }
+        if (TOPE == 0){
+            currentFunction = -1;
+        }
+        else{
+            currentFunction = TOPE;
+        }
+        TOPE = actualTOPE;
+        
+    }
 	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
 	return ret;
@@ -268,6 +284,7 @@ void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
 	if (index > -1) {
 		if (expr.type != TS[index].type) {
+            printf("Current FUNCTION: %s\n", TS[currentFunction].name);
 			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
@@ -284,7 +301,7 @@ void TS_CheckReturn(atributos expr, atributos* res){
 // Devuelve el identificador
 void TS_GetId(atributos id, atributos* res){
 	int index = TS_FindByID(id);
-	if(index == -1) {
+	if(index == -1) {       // No es ninguna variable guardada en la TS
         if(TS[index].entry != FUNCTION)
 		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
 	}
@@ -294,14 +311,18 @@ void TS_GetId(atributos id, atributos* res){
 	}
 }
 
+
 int TSGetId(atributos id){
 	int index = TS_FindByID(id);
-	if(index == -1) {
-        if(TS[index].entry != FUNCTION)
+	if(index == -1) {       // No es ninguna variable guardada en la TS
+		printf("%s %i\n", id.name, id.type);
+		if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
 		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
+            return -1;
+        }
 	}
 	else {
-    return TS[index].type;
+    	return TS[index].type;
 	}
 }
 
