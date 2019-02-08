@@ -53,7 +53,7 @@ int yylex();
 
 %%
 
-/** Declaramos el conjunto de reglas o producciones que definen nuestra gramática
+/** Declaramos el conjunto de reglas o producciones que definen nuestra gramática junto con una serie de acciones asociadas a las mismas
 **/
 
 Programa : Cabecera_programa bloque ;
@@ -77,7 +77,7 @@ Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2
 argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
 	        | argumento {TS_UpdateNParams();}
 	        |
-					| error ;
+			| error ;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;

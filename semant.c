@@ -335,6 +335,7 @@ void TS_CheckParam(atributos param, int checkParam){
 	}
 }
 
+// Muestra por pantalla las entradas de la tabla de símbolos
 void printTS(){
 
     int j = 0;
@@ -368,7 +369,7 @@ void printTS(){
 
 }
 
-// Muestra un atributo recibido
+// Muestra por pantalla un atributo recibido
 void printAttr(atributos e, char *msg){
 
     char *t;

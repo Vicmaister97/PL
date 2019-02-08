@@ -1,6 +1,8 @@
 # PL
 Procesadores de Lenguajes, 2018-19 UGR
 
+-   subprog o Subprog??
+
 +   MODIFICAR TOPE PARA QUE INDICE ULTIMA POS OCUPADA
 +   No necesario no-asignado P4
 +   CORREGIR EL MAKE !!!

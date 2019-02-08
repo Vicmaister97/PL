@@ -103,7 +103,7 @@ Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 argumentos  : argumentos COMA argumento
 	        | argumento
 	        |
-					| error;
+			| error;
 argumento : tipo ID;
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
@@ -193,8 +193,7 @@ list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
 list_id   : list_id COMA ID
-          | ID
-					| error ;
+          | ID;
 
 %%
 
