@@ -98,13 +98,14 @@ Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			        | Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo list_id SEMICOLON
-			| error;
-Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
+			|   error;
+Cabecera_subprograma : tipo ID LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS
+                     | error;
 argumentos  : argumentos COMA argumento
 	        | argumento
 	        |
-			| error;
-argumento : tipo ID;
+            | error;
+argumento   : tipo ID
 Sentencias  : Sentencias Sentencia
             | Sentencia ;
 Sentencia   : bloque
@@ -174,7 +175,7 @@ list_expresiones          : list_expresiones COMA expresion
                           | expresion;
 tipo                      : tipo_elemental
                           | LIST_OF tipo_elemental
-													| LIST_OF LIST_OF tipo_elemental;
+						  | LIST_OF LIST_OF tipo_elemental;
 tipo_elemental            : BASIC_TYPES;
 const_list_int  : LEFT_BRACKET list_int RIGHT_BRACKET ;
 list_int  : list_int COMA CONST_INT
@@ -193,7 +194,8 @@ list_char  : list_char COMA CONST_CHAR
            | CONST_CHAR ;
 
 list_id   : list_id COMA ID
-          | ID;
+          | ID
+          | list_id error ID;
 
 %%
 

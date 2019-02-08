@@ -308,8 +308,7 @@ list_id   : list_id COMA ID
 						TS_AddVar($1);
 					else
 						if (decParam == 0)
-							TS_GetId($1, &$$);}
-          | error;
+							TS_GetId($1, &$$);};
 
 
 %%
