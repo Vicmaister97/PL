@@ -15,15 +15,17 @@ entradaTS TS[MAX_TS] ;			// Pila de la tabla de símbolos
 int line = 1;					// Línea del fichero que se está analizando
 long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
-			   		            o si se llaman desde una expresión (decVar=2)*/
-int decParam = 0;				// Indica si se están declarando parámetros formales en una función
-int esFunc = 0;				/* Indica el comienzo de una función con 0 si es un bloque y 1 si
-						   	   es la cabecera de la función */
+			   		           		o si se llaman desde una expresión (decVar=2)*/
+int decParam = 0;				// Indica el inicio de una declaración de parámetros formales o argumentos de una función con 1 y el final con un 0(valor predeterminado)
+int esFunc = 0;					/* Indica el comienzo de una función con 1 si es cabecera de la función 
+									y con 0 si ya es el bloque de la función*/
 tipoDato TipoTmp = NO_ASSIG;	// Tipo de dato actual para asignarlo a las entradas de la TS
 int nParams = 0;
 int currentFunction = -1;		// Indica la posición (índice) en la TS de la función actual
 
-/* Guarda el type o tipo de dato del atributo leido */
+// SUBPROG???
+
+/* Guarda el type o tipo de dato del atributo leido*/
 void getType(atributos value){
 
     TipoTmp = value.type;
@@ -77,7 +79,7 @@ int TS_DelEntry(){
 	}
 }
 
-/* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
+/* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si el bloque la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_CleanBlock(){
 
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
@@ -86,7 +88,7 @@ int TS_CleanBlock(){
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
 
-    while(TOPE > 0){				 // Mientras que no llegue a la base de la pila buscamos el inicio del bloque en el que estamos
+    while(TOPE > 0){				 // Mientras que no llegue a la base de la pila(TS) buscamos el inicio del bloque en el que estamos
 		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
 		//printf("Del Entry: %s \n", TS[TOPE].name);
 
@@ -98,11 +100,12 @@ int TS_CleanBlock(){
 		//if (TOPE == 0)
 	}
 
-    while (TS[TOPE].entry == FORM_PARAM) {					// Si el bloque es una función, mientras que encuentre parámetros formales los saca de la TS
+	// REALLY??
+    while (TS[TOPE].entry == FORM_PARAM) {					// Si el bloque es una función, mientras encuentre parámetros formales los saca de la TS
   		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
         TOPE--;
 	}
-    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual 
+    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual
         actualTOPE = TOPE;
         TOPE--;
         while (TS[TOPE].entry != FUNCTION && TOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
@@ -115,7 +118,7 @@ int TS_CleanBlock(){
             currentFunction = TOPE;
         }
         TOPE = actualTOPE;
-        
+
     }
 	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
@@ -133,11 +136,9 @@ int TS_FindByID(atributos e){
 		return -1;
 
 	while (i > 0 && found == 0) {	/*&& ts[i].entry != MARK*/
-		if (TS[i].entry == VAR && strcmp(e.name, TS[i].name) == 0) {
+		if (TS[i].entry == VAR && strcmp(e.name, TS[i].name) == 0)
 			found = 1;
-		} else{
-			i--;
-		}
+		i--;
 	}
 
 	if(found == 0) {
@@ -159,11 +160,9 @@ int TS_FindByName(atributos e){
 		return -1;
 
 	while (i > 0 && found == 0) {
-		if (TS[i].entry == FUNCTION && strcmp(e.name, TS[i].name) == 0) {
+		if (TS[i].entry == FUNCTION && strcmp(e.name, TS[i].name) == 0)
 			found = 1;
-		} else{
-			i--;
-		}
+		i--;
 	}
 
 	if(found == 0) {
@@ -186,23 +185,21 @@ void TS_AddMark(){
 
 	TS_AddEntry(initBlock);
 
-  	/* Si es la cabecera de una función, se añaden a la tabla de símbolos los parámetros/argumentos de la función como
+  	/* Si es el cuerpo de una función, se añaden a la tabla de símbolos los parámetros/argumentos de la función como
 	   variables locales de ese bloque al fin de poder ser utilizadas  */
 	if(esFunc == 1){
 		int j = TOPE - 2;		// TOPE-2 para leer los parámetros formales de antes de la llave
-		while(j > 0 && TS[j].entry == FORM_PARAM){
-			if(TS[j].entry == FORM_PARAM) {
-				entradaTS Param;
-				Param.entry = VAR;
-				Param.name = TS[j].name;
-				Param.type = TS[j].type;
-				Param.nParams = TS[j].nParams;
-				TS_AddEntry(Param);
-
-			}
+		while(j > 0 && TS[j].entry == FORM_PARAM){		// Mientras leamos parámetros formales los aniadimos como variables locales al nuevo bloque
+			entradaTS Param;
+			Param.entry = VAR;
+			Param.name = TS[j].name;
+			Param.type = TS[j].type;
+			Param.nParams = TS[j].nParams;
+			TS_AddEntry(Param);
 			j--;
 		}
 	}
+
 }
 
 // Añade una entrada en la tabla de símbolos de una variable local
@@ -210,15 +207,16 @@ void TS_AddVar(atributos e){
 	int j = TOPE-1;
 	int found = 0;
 
+	/* Debemos permitir redeclarar variables en bloques distintos, por lo que al aniadir una nuera variable hacemos la comprobación
+		de la redeclaración de forma local, en el mismo bloque únicamente */
+
 	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
-		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busca una entrada con el mismo nombre dentro del bloque
-			if(strcmp(TS[j].name, e.name) != 0){
-				j--;
-			}
-			else{
+		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busco si es una redeclaración dentro de ese bloque. Busca el mismo nombre dentro del bloque
+			if(strcmp(TS[j].name, e.name) == 0){
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
-	 		}
+			}
+			
 		}
 
 		if(found == 0) {
@@ -238,7 +236,7 @@ void TS_AddFunction(atributos e){
 	entradaTS inFunct;
 	inFunct.entry = FUNCTION;
 	inFunct.name = e.name;
-	inFunct.nParams = 0;		// Luego se actualizarán el número de parámetros
+	inFunct.nParams = 0;		// Luego se actualizará el número de parámetros
 	inFunct.type = TipoTmp;
 
 	currentFunction = TOPE;		// Actualizamos la función actual
@@ -255,7 +253,7 @@ void TS_AddParam(atributos e){
 		else{
 			found = 1;
 			printf("DECLARATION ERR[line %d]: Param already exists: %s\n", line, e.name);
-    }
+   		}
 	}
 
 	if(found == 0) {
@@ -265,21 +263,18 @@ void TS_AddParam(atributos e){
 		newIn.type = TipoTmp;
 		newIn.nParams = 0;
 		TS_AddEntry(newIn);
+
+		if (currentFunction > -1) 	// si NO son los parametros de entrada del programa
+			// Actualiza el número de parámetros de la función
+			TS[currentFunction].nParams += 1;
 	}
-}
-
-// Actualiza el número de parámetros de la función
-void TS_UpdateNParams(){
-
-    TS[currentFunction].nParams += 1;
-
 }
 
 /*********************
 * METODOS PARA EN ANALIZADOR SINTÁCTICO *
 **********************/
 
-// Comprueba si el type de la expresión coincide con lo que devuelve la función
+// Comprueba si el tipo de la expresión coincide con el tipo de retorno de la función
 void TS_CheckReturn(atributos expr, atributos* res){
   int index = currentFunction;
 	if (index > -1) {
@@ -288,8 +283,8 @@ void TS_CheckReturn(atributos expr, atributos* res){
 			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
 			return;
 		}
-		res->type = expr.type;	//REALLY??????????????????????????????
-		return; //ANIADIDO POR MANUEL--GRANDEEEE
+		res->type = expr.type;
+		return;
 	}
 	else {
 		printf("RETURN ERR[line %d]: Result not declared into function.\n", line);
@@ -316,10 +311,10 @@ int TSGetId(atributos id){
 	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
-		if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
+		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
 		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
             return -1;
-        }
+        //}
 	}
 	else {
     	return TS[index].type;

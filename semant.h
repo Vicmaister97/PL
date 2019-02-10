@@ -145,9 +145,6 @@ void TS_AddFunction(atributos e);
 // Inserta una entrada en la tabla de símbolos de un parámetro formal o argumento de función
 void TS_AddParam(atributos e);
 
-// Actualiza el número de parámetros de la función
-void TS_UpdateNParams();
-
 /*************************************************************
 ** METODOS PARA EN ANALIZADOR SINTÁCTICO **
 **************************************************************/

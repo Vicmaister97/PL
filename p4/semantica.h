@@ -77,7 +77,7 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 }entradaTS;
 
 
-extern long int TOPE ;			    // Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
+extern long int TOPE ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 
@@ -92,25 +92,26 @@ extern int decVar;
 // es la cabecera del subprograma
 extern int subProg;
 
-// Indica si se están declarando parámetros formales en una función
+// Indica el inicio de una declaración de parámetros formales o argumentos de una función con 1 y el final con un 0(valor predeterminado)
 extern int decParam;
 
+// Indica el inicio del cuerpo de una función con 1 y el final con un 0(valor predeterminado)
 extern int esFunc;
 
-// Variable global que almacena el tipo en las declaraciones
+// Variable global que almacena el tipo de dato mas recientemente leido en las declaraciones
 extern tipoDato TipoTmp;
 
 // Cuenta el número de parámetros de una función
 extern int nParams;
 
-// Índice de la tabla de símbolos de la función que se está utilizando
+// Índice en la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
 
 /*************************************************************
 ** LISTA DE FUNCIONES Y PROCEDIMIENTOS PARA MANEJO DE LA TS **
 **************************************************************/
 
-/* Guarda el type o tipo de dato del atributo leido */
+/* Guarda el type o tipo de dato del atributo leido en la variable TipoTmp */
 void getType(atributos value);
 
 /*************************************************************
@@ -141,11 +142,8 @@ void TS_AddVar(atributos e);
 // Inserta una entrada en la tabla de símbolos de una función
 void TS_AddFunction(atributos e);
 
-// Inserta una entrada en la tabla de símbolos de un parámetro formal
+// Inserta una entrada en la tabla de símbolos de un parámetro formal o argumento de función
 void TS_AddParam(atributos e);
-
-// Actualiza el número de parámetros de la función
-void TS_UpdateNParams();
 
 /*************************************************************
 ** METODOS PARA EN ANALIZADOR SINTÁCTICO **
@@ -156,6 +154,7 @@ void TS_CheckReturn(atributos expr, atributos* res);
 
 // Devuelve el identificador
 void TS_GetId(atributos id, atributos* res);
+int TSGetId(atributos id);
 
 // Realiza la comprobación de la llamada a una función
 void TS_FunctionCall(atributos id, atributos* res);
@@ -163,7 +162,8 @@ void TS_FunctionCall(atributos id, atributos* res);
 // Realiza la comprobación de cada parámetro de una función
 void TS_CheckParam(atributos param, int checkParam);
 
+// Muestra por pantalla las entradas de la tabla de símbolos
 void printTS();
 
-// Muestra un atributo recibido
+// Muestra por pantalla un atributo recibido
 void printAttr(atributos e, char *msg);

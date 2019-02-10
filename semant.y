@@ -56,7 +56,8 @@ int yylex();
 /** Declaramos el conjunto de reglas o producciones que definen nuestra gramática junto con una serie de acciones asociadas a las mismas
 **/
 
-Programa : Cabecera_programa bloque ;
+Programa : Cabecera_programa {esFunc = 1;} bloque {esFunc = 0;};
+Cabecera_programa : MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
 					{TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
@@ -67,16 +68,15 @@ Declar_subprog      : Cabecera_subprograma {esFunc = 1;} bloque {esFunc = 0;};
 
 Declar_de_variables_locales : INITVAR {decVar = 1;} Variables_locales ENDVAR { decVar = 0;}
 			                | ;
-Cabecera_programa	: MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 Variables_locales	: Variables_locales Cuerpo_declar_variables
 			| Cuerpo_declar_variables ;
 Cuerpo_declar_variables : tipo {getType($1);} list_id SEMICOLON
 						| error ;
 Cabecera_subprograma : tipo ID {getType($1);} {decParam = 1;} {TS_AddFunction($2);} LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS {decParam = 0;};
-argumentos  : argumentos COMA argumento {TS_UpdateNParams();}
-	        | argumento {TS_UpdateNParams();}
+argumentos  : argumentos COMA argumento
+	        | argumento
 	        |
-			| error ;
+			    | error ;
 argumento : tipo ID {getType($1);} {TS_AddParam($2);};
 Sentencias  : Sentencias {decVar = 2;} Sentencia
             | {decVar = 2;} Sentencia ;
