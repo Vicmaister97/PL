@@ -93,37 +93,35 @@ int TS_CleanBlock(){
 		//printf("Del Entry: %s \n", TS[TOPE].name);
 
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
-			TOPE--;
 			ret = 1;
 			break;
 		}
 		//if (TOPE == 0)
 	}
 
-	// REALLY??
-    while (TS[TOPE].entry == FORM_PARAM) {					// Si el bloque es una función, mientras encuentre parámetros formales los saca de la TS
-  		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
-        TOPE--;
+	// Dejamos TOPE donde estaría la marca de bloque para comenzar a insertar ahí: todo lo anterior en la TS se conserva (params formales, funcion)
+	actualTOPE = TOPE;
+	actualTOPE--;
+    if (TS[actualTOPE].entry == FORM_PARAM ) {			// Si el bloque es una función, actualizamos la currentFunction o la función actual
+  		while (TS[actualTOPE].entry == FORM_PARAM){
+  			actualTOPE--;
+  		}
 	}
-    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual
-        actualTOPE = TOPE;
-        TOPE--;
-        while (TS[TOPE].entry != FUNCTION && TOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
-            TOPE--;
+    if (TS[actualTOPE].entry == FUNCTION) {
+        actualTOPE--;
+        while (TS[actualTOPE].entry != FUNCTION && actualTOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
+            actualTOPE--;
         }
-        if (TOPE == 0){
+        if (actualTOPE == 0){
             currentFunction = -1;
         }
         else{
-            currentFunction = TOPE;
+            currentFunction = actualTOPE;
         }
-        TOPE = actualTOPE;
 
     }
-	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
 	return ret;
-
 }
 
 // Busca una entrada en la TS de una VARIABLE por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
@@ -306,9 +304,8 @@ void TS_GetId(atributos id, atributos* res){
 	}
 }
 
-// VERSION FUNCION ?????
 int TSGetId(atributos id){
-	int index = TS_FindByName(id);
+	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
 		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada

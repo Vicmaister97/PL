@@ -235,7 +235,7 @@ expresion : NEG expresion
               && $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
-          | ID                {$$.type = TSGetId($1);}
+          | ID                {$$.type = TS_GetId($1);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion
