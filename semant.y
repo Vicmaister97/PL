@@ -205,9 +205,11 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion RELATION_OP expresion
-          {if (TSGetId($1) == BOOLEAN || TSGetId($3) == BOOLEAN || TSGetId($1) == CHAR || TSGetId($3) == CHAR
-              || TSGetId($1) == LIST_INT || TSGetId($1) == LIST_DOUBLE || TSGetId($1) == LIST_BOOLEAN || TSGetId($1)== LIST_CHAR
-              || TSGetId($3) == LIST_INT || TSGetId($3) == LIST_DOUBLE || TSGetId($3) == LIST_BOOLEAN || TSGetId($3)== LIST_CHAR)
+          {int tipoizq = TSGetId($1);
+					int tipodrch = TSGetId($3);
+					if (tipoizq == BOOLEAN || tipodrch == BOOLEAN || tipoizq == CHAR || tipodrch == CHAR
+              || tipoizq == LIST_INT || tipoizq == LIST_DOUBLE || tipoizq == LIST_BOOLEAN || tipoizq == LIST_CHAR
+              || tipodrch == LIST_INT || tipodrch == LIST_DOUBLE || tipodrch == LIST_BOOLEAN || tipodrch == LIST_CHAR)
               printf("Semantic Error(%d): Types not comparable, izquierda: %d, derecha %d.\n",line, $1.type, $3.type);
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion

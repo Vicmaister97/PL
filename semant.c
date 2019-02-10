@@ -102,7 +102,7 @@ int TS_CleanBlock(){
   		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
         TOPE--;
 	}
-    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual 
+    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual
         actualTOPE = TOPE;
         TOPE--;
         while (TS[TOPE].entry != FUNCTION && TOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
@@ -115,7 +115,7 @@ int TS_CleanBlock(){
             currentFunction = TOPE;
         }
         TOPE = actualTOPE;
-        
+
     }
 	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
 
@@ -316,10 +316,10 @@ int TSGetId(atributos id){
 	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
-		if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
+		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
 		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
             return -1;
-        }
+        //}
 	}
 	else {
     	return TS[index].type;
