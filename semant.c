@@ -17,7 +17,7 @@ long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente p
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
 			   		           		o si se llaman desde una expresión (decVar=2)*/
 int decParam = 0;				// Indica el inicio de una declaración de parámetros formales o argumentos de una función con 1 y el final con un 0(valor predeterminado)
-int esFunc = 0;					/* Indica el comienzo de una función con 1 si es cabecera de la función 
+int esFunc = 0;					/* Indica el comienzo de una función con 1 si es cabecera de la función
 									y con 0 si ya es el bloque de la función*/
 tipoDato TipoTmp = NO_ASSIG;	// Tipo de dato actual para asignarlo a las entradas de la TS
 int nParams = 0;
@@ -216,7 +216,7 @@ void TS_AddVar(atributos e){
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
 			}
-			
+
 		}
 
 		if(found == 0) {
@@ -308,7 +308,7 @@ void TS_GetId(atributos id, atributos* res){
 
 // VERSION FUNCION ?????
 int TSGetId(atributos id){
-	int index = TS_FindByName(id);
+	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
 		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada

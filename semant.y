@@ -205,8 +205,8 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Expression are not logic.\n", line);
           $$.type = BOOLEAN;}
           | expresion RELATION_OP expresion
-          {int tipoizq = TSGetId($1);
-					int tipodrch = TSGetId($3);
+          {int tipoizq = $1.type;
+					int tipodrch = $3.type;
 					if (tipoizq == BOOLEAN || tipodrch == BOOLEAN || tipoizq == CHAR || tipodrch == CHAR
               || tipoizq == LIST_INT || tipoizq == LIST_DOUBLE || tipoizq == LIST_BOOLEAN || tipoizq == LIST_CHAR
               || tipodrch == LIST_INT || tipodrch == LIST_DOUBLE || tipodrch == LIST_BOOLEAN || tipodrch == LIST_CHAR)
@@ -235,7 +235,7 @@ expresion : NEG expresion
               && $3.type != INT)
               printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
-          | ID                {$$.type = TSGetId($1);}
+          | ID                {TS_GetId($1, &$$);}
           | constante         {$$.type = $1.type;}
           | funcion           {$$.type = $1.type;}
           | expresion PLUSPLUS expresion AT AT expresion
@@ -248,8 +248,8 @@ expresion : NEG expresion
 
 funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);}
 	        | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);};
-list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParams++; TS_CheckParam($1, nParams);}
-                          | exp_cad {nParams = 1; TS_CheckParam($1, nParams);};
+list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad
+                          | exp_cad;
 exp_cad                   : expresion
                           | CADENA ;
 constante                 : CONST_INT                       {$$.type = INT;}
@@ -261,7 +261,7 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_boolean
                           | const_list_char;
 list_expresiones          : list_expresiones COMA expresion
-                          | expresion;
+                          | expresion ;
 tipo                      : BASIC_TYPES
 													{if ($1.type == INT)
 															$$.type = INT;
