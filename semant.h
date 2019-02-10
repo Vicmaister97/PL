@@ -127,10 +127,10 @@ int TS_DelEntry();
 /* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_CleanBlock();
 
-// Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+// Busca una entrada en la TS de una VARIABLE por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByID(atributos e);
 
-// Busca una entrada en la TS de una función por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+// Busca una entrada en la TS de una FUNCIÓN por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByName(atributos e);
 
 // Inserta una entrada en la tabla de símbolos de una función o un bloque

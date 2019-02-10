@@ -246,8 +246,8 @@ expresion : NEG expresion
 	      | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS   {$$.type = $2.type;}
 	      | error ;
 
-funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS
-	  | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS;
+funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);}
+	        | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);};
 list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad {nParams++; TS_CheckParam($1, nParams);}
                           | exp_cad {nParams = 1; TS_CheckParam($1, nParams);};
 exp_cad                   : expresion

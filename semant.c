@@ -126,7 +126,7 @@ int TS_CleanBlock(){
 
 }
 
-// Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+// Busca una entrada en la TS de una VARIABLE por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByID(atributos e){
 
 	int i = TOPE - 1;
@@ -150,7 +150,7 @@ int TS_FindByID(atributos e){
 
 }
 
-// Busca una entrada en la TS de una función por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+// Busca una entrada en la TS de una FUNCIÓN por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByName(atributos e){
 
 	int i = TOPE - 1;
@@ -293,12 +293,12 @@ void TS_CheckReturn(atributos expr, atributos* res){
 
 }
 
-// Devuelve el identificador
+// Devuelve en res la variable en la tabla de símbolos TS del identificador id si lo encuentra definido
 void TS_GetId(atributos id, atributos* res){
 	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
-        if(TS[index].entry != FUNCTION)
-		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
+        //if(TS[index].entry != FUNCTION)
+		printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
 	}
 	else {
 		res->name = strdup(TS[index].name);
@@ -306,9 +306,9 @@ void TS_GetId(atributos id, atributos* res){
 	}
 }
 
-
+// VERSION FUNCION ?????
 int TSGetId(atributos id){
-	int index = TS_FindByID(id);
+	int index = TS_FindByName(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
 		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
@@ -325,7 +325,7 @@ int TSGetId(atributos id){
 void TS_FunctionCall(atributos id, atributos* res){
 	int index = TS_FindByName(id);
 	if(index == -1) {
-		currentFunction = -1;
+		//currentFunction = -1;
 		printf("\nSEARCH ERR[line %d]: Function: Id not found %s.\n", line, id.name);
   	}
 	else {
