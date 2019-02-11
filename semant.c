@@ -114,6 +114,7 @@ int TS_CleanBlock(){
 		}
 	}
 	if (TS[actualTOPE].entry == FUNCTION) {				// Busca en la TS la última función definida no finalizada por declarar para convertirla en la actual (es su ámbito ahora)
+		TS[actualTOPE].finished = 1;					// Señalamos que esta función ha finalizado, pues era el cuerpo de esta función lo que hemos eliminado
 		updateCurrentFunction(actualTOPE);
 
 	}
@@ -248,6 +249,20 @@ void TS_AddVar(atributos e){
 void TS_AddVar(atributos e){
 	int j = TOPE-1;
 	int found = 0;
+	int index;
+
+	int numparams = TS[currentFunction].nParams;
+
+	// Comprobamos que la variable a añadir no es una redeclaración de un argumento de la función en la que se encuentra
+	if (index != -1){
+		for (index = currentFunction+1; index < currentFunction+1 + numparams; index++){		// Comparamos con los parametros formales de la fución actual
+			if (strcmp(TS[index].name, e.name) == 0){		// Su nombre es el de un argumento de la función
+				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
+				return;
+			}
+		}
+	}
+			
 
 	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
 		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busca una entrada con el mismo nombre dentro del bloque
@@ -257,6 +272,7 @@ void TS_AddVar(atributos e){
 			else{
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
+				return;
 			}
 		}
 
@@ -325,7 +341,6 @@ void TS_CheckReturn(atributos expr, atributos* res){
 			printf("RETURN ERR[line %d]: Return type not equal to function type. %d\n", line, expr.type);
 			return;
 		}
-		TS[index].finished = 1;
 		res->type = expr.type;
 		return;
 	}

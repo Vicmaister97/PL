@@ -17,4 +17,4 @@ all:
 	make semantica
 
 clean:
-	rm -rf semantica y.tab.c y.tab.o lex.yy.c main.o
+	rm -rf *.o semantica y.tab.c y.tab.o lex.yy.c

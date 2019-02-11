@@ -52,8 +52,13 @@ main(){
           return e2 ;
         else
           return " ";
-        }
+        e1 = "K";
+      }
+
       in "introduzca un valor entero: " valor ;
+      if (valor > 10) then{
+        return d1*2;
+      }
       if (d1>0.0) then{
         initVar
         int dato ;
