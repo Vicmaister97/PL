@@ -224,19 +224,15 @@ void TS_AddMark(){
 void TS_AddVar(atributos e){
 	int j = TOPE-1;
 	int found = 0;
-
 	//Debemos permitir redeclarar variables en bloques distintos, por lo que al aniadir una nuera variable hacemos la comprobación
 	//	de la redeclaración de forma local, en el mismo bloque únicamente
-
 	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
 		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busco si es una redeclaración dentro de ese bloque. Busca el mismo nombre dentro del bloque
 			if(strcmp(TS[j].name, e.name) == 0){
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
 			}
-
 		}
-
 		if(found == 0) {
 			entradaTS newIn;
 			newIn.entry = VAR;

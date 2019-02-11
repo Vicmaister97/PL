@@ -108,7 +108,7 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
-                      {if (TSGetId($1) != $3.type) printf("Semantic Error(%d): Types are not equal %d %d.\n",line,TSGetId($1),$3.type );};
+                      {if (TSGetId($1) != $3.type) printf("Semantic Error(%d): Types are not equal.\n",line );};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
                   printf("Semantic Error(%d): Expression are not logic.\n", line);}
@@ -151,19 +151,21 @@ expresion : NEG expresion
           $$.type = $2.type;}
           | expresion SYMBOL_OP expresion
           {int res = INT;
-					if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
+					if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR || $3.type == CHAR
+					|| $1.type == LIST_CHAR || $3.type == LIST_CHAR || $1.type == LIST_BOOLEAN || $3.type == LIST_BOOLEAN)
               printf("Semantic Error(%d): Types not operable.\n", line);
-          if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
+          if ($3.type == LIST_INT || $3.type == LIST_DOUBLE)
               printf("Semantic Error(%d): Types not operable.\n", line);
           if ($1.type == DOUBLE || $3.type == DOUBLE)
             res = DOUBLE;
-          if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR) &&
-					($3.type != LIST_INT && $3.type != LIST_DOUBLE && $3.type != LIST_BOOLEAN && $3.type != LIST_CHAR))
+          if (($1.type == LIST_INT && $3.type == INT) ||($1.type == LIST_DOUBLE && $3.type == DOUBLE) )
             res = $1.type;
 					$$.type = res;}
           | expresion BINARY_OP expresion
 					{int res = INT;
-					if ($1.type == BOOLEAN || $1.type == CHAR || $3.type == BOOLEAN || $3.type == CHAR)
+
+					if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR  || $3.type == CHAR
+					|| $1.type == LIST_BOOLEAN || $3.type == LIST_BOOLEAN || $1.type == LIST_CHAR || $3.type == LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
            if (($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
               && ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR))
@@ -176,9 +178,9 @@ expresion : NEG expresion
             res == $3.type;
 					$$.type = res;}
           | expresion BINARY_LIST_OP_I expresion
-          {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
-              || $3.type != INT)
-              printf("Semantic Error(%d): Types not operable.\n", line);
+          {if (($1.type == LIST_INT && $3.type == INT) || ($1.type == LIST_DOUBLE && $3.type == DOUBLE)){}
+					else
+          	printf("Semantic Error(%d): Types not operable.\n", line);
           $$.type = $1.type;}
           | expresion BINARY_LIST_OP_L expresion
           {if ($1.type == $3.type){
@@ -213,12 +215,8 @@ expresion : NEG expresion
           $$.type = BOOLEAN;}
           | expresion EQUALS_OP expresion
           {if ($1.type != $3.type)
-              if ($1.type == INT || $3.type == INT || $1.type == DOUBLE || $3.type == DOUBLE){
-              } else
-                  printf("Semantic Error(%d): Types not comparable.\n", line);
-          $$.type = BOOLEAN;
-          if(line == 75)
-          printf("%i\n", $3.type);}
+              printf("Semantic Error(%d): Types not comparable.\n", line);
+          $$.type = BOOLEAN;}
           | expresion AT expresion
           {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
               && $3.type != INT)
@@ -248,7 +246,7 @@ expresion : NEG expresion
 	      | error ;
 
 funcion         : cabecera_func argumentos_func;
-cabecera_func   : ID LEFT_PARENTHESIS {checkFunct = TS_FindByName($1); 
+cabecera_func   : ID LEFT_PARENTHESIS {checkFunct = TS_FindByName($1);
                     if(checkFunct == -1) printf("Semantic Error(%d): Function %s not declared\n", line, $1.name);};
 argumentos_func : list_expresiones RIGHT_PARENTHESIS { TS_FunctionCall(&$$);}
                 | RIGHT_PARENTHESIS { TS_FunctionCall(&$$);};

@@ -102,7 +102,7 @@ int TS_CleanBlock(){
 	}
 
 	if (TOPE == 0){
-		printf("TS VACIADA\n");
+		printf("ANALISIS FINALIZADO\n");
 		return ret;
 	}
 	// Dejamos TOPE donde estaría la marca de bloque para comenzar a insertar ahí: todo lo anterior en la TS se conserva (params formales, funcion)
@@ -174,8 +174,11 @@ int TS_FindByName(atributos e){
 		return -1;
 
 	while (i > 0 && found == 0) {
-		if (TS[i].entry == FUNCTION && strcmp(e.name, TS[i].name) == 0)
+		if (TS[i].entry == FUNCTION && strcmp(e.name, TS[i].name) == 0){
 			found = 1;
+			break;
+		}
+
 		i--;
 	}
 
@@ -221,19 +224,15 @@ void TS_AddMark(){
 void TS_AddVar(atributos e){
 	int j = TOPE-1;
 	int found = 0;
-
 	//Debemos permitir redeclarar variables en bloques distintos, por lo que al aniadir una nuera variable hacemos la comprobación
 	//	de la redeclaración de forma local, en el mismo bloque únicamente
-
 	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
 		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busco si es una redeclaración dentro de ese bloque. Busca el mismo nombre dentro del bloque
 			if(strcmp(TS[j].name, e.name) == 0){
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
 			}
-
 		}
-
 		if(found == 0) {
 			entradaTS newIn;
 			newIn.entry = VAR;
@@ -365,20 +364,17 @@ int TSGetId(atributos id){
 }
 
 // Realiza la comprobación de la llamada a una función
-void TS_FunctionCall(atributos id, atributos* res){
-	printf("FUNCTIONCALL\n");
-	int index = TS_FindByName(id);
-	if(index == -1) {
+void TS_FunctionCall(atributos* res){
+	if(checkFunct == -1) {
 		//currentFunction = -1;
-		printf("\nSEARCH ERR[line %d]: Function: Id not found %s.\n", line, id.name);
 	}
 	else {
-		if (checkparam != TS[index].nParams) {
+		if (checkparam != TS[checkFunct].nParams) {
 			printf("ARGS ERR[line %d]: Number of params not valid.\n", line);
 		}
 		else {
-			res->name = strdup(TS[index].name);
-			res->type = TS[index].type;
+			res->name = strdup(TS[checkFunct].name);
+			res->type = TS[checkFunct].type;
 		}
 	}
 }
@@ -387,12 +383,10 @@ void TS_FunctionCall(atributos id, atributos* res){
 void TS_CheckParam(atributos param){
 
 	checkparam += 1;
-	printf("Param to check: %s num %d\n", param.name, checkparam);
-
 	int formalparam = checkFunct + checkparam;
 
 	if(param.type != TS[formalparam].type) {
-		printf("ARGS ERR[line %d]: Param type (%d) not valid.\n", line, param.type);
+		printf("ARGS ERR[line %d]: Param type of %s not valid (type %d).\n", line, param.name, param.type);
 		return;
 	}
 }
