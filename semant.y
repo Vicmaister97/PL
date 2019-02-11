@@ -58,7 +58,7 @@ int yylex();
 
 Programa : Cabecera_programa bloque;
 Cabecera_programa : MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
-bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
+bloque	 : LEFT_KEY {TS_AddMark(); } inbloque RIGHT_KEY
 					{TS_CleanBlock();};
 inbloque : Declar_de_variables_locales Declar_de_subprogs Sentencias
 	 			 | Declar_de_variables_locales Declar_de_subprogs;
@@ -216,7 +216,9 @@ expresion : NEG expresion
               if ($1.type == INT || $3.type == INT || $1.type == DOUBLE || $3.type == DOUBLE){
               } else
                   printf("Semantic Error(%d): Types not comparable.\n", line);
-          $$.type = BOOLEAN;}
+          $$.type = BOOLEAN;
+          if(line == 75)
+          printf("%i\n", $3.type);}
           | expresion AT expresion
           {if ($1.type != LIST_INT && $1.type != LIST_DOUBLE && $1.type != LIST_BOOLEAN && $1.type != LIST_CHAR
               && $3.type != INT)
@@ -245,8 +247,12 @@ expresion : NEG expresion
 	      | LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS   {$$.type = $2.type;}
 	      | error ;
 
-funcion   : ID LEFT_PARENTHESIS list_expresiones RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);}
-	        | ID LEFT_PARENTHESIS RIGHT_PARENTHESIS { TS_FunctionCall($1,&$$);};
+funcion         : cabecera_func argumentos_func;
+cabecera_func   : ID LEFT_PARENTHESIS {checkFunct = TS_FindByName($1); 
+                    if(checkFunct == -1) printf("Semantic Error(%d): Function %s not declared\n", line, $1.name);};
+argumentos_func : list_expresiones RIGHT_PARENTHESIS { TS_FunctionCall(&$$);}
+                | RIGHT_PARENTHESIS { TS_FunctionCall(&$$);};
+
 list_expresiones_o_cadena : list_expresiones_o_cadena COMA exp_cad
                           | exp_cad;
 exp_cad                   : expresion
@@ -259,7 +265,7 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_double
                           | const_list_boolean
                           | const_list_char;
-list_expresiones          : list_expresiones COMA expresion { TS_CheckParam($1);}
+list_expresiones          : list_expresiones COMA expresion { TS_CheckParam($3);}
                           | expresion { checkparam = 0; TS_CheckParam($1);};
 tipo                      : BASIC_TYPES
 													{if ($1.type == INT)

@@ -1,7 +1,7 @@
 main(){
   initVar
   int ve;
-  double vf, v3, v5;
+  double vf, v3, v5, v7;
   char vc, vc2, vc3;
   boolean vl ;
   list_of int pe, pe2, pe3;
@@ -10,7 +10,7 @@ main(){
   list_of boolean pl ;
   endVar
 
-  int funcionA (int a1, double a2, char a3 ins){
+  int funcionA (int a1, double a2, char a3){
     initVar
     int x1, x2 ;
     endVar
@@ -24,7 +24,7 @@ main(){
         double x1;
         endVar
         x1 = 1.5 ;
-        if(c2>h1) then {
+        if(c2>0) then {
           c2= c2-1;
         }
         else{
@@ -32,7 +32,6 @@ main(){
         }
         return x1 ;
       }
-      xf= functionC (true, 10);
       x2= xf*(funcionC(false,1)-funcionC(true,23))/10.0;
       while (x2*funcionC(false,1)-xf<10.0)
         x2= x2*xf ;
@@ -58,8 +57,10 @@ main(){
       if (d1>0.0) then{
         initVar
         int dato ;
+        char ret;
         endVar
         dato= 2 ;
+        ret = funcionE("a", "b");
         dato= valor*20/dato ;
       }
       else {

@@ -161,7 +161,7 @@ void TS_GetId(atributos id, atributos* res);
 int TSGetId(atributos id);
 
 // Realiza la comprobación de la llamada a una función
-void TS_FunctionCall(atributos id, atributos* res);
+void TS_FunctionCall(atributos* res);
 
 // Realiza la comprobación de cada parámetro de una función
 void TS_CheckParam(atributos param);
