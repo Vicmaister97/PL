@@ -56,7 +56,7 @@ int yylex();
 /** Declaramos el conjunto de reglas o producciones que definen nuestra gramática junto con una serie de acciones asociadas a las mismas
 **/
 
-Programa : Cabecera_programa {esFunc = 1;} bloque {esFunc = 0;};
+Programa : Cabecera_programa bloque;
 Cabecera_programa : MAIN LEFT_PARENTHESIS argumentos RIGHT_PARENTHESIS;
 bloque	 : LEFT_KEY {TS_AddMark();} inbloque RIGHT_KEY
 					{TS_CleanBlock();};
@@ -108,8 +108,7 @@ sentencia_contador	: PLUSPLUS expresion SEMICOLON
                         printf("Semantic Error(%d): Type not decrementable.\n", line);
                     $$.type = $1.type;};
 sentencia_asignacion  : ID ASSIGN expresion SEMICOLON
-                      {if (TSGetId($1) != $3.type)
-		      						printf("Semantic Error(%d): Types are not equal.\n",line);};
+                      {if (TSGetId($1) != $3.type) printf("Semantic Error(%d): Types are not equal %d %d.\n",line,TSGetId($1),$3.type );};
 sentencia_if  : IF LEFT_PARENTHESIS expresion RIGHT_PARENTHESIS THEN Sentencia
               {if ($3.type != BOOLEAN)
                   printf("Semantic Error(%d): Expression are not logic.\n", line);}
@@ -260,8 +259,8 @@ constante                 : CONST_INT                       {$$.type = INT;}
                           | const_list_double
                           | const_list_boolean
                           | const_list_char;
-list_expresiones          : list_expresiones COMA expresion
-                          | expresion ;
+list_expresiones          : list_expresiones COMA expresion { TS_CheckParam($1);}
+                          | expresion { checkparam = 0; TS_CheckParam($1);};
 tipo                      : BASIC_TYPES
 													{if ($1.type == INT)
 															$$.type = INT;

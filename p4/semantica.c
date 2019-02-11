@@ -15,12 +15,14 @@ entradaTS TS[MAX_TS] ;			// Pila de la tabla de símbolos
 int line = 1;					// Línea del fichero que se está analizando
 long int TOPE = 0 ;				// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
 int decVar = 0;					/* Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
-			   		           		o si se llaman desde una expresión (decVar=2)*/
+									o si se llaman desde una expresión (decVar=2)*/
 int decParam = 0;				// Indica el inicio de una declaración de parámetros formales o argumentos de una función con 1 y el final con un 0(valor predeterminado)
-int esFunc = 0;					/* Indica el comienzo de una función con 1 si es cabecera de la función 
+int esFunc = 0;					/* Indica el comienzo de una función con 1 si es cabecera de la función
 									y con 0 si ya es el bloque de la función*/
 tipoDato TipoTmp = NO_ASSIG;	// Tipo de dato actual para asignarlo a las entradas de la TS
 int nParams = 0;
+int checkparam = 0;
+int checkFunct = 0;
 int currentFunction = -1;		// Indica la posición (índice) en la TS de la función actual
 
 // SUBPROG???
@@ -28,7 +30,7 @@ int currentFunction = -1;		// Indica la posición (índice) en la TS de la funci
 /* Guarda el type o tipo de dato del atributo leido*/
 void getType(atributos value){
 
-    TipoTmp = value.type;
+	TipoTmp = value.type;
 }
 
 /*********************
@@ -38,17 +40,17 @@ void getType(atributos value){
 /* Inserta una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_AddEntry(entradaTS entrada){
 
-    // Si aun quedan entradas en la tabla de símbolos
+	// Si aun quedan entradas en la tabla de símbolos
 	if(TOPE < MAX_TS) {
 
 		TS[TOPE].entry=entrada.entry;
 		TS[TOPE].name=entrada.name;
 		TS[TOPE].type=entrada.type;
-    	TS[TOPE].nParams=entrada.nParams;
+		TS[TOPE].nParams=entrada.nParams;
 
 		//printf("New Entry: %s TipoEntrada=%d TipoDato=%d numParams=%d \n", TS[TOPE].name, TS[TOPE].entry, TS[TOPE].type, TS[TOPE].nParams);
 
-        // Actualizamos el número de entradas
+		// Actualizamos el número de entradas
 		TOPE++;
 
 		return 1;
@@ -65,8 +67,8 @@ int TS_AddEntry(entradaTS entrada){
 /* Elimina una entrada en la tabla de símbolos (TS). Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_DelEntry(){
 
-    // Si hay alguna entrada en la tabla de símbolos
-    if(TOPE > 0){
+	// Si hay alguna entrada en la tabla de símbolos
+	if(TOPE > 0){
 
 		TOPE--;
 		return 1;
@@ -83,50 +85,59 @@ int TS_DelEntry(){
 int TS_CleanBlock(){
 
 	int ret = -1;			// para el valor de return de la función que indica su comportamiento
-    int actualTOPE = -1;    // para almacenar el valor del TOPE antes de actualizar la función actual
+	int actualTOPE = -1;    // para almacenar el valor del TOPE antes de actualizar la función actual
 
 	if (TOPE == 0)			// Si la TS está vacía
 		return 1;
 
-    while(TOPE > 0){				 // Mientras que no llegue a la base de la pila(TS) buscamos el inicio del bloque en el que estamos
+	while(TOPE > 0){				 // Mientras que no llegue a la base de la pila(TS) buscamos el inicio del bloque en el que estamos
 		TOPE--;						 // Nos desplazamos desde la entrada más reciente a las anteriores para leer las entradas del bloque
 		//printf("Del Entry: %s \n", TS[TOPE].name);
 
 		if (TS[TOPE].entry == MARK){ // Si encuentra una entrada con la marca de inicio de bloque
-			TOPE--;
 			ret = 1;
 			break;
 		}
 		//if (TOPE == 0)
 	}
 
-	// REALLY??
-    while (TS[TOPE].entry == FORM_PARAM) {					// Si el bloque es una función, mientras encuentre parámetros formales los saca de la TS
-  		//printf("Parametro formal borrado: %s \n", TS[TOPE].name);
-        TOPE--;
+	if (TOPE == 0){
+		printf("TS VACIADA\n");
+		return ret;
 	}
-    if (TS[TOPE].entry == FUNCTION) {                       // Si el bloque es una función, actualizamos la currentFunction o la función actual
-        actualTOPE = TOPE;
-        TOPE--;
-        while (TS[TOPE].entry != FUNCTION && TOPE != 0){    // Busca en la TS la última función definida para convertirla en la actual (es su ámbito ahora)
-            TOPE--;
-        }
-        if (TOPE == 0){
-            currentFunction = -1;
-        }
-        else{
-            currentFunction = TOPE;
-        }
-        TOPE = actualTOPE;
+	// Dejamos TOPE donde estaría la marca de bloque para comenzar a insertar ahí: todo lo anterior en la TS se conserva (params formales, funcion)
+	actualTOPE = TOPE;
+	actualTOPE--;
+	if (TS[actualTOPE].entry == FORM_PARAM ) {			// Si el bloque es una función, actualizamos la currentFunction o la función actual
+		while (TS[actualTOPE].entry == FORM_PARAM){
+			actualTOPE--;
+		}
+	}
+	if (TS[actualTOPE].entry == FUNCTION) {				// Busca en la TS la última función definida no finalizada por declarar para convertirla en la actual (es su ámbito ahora)
+		updateCurrentFunction(actualTOPE);
 
-    }
-	TOPE++;		// Dejamos TOPE en el siguiente lugar al símbolo de tipo FUNCTION
+	}
 
 	return ret;
-
 }
 
-// Busca una entrada en la TS de una variable por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+void updateCurrentFunction(int lastFunc){
+	lastFunc--;
+	while (TS[lastFunc].entry != FUNCTION && lastFunc > 0){
+			lastFunc--;
+	}
+	if (lastFunc == 0){
+		currentFunction = -1;
+	}
+	else{
+		if (TS[lastFunc].finished == 0){		// si la función encontrada todavía no ha terminado de definirse
+			currentFunction = lastFunc;
+		}
+		else updateCurrentFunction(lastFunc);
+	}
+}
+
+// Busca una entrada en la TS de una VARIABLE por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByID(atributos e){
 
 	int i = TOPE - 1;
@@ -136,8 +147,11 @@ int TS_FindByID(atributos e){
 		return -1;
 
 	while (i > 0 && found == 0) {	/*&& ts[i].entry != MARK*/
-		if (TS[i].entry == VAR && strcmp(e.name, TS[i].name) == 0)
+		if (TS[i].entry == VAR && strcmp(e.name, TS[i].name) == 0){
 			found = 1;
+			break;
+		}
+
 		i--;
 	}
 
@@ -150,7 +164,7 @@ int TS_FindByID(atributos e){
 
 }
 
-// Busca una entrada en la TS de una función por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
+// Busca una entrada en la TS de una FUNCIÓN por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByName(atributos e){
 
 	int i = TOPE - 1;
@@ -185,7 +199,7 @@ void TS_AddMark(){
 
 	TS_AddEntry(initBlock);
 
-  	/* Si es el cuerpo de una función, se añaden a la tabla de símbolos los parámetros/argumentos de la función como
+	/* Si es el cuerpo de una función, se añaden a la tabla de símbolos los parámetros/argumentos de la función como
 	   variables locales de ese bloque al fin de poder ser utilizadas  */
 	if(esFunc == 1){
 		int j = TOPE - 2;		// TOPE-2 para leer los parámetros formales de antes de la llave
@@ -202,13 +216,14 @@ void TS_AddMark(){
 
 }
 
+/*
 // Añade una entrada en la tabla de símbolos de una variable local
 void TS_AddVar(atributos e){
 	int j = TOPE-1;
 	int found = 0;
 
-	/* Debemos permitir redeclarar variables en bloques distintos, por lo que al aniadir una nuera variable hacemos la comprobación
-		de la redeclaración de forma local, en el mismo bloque únicamente */
+	//Debemos permitir redeclarar variables en bloques distintos, por lo que al aniadir una nuera variable hacemos la comprobación
+	//	de la redeclaración de forma local, en el mismo bloque únicamente
 
 	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
 		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busco si es una redeclaración dentro de ese bloque. Busca el mismo nombre dentro del bloque
@@ -216,7 +231,34 @@ void TS_AddVar(atributos e){
 				found = 1;
 				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
 			}
-			
+
+		}
+
+		if(found == 0) {
+			entradaTS newIn;
+			newIn.entry = VAR;
+			newIn.name = e.name;
+			newIn.type = TipoTmp;
+			newIn.nParams = 0;
+			TS_AddEntry(newIn);
+		}
+	}
+}*/
+
+// Añade una entrada en la tabla de símbolos de una variable local
+void TS_AddVar(atributos e){
+	int j = TOPE-1;
+	int found = 0;
+
+	if(j >= 0 && decVar == 1){									// Caso de declaración de la variable
+		while( TS[j].entry != MARK && j >= 0 && found == 0){	// Busca una entrada con el mismo nombre dentro del bloque
+			if(strcmp(TS[j].name, e.name) != 0){
+				j--;
+			}
+			else{
+				found = 1;
+				printf("DECLARATION ERR[line %d]: ID already exists: %s\n", line, e.name);
+			}
 		}
 
 		if(found == 0) {
@@ -238,6 +280,7 @@ void TS_AddFunction(atributos e){
 	inFunct.name = e.name;
 	inFunct.nParams = 0;		// Luego se actualizará el número de parámetros
 	inFunct.type = TipoTmp;
+	inFunct.finished = 0;
 
 	currentFunction = TOPE;		// Actualizamos la función actual
 	TS_AddEntry(inFunct);
@@ -253,7 +296,7 @@ void TS_AddParam(atributos e){
 		else{
 			found = 1;
 			printf("DECLARATION ERR[line %d]: Param already exists: %s\n", line, e.name);
-   		}
+		}
 	}
 
 	if(found == 0) {
@@ -276,13 +319,14 @@ void TS_AddParam(atributos e){
 
 // Comprueba si el tipo de la expresión coincide con el tipo de retorno de la función
 void TS_CheckReturn(atributos expr, atributos* res){
-  int index = currentFunction;
+	int index = currentFunction;
+
 	if (index > -1) {
 		if (expr.type != TS[index].type) {
-            printf("Current FUNCTION: %s\n", TS[currentFunction].name);
-			printf("RETURN ERR[line %d]: Return type not equal to function type.\n", line);
+			printf("RETURN ERR[line %d]: Return type not equal to function type. %d\n", line, expr.type);
 			return;
 		}
+		TS[index].finished = 1;
 		res->type = expr.type;
 		return;
 	}
@@ -293,12 +337,12 @@ void TS_CheckReturn(atributos expr, atributos* res){
 
 }
 
-// Devuelve el identificador
+// Devuelve en res la variable en la tabla de símbolos TS del identificador id si lo encuentra definido
 void TS_GetId(atributos id, atributos* res){
 	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
-        if(TS[index].entry != FUNCTION)
-		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
+		//if(TS[index].entry != FUNCTION)
+		printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
 	}
 	else {
 		res->name = strdup(TS[index].name);
@@ -306,34 +350,33 @@ void TS_GetId(atributos id, atributos* res){
 	}
 }
 
-
 int TSGetId(atributos id){
 	int index = TS_FindByID(id);
 	if(index == -1) {       // No es ninguna variable guardada en la TS
 		printf("%s %i\n", id.name, id.type);
 		//if(id.type > 9){     // Si no tiene un tipo asignado, no es ni una constante, es una variable no declarada
-		    printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
-            return -1;
-        //}
+			printf("\nSEARCH ERR[line %d]: Id not found %s.\n", line, id.name);
+			return -1;
+		//}
 	}
 	else {
-    	return TS[index].type;
+		return TS[index].type;
 	}
 }
 
 // Realiza la comprobación de la llamada a una función
 void TS_FunctionCall(atributos id, atributos* res){
+	printf("FUNCTIONCALL\n");
 	int index = TS_FindByName(id);
 	if(index == -1) {
-		currentFunction = -1;
+		//currentFunction = -1;
 		printf("\nSEARCH ERR[line %d]: Function: Id not found %s.\n", line, id.name);
-  	}
+	}
 	else {
-		if (nParams != TS[index].nParams) {
+		if (checkparam != TS[index].nParams) {
 			printf("ARGS ERR[line %d]: Number of params not valid.\n", line);
 		}
 		else {
-			currentFunction = index;
 			res->name = strdup(TS[index].name);
 			res->type = TS[index].type;
 		}
@@ -341,12 +384,15 @@ void TS_FunctionCall(atributos id, atributos* res){
 }
 
 // Realiza la comprobación de cada parámetro de una función
-void TS_CheckParam(atributos param, int checkParam){
+void TS_CheckParam(atributos param){
 
-	int posParam = (currentFunction + TS[currentFunction].nParams) - (checkParam - 1);
-	int error = TS[currentFunction].nParams - checkParam + 1;
-	if(param.type != TS[posParam].type) {
-		printf("ARGS ERR[line %d]: Param type (%d) not valid.\n", line, error);
+	checkparam += 1;
+	printf("Param to check: %s num %d\n", param.name, checkparam);
+
+	int formalparam = checkFunct + checkparam;
+
+	if(param.type != TS[formalparam].type) {
+		printf("ARGS ERR[line %d]: Param type (%d) not valid.\n", line, param.type);
 		return;
 	}
 }
@@ -354,7 +400,7 @@ void TS_CheckParam(atributos param, int checkParam){
 // Muestra por pantalla las entradas de la tabla de símbolos
 void printTS(){
 
-    int j = 0;
+	int j = 0;
 	char *t, *e;
 
 	printf("--------------------------------\n");
@@ -372,8 +418,8 @@ void printTS(){
 		if(TS[j].type == 5) { t = "LIST_DOUBLE"; }
 		if(TS[j].type == 6) { t = "LIST_CHAR"; }
 		if(TS[j].type == 7) { t = "LIST_BOOLEAN"; }
-    if(TS[j].type == 8) { t = "SIZE"; }
-    if(TS[j].type == 9) { t = "NO_ASSIG"; }
+	if(TS[j].type == 8) { t = "SIZE"; }
+	if(TS[j].type == 9) { t = "NO_ASSIG"; }
 		printf("----ELEMENTO %d-----------------\n", j);
 		printf("-Entrada: %-12s", e);
 		printf("-Lexema: %-12s", TS[j].name);
@@ -388,9 +434,9 @@ void printTS(){
 // Muestra por pantalla un atributo recibido
 void printAttr(atributos e, char *msg){
 
-    char *t;
+	char *t;
 
-    if(e.type == 0) { t = "INT"; }
+	if(e.type == 0) { t = "INT"; }
 		if(e.type == 1) { t = "DOUBLE"; }
 		if(e.type == 2) { t = "CHAR"; }
 		if(e.type == 3) { t = "BOOLEAN"; }
@@ -398,8 +444,8 @@ void printAttr(atributos e, char *msg){
 		if(e.type == 5) { t = "LIST_DOUBLE"; }
 		if(e.type == 6) { t = "LIST_CHAR"; }
 		if(e.type == 7) { t = "LIST_BOOLEAN"; }
-    if(e.type == 8) { t = "SIZE"; }
-    if(e.type == 9) { t = "NO_ASSIG"; }
+	if(e.type == 8) { t = "SIZE"; }
+	if(e.type == 9) { t = "NO_ASSIG"; }
 	printf("------%s-------------------------\n", msg);
 	printf("-Atributos: %-4d", e.attr);
 	printf("-Lexema: %-12s", e.name);

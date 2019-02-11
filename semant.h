@@ -66,6 +66,7 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 	char *name;				// Nombre o caracteres que conforman el identificador, no utilizado en una marca de bloque
 	tipoDato type;			// Tipo de dato para las funciones, variables o parámetros formales, valor del tipo enum tipoDato
 	int nParams;			// En el caso de una función, indica el número de parámetros formales (COMO SE ACTUALIZA??)
+	int finished;
 	/*unsigned int nDim;	// En el caso de una lista, indica su dimensión o tamanio
 
 	// Tamaño de la dimensión 1
@@ -78,7 +79,6 @@ typedef struct {	// Entrada de la tabla de símbolos (TS)
 
 
 extern long int TOPE ;			// Tope de la pila, indica en cada momento la siguiente posición en la pila TS para insertar una entrada
-extern unsigned int Subprog ;		// Indicador de comienzo de bloque de un subprograma
 extern entradaTS TS[MAX_TS] ;		// Pila de la tabla de símbolos
 
 // Línea del fichero que se está analizando
@@ -87,10 +87,6 @@ extern int line;
 // Indica si las variables se están utilizando (decVar=0), si se están declarando (decVar=1)
 // o si se llaman desde una expresión (decVar=2)
 extern int decVar;
-
-// Indica el comienzo de un subprograma o función con 0 si es un bloque y 1 si
-// es la cabecera del subprograma
-extern int subProg;
 
 // Indica el inicio de una declaración de parámetros formales o argumentos de una función con 1 y el final con un 0(valor predeterminado)
 extern int decParam;
@@ -103,6 +99,12 @@ extern tipoDato TipoTmp;
 
 // Cuenta el número de parámetros de una función
 extern int nParams;
+
+// Variable con el numero de parámetros de la función llamada para comprobarlos
+extern int checkparam;
+
+// Variable con el nombre de la función llamada que se quiere comprobar
+extern int checkFunct;
 
 // Índice en la tabla de símbolos de la función que se está utilizando
 extern int currentFunction;
@@ -126,6 +128,8 @@ int TS_DelEntry();
 
 /* Elimina todas las entradas de la tabla de símbolos del bloque actual y la cabecera del mismo si la tiene. Debe ser llamada al final de cada bloque. Devuelve 1 si funciona correctamente, -1 en caso de error */
 int TS_CleanBlock();
+
+void updateCurrentFunction(int lastFunc);
 
 // Busca una entrada en la TS de una VARIABLE por su identificador o nombre. Devuelve el índice de la entrada encontrada o -1 en caso de no encontrarla
 int TS_FindByID(atributos e);
@@ -160,7 +164,7 @@ int TSGetId(atributos id);
 void TS_FunctionCall(atributos id, atributos* res);
 
 // Realiza la comprobación de cada parámetro de una función
-void TS_CheckParam(atributos param, int checkParam);
+void TS_CheckParam(atributos param);
 
 // Muestra por pantalla las entradas de la tabla de símbolos
 void printTS();
