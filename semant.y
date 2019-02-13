@@ -163,7 +163,7 @@ expresion : NEG expresion
 					$$.type = res;}
           | expresion BINARY_OP expresion
 					{int res = INT;
-
+                
 					if ($1.type == BOOLEAN || $3.type == BOOLEAN || $1.type == CHAR  || $3.type == CHAR
 					|| $1.type == LIST_BOOLEAN || $3.type == LIST_BOOLEAN || $1.type == LIST_CHAR || $3.type == LIST_CHAR)
               printf("Semantic Error(%d): Types not operable.\n", line);
@@ -172,10 +172,12 @@ expresion : NEG expresion
               printf("Semantic Error(%d): Types not operable.\n", line);
           if ($1.type == DOUBLE || $3.type == DOUBLE)
             res = DOUBLE;
-          if ($1.type == LIST_INT || $1.type == LIST_DOUBLE || $1.type == LIST_BOOLEAN || $1.type == LIST_CHAR)
-            res == $1.type;
-          if ($3.type == LIST_INT || $3.type == LIST_DOUBLE || $3.type == LIST_BOOLEAN || $3.type == LIST_CHAR)
-            res == $3.type;
+          if ($1.type == LIST_INT && $3.type == INT)
+            res = $1.type;
+          if ($3.type == LIST_DOUBLE && $3.type == DOUBLE)
+            res = $3.type;
+          if ($3.type == LIST_INT && $3.type == DOUBLE) printf("Semantic Error(%d): Types not operable.\n", line);
+          if ($3.type == LIST_DOUBLE && $3.type == INT) printf("Semantic Error(%d): Types not operable.\n", line);
 					$$.type = res;}
           | expresion BINARY_LIST_OP_I expresion
           {if (($1.type == LIST_INT && $3.type == INT) || ($1.type == LIST_DOUBLE && $3.type == DOUBLE)){}

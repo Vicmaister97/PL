@@ -462,3 +462,4 @@ void printAttr(atributos e, char *msg){
 	printf("-------------------------------\n");
 
 }
+
